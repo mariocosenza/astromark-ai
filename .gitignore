@@ -1,4 +1,4 @@
-### IntelliJ IDEA
+### PyCharm Sensitive information
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/dataSources.ids
@@ -6,5 +6,5 @@
 .idea/sqlDataSources.xml
 .idea/dynamic.xml
 
-## Additional for IntelliJ
+## Additional for PyCharm
 out/
