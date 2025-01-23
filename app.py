@@ -1,11 +1,17 @@
-from flask import Flask
+from flask import Flask, request
+
+import gemini_service
 
 app = Flask(__name__)
 
 
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+@app.route('/ai/orientation')
+def gemini():
+    return gemini_service.get_llm(
+        request.args.get('message'))
+@app.route('/ai/ticket', methods=['POST'])
+def predict_tag():
+    return request.form['message']
 
 
 if __name__ == '__main__':
