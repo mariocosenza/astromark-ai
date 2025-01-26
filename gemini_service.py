@@ -5,7 +5,7 @@ model_config = genai.types.GenerationConfig(
     temperature=2,
     top_p=0.6,
     top_k=1,
-    max_output_tokens=80
+    max_output_tokens=60
 )
 
 def get_llm(mark_text):
