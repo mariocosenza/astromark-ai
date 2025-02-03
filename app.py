@@ -1,6 +1,6 @@
 from flask import Flask, request
 
-import gemini_service
+from service import gemini_service
 
 app = Flask(__name__)
 
