@@ -22,6 +22,7 @@ def merge_dataframes(frame1, frame2):
 
 # Merge the dataframes
 merged_df = merge_dataframes(dataframe_o3, dataframe_gc)
+merged_df.drop_duplicates(inplace=True)
 
 # Split the data
 train_df, test_df = train_test_split(merged_df, random_state=42, test_size=0.2)
