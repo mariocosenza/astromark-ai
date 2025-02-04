@@ -1,131 +1,134 @@
 import os
+import re
+import numpy as np
 import joblib
 import pandas as pd
-import re
 import spacy
-from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import classification_report, confusion_matrix, roc_curve, auc
+from sklearn.model_selection import KFold
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import classification_report, confusion_matrix, roc_curve, auc
+from sklearn.naive_bayes import MultinomialNB
 
 # Load data
 dataframe_o3 = pd.read_csv("../data/raw/ticket-o3.csv", usecols=['titolo', 'messaggio', 'categoria'])
 dataframe_gc = pd.read_csv("../data/raw/ticket-gemini-claude.csv", usecols=['titolo', 'messaggio', 'categoria'])
 
-
+# Merge dataframes
 def merge_dataframes(frame1, frame2):
     frame = pd.concat([frame1, frame2])
     frame['titolo_messaggio'] = frame['titolo'] + ' ' + frame['messaggio']
-    frame = frame[['titolo_messaggio', 'categoria']]
-    return frame
+    return frame[['titolo_messaggio', 'categoria']]
 
-
-# Merge the dataframes
 merged_df = merge_dataframes(dataframe_o3, dataframe_gc)
 
-# Split the data
-train_df, test_df = train_test_split(merged_df, random_state=42, test_size=0.2)
-print("Train and test sizes:", train_df.shape, test_df.shape)
-
 # Separate features and target
-X_train = train_df['titolo_messaggio']
-y_train = train_df['categoria']
-X_test = test_df['titolo_messaggio']
-y_test = test_df['categoria']
+X = merged_df['titolo_messaggio']
+y = merged_df['categoria']
 
-# Load SpaCy Italian model
+# Load SpaCy model
 nlp = spacy.load('it_core_news_sm')
 
-
+# Text preprocessing
 def preprocess(text):
-    """Basic text cleaning: convert to lowercase, remove punctuation, and extra spaces."""
     text = text.lower().strip()
     text = re.sub(r'[^\w\s]', ' ', text)
     text = re.sub(r'\s+', ' ', text)
     return text.strip()
 
-
 def process_text(text):
-    """Process text using spaCy: cleaning, lemmatizing, and removing stop words and punctuation."""
     text = preprocess(text)
     doc = nlp(text)
     tokens = [token.lemma_ for token in doc if not token.is_stop and not token.is_punct and not token.is_space]
     return ' '.join(tokens)
 
+# K-Fold settings
+k = 5
+kf = KFold(n_splits=k, shuffle=True, random_state=42)
 
-def get_tfidf_vectors(X_train, X_test):
-    """Generate TF-IDF vectors for train and test datasets."""
-    tfidf_vectorizer = TfidfVectorizer(
-        use_idf=True,
-        ngram_range=(1, 2)
-    )
-    X_train_tfidf = tfidf_vectorizer.fit_transform(X_train)
-    X_test_tfidf = tfidf_vectorizer.transform(X_test)
-    return X_train_tfidf, X_test_tfidf, tfidf_vectorizer
+# Store evaluation metrics
+all_reports = []
+all_confusion_matrices = []
+auc_scores = []
 
+for fold, (train_index, test_index) in enumerate(kf.split(X)):
+    print(f"Processing Fold {fold + 1}...")
 
-def predict_category(message):
+    # Split data into train and test for this fold
+    X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+    y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+
+    # Process text
+    X_train_processed = X_train.apply(process_text)
+    X_test_processed = X_test.apply(process_text)
+
+    # TF-IDF Vectorization
+    tfidf_vectorizer = TfidfVectorizer(use_idf=True, ngram_range=(1, 2))
+    X_train_tfidf = tfidf_vectorizer.fit_transform(X_train_processed)
+    X_test_tfidf = tfidf_vectorizer.transform(X_test_processed)
+
+    # Train model
+    nb_tfidf = MultinomialNB()
+    nb_tfidf.fit(X_train_tfidf, y_train)
+
+    # Predict
+    y_pred = nb_tfidf.predict(X_test_tfidf)
+    y_prob = nb_tfidf.predict_proba(X_test_tfidf)
+
+    # Compute AUC if binary classification
+    if len(nb_tfidf.classes_) == 2:
+        y_prob = y_prob[:, 1]
+        fpr, tpr, _ = roc_curve(y_test, y_prob)
+        auc_score = auc(fpr, tpr)
+        auc_scores.append(auc_score)
+
+    # Convert classification report into DataFrame and store it
+    report = classification_report(y_test, y_pred, output_dict=True)
+    report_df = pd.DataFrame(report).transpose()
+    all_reports.append(report_df)
+
+    # Store confusion matrix
+    all_confusion_matrices.append(confusion_matrix(y_test, y_pred))
+
+# Compute average metrics
+avg_report_df = pd.concat(all_reports).groupby(level=0).mean()
+
+# Compute average confusion matrix
+avg_conf_matrix = np.mean(all_confusion_matrices, axis=0)
+
+# Print summary
+print("\n===== K-Fold Cross Validation Results =====")
+if auc_scores:
+    print(f"Average AUC: {np.mean(auc_scores):.4f}")
+
+print("\nAverage Classification Report:")
+print(avg_report_df)
+
+print("\nAverage Confusion Matrix:")
+print(avg_conf_matrix)
+
+def predict_category(message, model, vectorizer):
     """
-    Given an input message string, preprocess it and predict the category.
+    Dato un messaggio in input, lo pre-processa e ne predice la categoria.
 
     Parameters:
-       message (str): The input message to be classified.
+       message (str): Il messaggio da classificare.
+       model (MultinomialNB): Il modello Naive Bayes allenato.
+       vectorizer (TfidfVectorizer): Il vettorizzatore TF-IDF addestrato.
 
     Returns:
-       category: The predicted category from the trained model.
+       str: La categoria predetta.
     """
-    # Process the message using the shared pipeline.
+    # Processa il testo come nel training
     processed_message = process_text(message)
 
-    # Transform the processed message to TF-IDF vector format.
-    message_vector = tfidf_vectorizer.transform([processed_message])
+    # Trasforma il testo in vettore TF-IDF
+    message_vector = vectorizer.transform([processed_message])
 
-    # Predict the category using the trained model.
-    category = nb_tfidf.predict(message_vector)[0]
+    # Predice la categoria
+    category = model.predict(message_vector)[0]
+
     return category
 
-# Process text data
-X_train_processed = X_train.apply(process_text)
-X_test_processed = X_test.apply(process_text)
-
-# Define paths to save the model and vectorizer
-model_path = "nb_model.pkl"
-vectorizer_path = "tfidf_vectorizer.pkl"
-
-if os.path.exists(model_path) and os.path.exists(vectorizer_path):
-    # Load the saved model and vectorizer if they exist.
-    nb_tfidf = joblib.load(model_path)
-    tfidf_vectorizer = joblib.load(vectorizer_path)
-    X_train_vectors_tfidf = tfidf_vectorizer.transform(X_train_processed)
-    X_test_vectors_tfidf = tfidf_vectorizer.transform(X_test_processed)
-    print("Loaded model and vectorizer from disk.")
-else:
-    # Generate TF-IDF vectors and train the model.
-    X_train_vectors_tfidf, X_test_vectors_tfidf, tfidf_vectorizer = get_tfidf_vectors(
-        X_train_processed, X_test_processed
-    )
-    nb_tfidf = MultinomialNB()
-    nb_tfidf.fit(X_train_vectors_tfidf, y_train)
-
-    # Save the model and vectorizer for future use.
-    joblib.dump(nb_tfidf, model_path)
-    joblib.dump(tfidf_vectorizer, vectorizer_path)
-    print("Model and vectorizer have been trained and saved.")
-
-# Predict on test data
-y_predict = nb_tfidf.predict(X_test_vectors_tfidf)
-y_prob = nb_tfidf.predict_proba(X_test_vectors_tfidf)
-
-# If binary classification, calculate AUC (assuming positive class is at index 1)
-if len(nb_tfidf.classes_) == 2:
-    y_prob = y_prob[:, 1]
-    fpr, tpr, thresholds = roc_curve(y_test, y_prob)
-    roc_auc = auc(fpr, tpr)
-    print('AUC:', roc_auc)
-
-# Print classification metrics
-print("\nClassification Report:")
-print(classification_report(y_test, y_predict))
-print('\nConfusion Matrix:')
-print(confusion_matrix(y_test, y_predict))
-print(predict_category("Quando provo a loggare si rompe tutto"))
+test_message = "Ho un problema con il login, non riesco ad accedere."
+predicted_category = predict_category(test_message, nb_tfidf, tfidf_vectorizer)
+print("La categoria predetta è:", predicted_category)
