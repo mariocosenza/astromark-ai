@@ -14,7 +14,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from sklearn.svm import SVC
 
-# Configurazione base del logger
+# Basic logger configuration
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
 logger = logging.getLogger(__name__)
 
@@ -35,16 +35,21 @@ os.makedirs(DATA_RAW_DIR, exist_ok=True)
 os.makedirs(PROCESSED_DIR, exist_ok=True)
 os.makedirs(TRAINED_DIR, exist_ok=True)
 
-logger.info(f"Loading ticket-o3 from: {TICKET_O3_PATH}")
+logger.info("Loading ticket-o3 from: %s", TICKET_O3_PATH)
 dataframe_o3 = pd.read_csv(TICKET_O3_PATH, usecols=['titolo', 'messaggio', 'categoria'])
-logger.info(f"Loaded ticket-o3.csv with shape {dataframe_o3.shape}")
+logger.info("Loaded ticket-o3.csv with shape %s", dataframe_o3.shape)
 
-logger.info(f"Loading ticket-gemini from: {TICKET_GEMINI_PATH}")
+logger.info("Loading ticket-gemini from: %s", TICKET_GEMINI_PATH)
 dataframe_gc = pd.read_csv(TICKET_GEMINI_PATH, usecols=['titolo', 'messaggio', 'categoria'])
-logger.info(f"Loaded ticket-gemini-claude.csv with shape {dataframe_gc.shape}")
+logger.info("Loaded ticket-gemini-claude.csv with shape %s", dataframe_gc.shape)
 
 
 def merge_dataframes(frame1, frame2):
+    """
+    Merge two dataframes and combine 'titolo' and 'messaggio' into a single column.
+
+    Returns a dataframe with columns 'titolo_messaggio' and 'categoria'.
+    """
     logger.info("Merging dataframes...")
     frame = pd.concat([frame1, frame2])
 
@@ -59,7 +64,7 @@ def merge_dataframes(frame1, frame2):
 merged_df = merge_dataframes(dataframe_o3, dataframe_gc)
 X = merged_df['titolo_messaggio']
 y = merged_df['categoria']
-logger.info(f"Final merged dataset shape: {merged_df.shape}")
+logger.info("Final merged dataset shape: %s", merged_df.shape)
 
 ###############################################################################
 #                         Minimal Text Preprocessing
@@ -76,14 +81,17 @@ GREETINGS_PATTERNS = [
 
 
 def remove_greetings(text):
+    """
+    Remove common greetings from the text.
+    """
     pattern = re.compile('|'.join(GREETINGS_PATTERNS), flags=re.IGNORECASE)
     return pattern.sub('', text)
 
 
 def minimal_preprocess(text):
     """
-    Minimal normalization: lowercase, remove URLs, greetings,
-    punctuation, numbers, and extra whitespace.
+    Perform minimal normalization on the text:
+    lowercase, remove URLs, greetings, punctuation, numbers, and extra whitespace.
     """
     text = text.lower().strip()
     text = re.sub(r'https?://\S+|www\.\S+', '', text)
@@ -96,8 +104,8 @@ def minimal_preprocess(text):
 
 def process_text(text):
     """
-    Processes the text using minimal_preprocess and spaCy for tokenization/lemmatization and NER.
-    NER tokens are appended in the form "NER_LABEL".
+    Process text using minimal preprocessing and spaCy for tokenization/lemmatization and NER.
+    Appends NER tokens in the form "NER_LABEL" to the token list.
     """
     cleaned_text = minimal_preprocess(text)
     doc = nlp(cleaned_text)
@@ -111,13 +119,15 @@ def process_text(text):
             if lemma:
                 tokens.append(lemma)
     for ent in doc.ents:
-        tokens.append(f"NER_{ent.label_}")
+        tokens.append("NER_%s" % ent.label_)
     return ' '.join(tokens)
 
 
 def parallel_process_texts(series, n_jobs=-1):
     """
-    Applies process_text to each element in a pandas Series in parallel using threads.
+    Apply process_text to each element in a pandas Series in parallel using threading.
+
+    Returns a pandas Series of processed texts.
     """
     logger.info("Parallel text processing with threading backend...")
     with parallel_backend('threading', n_jobs=n_jobs):
@@ -129,13 +139,13 @@ def parallel_process_texts(series, n_jobs=-1):
 #                        Load / Save Processed Dataset
 ###############################################################################
 if os.path.exists(PROCESSED_DATA_PATH):
-    logger.info(f"Loading preprocessed data from '{PROCESSED_DATA_PATH}'...")
+    logger.info("Loading preprocessed data from '%s'...", PROCESSED_DATA_PATH)
     df = pd.read_csv(PROCESSED_DATA_PATH)
     X_processed = df["processed_text"]
 else:
     logger.info("Preprocessed data not found, starting parallel preprocessing...")
     X_processed = parallel_process_texts(X, n_jobs=-1)
-    logger.info(f"Saving preprocessed data to: {PROCESSED_DATA_PATH}")
+    logger.info("Saving preprocessed data to: %s", PROCESSED_DATA_PATH)
     X_processed_df = pd.DataFrame(X_processed, columns=["processed_text"])
     X_processed_df.to_csv(PROCESSED_DATA_PATH, index=False)
     logger.info("Preprocessing complete and cached.")
@@ -145,6 +155,9 @@ else:
 #                           Classifier Type Enum
 ###############################################################################
 class ClassifierType(Enum):
+    """
+    Enumeration of classifier types.
+    """
     NAIVE_BAYES = "naive_bayes"
     SVM = "svm"
 
@@ -154,8 +167,9 @@ class ClassifierType(Enum):
 ###############################################################################
 def build_pipeline(classifier_type):
     """
-    Builds a pipeline with TF-IDF vectorization and (optionally) dimensionality reduction (for SVM)
-    along with the specified classifier.
+    Build a machine learning pipeline for the specified classifier type.
+
+    Returns a tuple of (pipeline, parameter grid) for grid search.
     """
     tfidf = TfidfVectorizer(
         use_idf=True,
@@ -195,15 +209,20 @@ def build_pipeline(classifier_type):
     return pipeline, param_grid
 
 
-def perform_grid_search(X, y, classifier_type):
-    logger.info(f"Building pipeline for {classifier_type.value}...")
+def perform_grid_search(x_data, y_data, classifier_type):
+    """
+    Perform grid search with cross-validation for the given classifier type.
+
+    Returns the best estimator from the grid search.
+    """
+    logger.info("Building pipeline for %s...", classifier_type.value)
     pipeline, param_grid = build_pipeline(classifier_type)
-    logger.info(f"Starting grid search for {classifier_type.value} with parameters: {param_grid}")
+    logger.info("Starting grid search for %s with parameters: %s", classifier_type.value, param_grid)
     skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
     grid = GridSearchCV(pipeline, param_grid, cv=skf, n_jobs=-1, verbose=1)
-    grid.fit(X, y)
-    logger.info(f"Grid search for {classifier_type.value} complete.")
-    logger.info(f"Best parameters: {grid.best_params_}")
+    grid.fit(x_data, y_data)
+    logger.info("Grid search for %s complete.", classifier_type.value)
+    logger.info("Best parameters: %s", grid.best_params_)
     return grid.best_estimator_
 
 
@@ -217,36 +236,44 @@ MODEL_PATHS = {
 
 
 def save_model(model, classifier_type):
+    """
+    Save the trained model to disk.
+    """
     path = MODEL_PATHS[classifier_type.value]
     joblib.dump(model, path)
-    logger.info(f"Model saved to {path}.")
+    logger.info("Model saved to %s.", path)
 
 
 def load_model(classifier_type):
+    """
+    Load a previously saved model from disk, if it exists.
+    """
     path = MODEL_PATHS[classifier_type.value]
     if os.path.exists(path):
-        logger.info(f"Loading saved model from {path}...")
+        logger.info("Loading saved model from %s...", path)
         return joblib.load(path)
     return None
 
 
 def get_model(classifier_type):
     """
-    Loads a pre-trained model if available; otherwise, performs grid search and saves the model.
+    Load a pre-trained model if available; otherwise, perform grid search and save the model.
+
+    Returns the model.
     """
     model = load_model(classifier_type)
     if model is None:
-        logger.info(f"No saved model found for {classifier_type.value}. Training a new one...")
+        logger.info("No saved model found for %s. Training a new one...", classifier_type.value)
         model = perform_grid_search(X_processed, y, classifier_type)
         save_model(model, classifier_type)
     else:
-        logger.info(f"Using saved model for {classifier_type.value}.")
+        logger.info("Using saved model for %s.", classifier_type.value)
     return model
 
 
-# Selezioniamo il classificatore predefinito (SVM in questo caso)
+# Select the default classifier (SVM in this case)
 selected_classifier = ClassifierType.SVM
-logger.info(f"Selected classifier: {selected_classifier.value}")
+logger.info("Selected classifier: %s", selected_classifier.value)
 
 logger.info("Retrieving final model (will load if already exists)...")
 final_model = get_model(selected_classifier)

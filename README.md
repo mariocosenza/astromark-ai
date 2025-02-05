@@ -2,7 +2,7 @@
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120/)
 [![SpaCy](https://img.shields.io/badge/nlp-SpaCy-green.svg)](https://spacy.io/)
 [![Machine Learning](https://img.shields.io/badge/ml-Naive%20Bayes%20%26%20SVM-orange.svg)](https://scikit-learn.org/)
-[![License](https://img.shields.io/github/license/yourusername/astromark-ai.svg)](https://github.com/maricosenza/astromark-ai/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/mariocosenza/astromark-ai.svg)](https://github.com/mariocosenza/astromark-ai/blob/main/LICENSE)
 
 <div align="center">
   <img src="static/logo.svg" alt="AstroMark Logo" width="200" height="200">
