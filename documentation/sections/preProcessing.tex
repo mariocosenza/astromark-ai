@@ -107,7 +107,40 @@ def process_text(text):
         tokens.append("NER_%s" % ent.label_)
     return ' '.join(tokens)
 \end{lstlisting}
-Questa funzione sfrutta il modello linguistico it\_core\_news\_sm di spaCy per estrarre informazioni linguistiche essenziali e trasformare il testo in un formato numerico adatto per modelli di machine learning.
+Per comprendere a fondo come spaCy gestisca il riconoscimento delle entità, è fondamentale approfondire il ruolo delle tecniche di deep learning che supportano questi processi.
+
+\subsubsection{Deep Learning in spaCy}
+spaCy utilizza modelli basati su deep learning per il riconoscimento delle entità, sfruttando reti neurali convoluzionali (CNN) e, nelle versioni più recenti, architetture ibride che possono includere meccanismi di attenzione e trasformatori. Questi modelli sono addestrati su grandi corpora etichettati, permettendo loro di apprendere rappresentazioni complesse e contestuali delle parole. In particolare:
+\begin{itemize}
+    \item Le CNN sono impiegate per estrarre caratteristiche locali dal testo, rilevando pattern caratteristici che indicano la presenza di un'entità.
+    \item I meccanismi di attenzione consentono al modello di pesare in modo diverso le parole nel contesto di una frase, migliorando la capacità di identificare le entità anche in contesti ambigui.
+    \item Le architetture trasformative, se adottate, permettono di modellare relazioni a lungo raggio tra token, fornendo una comprensione più profonda del contesto linguistico.
+\end{itemize}
+
+Queste tecniche di deep learning consentono al modello NER di spaCy di generalizzare bene anche su dati non visti, migliorando l'accuratezza e la robustezza del riconoscimento.
+
+\subsubsection{Architettura dei Modelli NER in spaCy}
+I modelli NER di spaCy sono tipicamente costruiti su architetture neurali che combinano rappresentazioni distribuite (word embeddings) e convoluzioni. Le fasi principali dell'architettura includono:
+\begin{enumerate}
+    \item \textbf{Incorporamento delle Parole:} Ogni parola viene convertita in un vettore denso che ne cattura le proprietà semantiche e sintattiche.
+    \item \textbf{Estrazione delle Caratteristiche:} Le CNN vengono applicate ai vettori densi per estrarre pattern locali. Questo stadio è fondamentale per identificare segnali utili per il riconoscimento delle entità.
+    \item \textbf{Contestualizzazione:} Attraverso strati di rete neurale, il modello integra il contesto circostante, determinando il ruolo di ogni parola all'interno della frase.
+    \item \textbf{Predizione:} Infine, il modello produce una sequenza di etichette che indicano, per ciascun token, se e a quale entità appartiene.
+\end{enumerate}
+
+Questa architettura permette una robusta identificazione delle entità, sfruttando le capacità di apprendimento automatico per catturare sia caratteristiche locali che contesti più ampi.
+
+\subsubsection{Formazione e Inferenza nei Modelli NER}
+La fase di addestramento dei modelli NER in spaCy prevede l'uso di dataset annotati manualmente, dove ogni entità è etichettata con la classe corrispondente. Durante l'addestramento:
+\begin{itemize}
+    \item Il modello ottimizza una funzione di perdita che misura la discrepanza tra le etichette predette e quelle reali.
+    \item Vengono applicate tecniche di regolarizzazione e normalizzazione per evitare l'overfitting e garantire la generalizzazione su dati nuovi.
+    \item L'ottimizzazione avviene mediante algoritmi di discesa del gradiente, che aggiornano i pesi della rete in base all'errore commesso.
+\end{itemize}
+
+Durante la fase di inferenza, il modello utilizza i pesi appresi per predire le etichette delle entità in nuovi testi. Grazie alle rappresentazioni contestuali e ai meccanismi di deep learning, il modello è in grado di fornire predizioni accurate anche in presenza di ambiguità linguistica.
+
+
 
 \section{Parallelizzazione del Pre-processing}
 Per l'elaborazione di dataset di grandi dimensioni, è fondamentale un uso efficiente delle risorse computazionali. La libreria \texttt{joblib} permette di distribuire il carico su più core della CPU, riducendo i tempi di esecuzione. La funzione seguente implementa la parallelizzazione:
