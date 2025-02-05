@@ -186,7 +186,7 @@ def build_pipeline(classifier_type):
     """
     tfidf = TfidfVectorizer(
         use_idf=True,
-        ngram_range=(1, 1),
+        ngram_range=(1, 2),
         max_features=2000,
         norm='l2',
         smooth_idf=True,
