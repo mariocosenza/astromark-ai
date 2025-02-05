@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-def generate_full_model_report(model, X_train, y_train, X_test, y_test, save_plots=False):
+def generate_full_model_report(model, x_train, y_train, x_test, y_test, save_plots=False):
     """
     Generates and logs a comprehensive report of model performance on both training and test sets.
     Includes:
@@ -33,12 +33,13 @@ def generate_full_model_report(model, X_train, y_train, X_test, y_test, save_plo
 
     Returns a dictionary with detailed metrics for further analysis.
     """
+    global fpr_train, tpr_train, fpr_test, tpr_test
     logger.info("Generating full model report...")
 
     # ---------------------------
     # Predict on train set
     # ---------------------------
-    y_train_pred = model.predict(X_train)
+    y_train_pred = model.predict(x_train)
     train_report_dict = classification_report(y_train, y_train_pred, output_dict=True)
     train_report_df = pd.DataFrame(train_report_dict).transpose()
     train_conf = confusion_matrix(y_train, y_train_pred)
@@ -51,7 +52,7 @@ def generate_full_model_report(model, X_train, y_train, X_test, y_test, save_plo
         clf = model
 
     if hasattr(clf, 'classes_') and len(clf.classes_) == 2:
-        y_train_prob = model.predict_proba(X_train)[:, 1]
+        y_train_prob = model.predict_proba(x_train)[:, 1]
         fpr_train, tpr_train, _ = roc_curve(y_train, y_train_prob)
         auc_train = auc(fpr_train, tpr_train)
     else:
@@ -60,14 +61,14 @@ def generate_full_model_report(model, X_train, y_train, X_test, y_test, save_plo
     # ---------------------------
     # Predict on test set
     # ---------------------------
-    y_test_pred = model.predict(X_test)
+    y_test_pred = model.predict(x_test)
     test_report_dict = classification_report(y_test, y_test_pred, output_dict=True)
     test_report_df = pd.DataFrame(test_report_dict).transpose()
     test_conf = confusion_matrix(y_test, y_test_pred)
     test_accuracy = accuracy_score(y_test, y_test_pred)
 
     if hasattr(clf, 'classes_') and len(clf.classes_) == 2:
-        y_test_prob = model.predict_proba(X_test)[:, 1]
+        y_test_prob = model.predict_proba(x_test)[:, 1]
         fpr_test, tpr_test, _ = roc_curve(y_test, y_test_prob)
         auc_test = auc(fpr_test, tpr_test)
     else:
