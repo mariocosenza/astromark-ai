@@ -449,3 +449,419 @@ Aggiornamento Voti Scrutinio,"Gentile assistenza, come professore coordinatore h
 "Documenti Smarriti - Richiesta di Assistenza","Ho smarrito alcuni documenti scolastici importanti, come il libretto delle assenze e il certificato di frequenza. Sono documenti indispensabili. Come posso fare per ottenere dei duplicati?",Segreteria
 "Contatto Segreteria - Nessuna Risposta","Ho provato a contattare la segreteria tramite email, ma non ho ricevuto alcuna risposta. Ho inviato il messaggio diversi giorni fa. Come posso fare per avere un riscontro?",Segreteria
 "Problemi di Connessione - Rete Lenta e Instabile","Ho problemi di connessione internet. La rete è molto lenta e instabile, il che rende difficile l'accesso alla piattaforma e la partecipazione alle lezioni online. Come posso risolvere questo problema?",Tecnico
+"Problema di accesso con Chrome","Buongiorno, non riesco ad accedere alla piattaforma utilizzando il browser Chrome. Ho provato a cancellare la cache e i cookie, ma il problema persiste. Potreste aiutarmi?",Accesso
+"Dubbio sull'utilizzo del software XYZ","Salve, avrei bisogno di chiarimenti sull'utilizzo del software XYZ per l'analisi dei dati. In particolare, non capisco come interpretare i risultati del test ABC. Grazie mille.",Tecnico
+"Richiesta di informazioni sul corso ABC","Buongiorno, vorrei avere maggiori informazioni sul corso ABC. In particolare, mi интересуerebbe sapere quali sono i prerequisiti e se è previsto un esame finale. Grazie.",Didattica
+"Aggiornamento dati personali errato","Salve, ho provato ad aggiornare i miei dati personali sul vostro sistema, ma ho inserito per sbaglio un'informazione errata. Come posso fare per correggerla?",Profilo
+"Connessione internet instabile","Buongiorno, da qualche giorno la mia connessione internet è molto instabile. Il Wi-Fi funziona a intermittenza e non riesco a navigare correttamente. Grazie per l'aiuto.",Tecnico
+"Password dimenticata e impossibile da recuperare","Salve, ho dimenticato la password del mio account e non riesco a recuperarla. Ho provato a seguire la procedura di recupero password, ma non ho ricevuto l'email con il codice di verifica. Cosa posso fare?",Accesso
+"Materiale didattico non disponibile online","Buongiorno, non riesco a trovare il materiale didattico del corso XYZ sulla piattaforma online. Potreste indicarmi dove posso scaricarlo?",Didattica
+"Problema con la webcam durante le videochiamate","Salve, la mia webcam non funziona durante le videochiamate. Ho provato a controllare le impostazioni, ma non ho risolto il problema. Grazie per l'aiuto.",Tecnico
+"Creazione account con errore","Buongiorno, sto cercando di creare un nuovo account sulla vostra piattaforma, ma ricevo un messaggio di errore. Cosa posso fare?",Profilo
+"Richiesta di supporto tecnico urgente","Salve, ho un problema tecnico urgente con il mio computer e avrei bisogno di assistenza immediata. Potreste mettermi in contatto con un tecnico?",Tecnico
+"Problema di accesso con Edge","Buongiorno, non riesco ad accedere alla piattaforma utilizzando il browser Edge. Ho provato a reimpostare le impostazioni, ma il problema persiste. Potreste aiutarmi?",Accesso
+"Dubbio sull'utilizzo di una nuova funzionalità","Salve, sto utilizzando il software XYZ e ho un dubbio sull'utilizzo di una nuova funzionalità. In particolare, non capisco come...",Tecnico
+"Richiesta di informazioni sul corso online","Buongiorno, vorrei avere maggiori informazioni sul corso online ABC. In particolare, mi интересуerebbe sapere quali sono i contenuti e la durata. Grazie.",Didattica
+"Modifica email errata","Salve, ho provato a modificare l'indirizzo email del mio account, ma ho inserito per sbaglio un'informazione errata. Come posso fare per correggerla?",Profilo
+"Connessione internet lenta e instabile","Buongiorno, da qualche giorno la mia connessione internet è sia lenta che instabile. Il Wi-Fi funziona a tratti e non riesco a navigare correttamente. Grazie per l'aiuto.",Tecnico
+"Recupero password con problemi","Salve, ho dimenticato la password del mio account e ho provato a recuperarla, ma ho riscontrato problemi durante la procedura. Cosa posso fare?",Accesso
+"Materiale didattico non aggiornato","Buongiorno, ho notato che il materiale didattico del corso XYZ sulla piattaforma online non è aggiornato. Potreste verificare?",Didattica
+"Problema con le cuffie durante le videochiamate","Salve, l'audio non funziona correttamente con le mie cuffie durante le videochiamate. Ho provato a cambiare le impostazioni audio, ma non ho risolto il problema. Grazie per l'aiuto.",Tecnico
+"Creazione account con informazioni mancanti","Buongiorno, sto cercando di creare un nuovo account sulla vostra piattaforma, ma mi vengono richieste informazioni che non possiedo. Cosa posso fare?",Profilo
+"Richiesta di supporto per un problema complesso","Salve, ho un problema complesso con il mio computer e avrei bisogno di assistenza specializzata. Potreste mettermi in contatto con un tecnico esperto?",Tecnico
+"Problema di accesso con Safari","Buongiorno, riscontro problemi ad accedere alla piattaforma utilizzando Safari. La pagina di login non si carica correttamente. Potreste verificare?",Accesso
+"Dubbio sull'utilizzo dell'API","Salve, sto utilizzando l'API del software XYZ e ho un dubbio su come implementare una particolare funzione. Potreste fornirmi un esempio di codice?",Tecnico
+"Richiesta di informazioni sul corso di fotografia","Buongiorno, vorrei avere maggiori informazioni sul corso di fotografia ABC. In particolare, mi интересуerebbe sapere quali sono i docenti e se è previsto un portfolio finale. Grazie.",Didattica
+"Modifica nome utente","Salve, vorrei modificare il mio nome utente sulla piattaforma. Come posso fare?",Profilo
+"Connessione internet assente","Buongiorno, da stamattina non ho più connessione internet. Ho provato a riavviare il modem e il router, ma il problema persiste. Potreste aiutarmi?",Tecnico
+"Recupero password con email non valida","Salve, ho dimenticato la password del mio account e ho provato a recuperarla, ma l'email associata all'account non è più valida. Cosa posso fare?",Accesso
+"Materiale didattico in formato PDF","Buongiorno, vorrei sapere se il materiale didattico del corso XYZ è disponibile anche in formato PDF. Grazie.",Didattica
+"Problema con la tastiera durante le videochiamate","Salve, la mia tastiera non funziona correttamente durante le videochiamate. Ho provato a cambiare le impostazioni, ma non ho risolto il problema. Grazie per l'aiuto.",Tecnico
+"Creazione account per minorenni","Buongiorno, vorrei creare un account per mio figlio minorenne. È possibile?",Profilo
+"Richiesta di supporto per un software specifico","Salve, ho un problema con un software specifico e avrei bisogno di assistenza. Potreste mettermi in contatto con un tecnico specializzato?",Tecnico
+"Problema di accesso con l'app mobile","Buongiorno, non riesco ad accedere alla piattaforma tramite l'app mobile. Ricevo un messaggio di errore. Potreste verificare?",Accesso
+"Dubbio sull'integrazione con un altro software","Salve, sto utilizzando il software XYZ e vorrei sapere se è possibile integrarlo con il software ABC. Potreste darmi informazioni a riguardo?",Tecnico
+"Richiesta di informazioni sul corso di web design","Buongiorno, vorrei avere maggiori informazioni sul corso di web design ABC. In particolare, mi интересуerebbe sapere quali sono i prerequisiti tecnici e se è previsto un project work finale. Grazie.",Didattica
+"Modifica numero di telefono","Salve, vorrei modificare il numero di telefono associato al mio account. Come posso fare?",Profilo
+"Connessione internet assente su più dispositivi","Buongiorno, da stamattina non ho più connessione internet su nessuno dei miei dispositivi. Ho provato a riavviare il modem e il router, ma il problema persiste. Potreste aiutarmi?",Tecnico
+"Recupero password con codice di errore","Salve, ho dimenticato la password del mio account e ho provato a recuperarla, ma ricevo un codice di errore. Cosa posso fare?",Accesso
+"Materiale didattico in diverse lingue","Buongiorno, vorrei sapere se il materiale didattico del corso XYZ è disponibile anche in altre lingue oltre all'italiano. Grazie.",Didattica
+"Problema con la webcam integrata","Salve, la mia webcam integrata non funziona durante le videochiamate. Ho provato a controllare le impostazioni, ma non ho risolto il problema. Grazie per l'aiuto.",Tecnico
+"Creazione account per un'azienda","Buongiorno, vorrei creare un account per la mia azienda. Quali sono i documenti necessari?",Profilo
+"Richiesta di supporto per un problema hardware","Salve, ho un problema con il mio computer e avrei bisogno di assistenza hardware. Potreste mettermi in contatto con un tecnico specializzato?",Tecnico
+"Problema di accesso con password scaduta","Buongiorno, non riesco ad accedere alla piattaforma perché la mia password è scaduta. Come posso fare per reimpostarla?",Accesso
+"Dubbio sull'utilizzo di un plugin specifico","Salve, sto utilizzando il software XYZ e ho un dubbio sull'utilizzo di un plugin specifico. In particolare, non capisco come configurarlo correttamente. Potreste aiutarmi?",Tecnico
+"Richiesta di informazioni sul corso di marketing digitale","Buongiorno, vorrei avere maggiori informazioni sul corso di marketing digitale ABC. In particolare, mi интересуerebbe sapere quali sono gli argomenti trattati e se è previsto un periodo di stage. Grazie.",Didattica
+"Modifica indirizzo di residenza","Salve, vorrei modificare l'indirizzo di residenza associato al mio account. Come posso fare?",Profilo
+"Connessione internet lenta e problemi di buffering","Buongiorno, da qualche giorno la mia connessione internet è molto lenta e ho continui problemi di buffering durante la visione di video. Ho provato a fare uno speed test e i risultati non sono buoni. Potreste aiutarmi?",Tecnico
+"Recupero password con numero di telefono","Salve, ho dimenticato la password del mio account e vorrei recuperarla utilizzando il mio numero di telefono. È possibile?",Accesso
+"Materiale didattico in formato audio","Buongiorno, vorrei sapere se il materiale didattico del corso XYZ è disponibile anche in formato audio, ad esempio podcast. Grazie.",Didattica
+"Problema con il monitor esterno","Salve, ho un problema con il mio monitor esterno. Non viene riconosciuto dal computer. Ho provato a cambiare cavo e a riavviare il computer, ma il problema persiste. Grazie per l'aiuto.",Tecnico
+"Creazione account per un'associazione","Buongiorno, vorrei creare un account per la nostra associazione. Quali sono i requisiti?",Profilo
+"Richiesta di supporto per un problema di rete","Salve, ho un problema con la mia rete domestica. Non riesco a connettermi a internet da alcuni dispositivi. Potreste aiutarmi?",Tecnico
+"Problema di accesso con autenticazione a due fattori","Buongiorno, non riesco ad accedere alla piattaforma perché ho problemi con l'autenticazione a due fattori. Non ricevo il codice di verifica. Cosa posso fare?",Accesso
+"Dubbio sull'utilizzo di una libreria specifica","Salve, sto utilizzando il software XYZ e ho un dubbio sull'utilizzo di una libreria specifica. In particolare, non capisco come importarla correttamente. Potreste aiutarmi?",Tecnico
+"Richiesta di informazioni sul corso di graphic design","Buongiorno, vorrei avere maggiori informazioni sul corso di graphic design ABC. In particolare, mi интересуerebbe sapere quali software vengono utilizzati e se è previsto un esame finale. Grazie.",Didattica
+"Modifica email di lavoro","Salve, vorrei modificare l'email di lavoro associata al mio account. Come posso fare?",Profilo
+"Connessione internet instabile e cadute di linea","Buongiorno, da qualche giorno la mia connessione internet è molto instabile e ho continue cadute di linea. Ho provato a controllare i collegamenti e a riavviare il modem, ma il problema persiste. Potreste aiutarmi?",Tecnico
+"Recupero password con domande di sicurezza","Salve, ho dimenticato la password del mio account e vorrei recuperarla utilizzando le domande di sicurezza. È possibile?",Accesso
+"Materiale didattico in formato video","Buongiorno, vorrei sapere se il materiale didattico del corso XYZ è disponibile anche in formato video, ad esempio lezioni registrate. Grazie.",Didattica
+"Problema con la scheda video","Salve, ho un problema con la mia scheda video. Il computer si blocca spesso e ho artefatti sullo schermo. Potrebbe essere un problema di driver? Grazie per l'aiuto.",Tecnico
+"Creazione account per un'organizzazione non profit","Buongiorno, vorrei creare un account per la nostra organizzazione non profit. Quali sono i documenti necessari?",Profilo
+"Richiesta di supporto per un problema di configurazione","Salve, ho un problema di configurazione con il mio nuovo computer e avrei bisogno di assistenza. Potreste aiutarmi?",Tecnico
+"Problema di accesso con email non riconosciuta","Buongiorno, non riesco ad accedere alla piattaforma perché l'email che ho inserito non viene riconosciuta. Ho provato a verificare se ho sbagliato a digitare, ma sembra tutto corretto. Cosa posso fare?",Accesso
+"Dubbio sull'utilizzo di un template specifico","Salve, sto utilizzando il software XYZ e ho un dubbio sull'utilizzo di un template specifico. In particolare, non capisco come personalizzarlo. Potreste aiutarmi?",Tecnico
+"Richiesta di informazioni sul corso di social media marketing","Buongiorno, vorrei avere maggiori informazioni sul corso di social media marketing ABC. In particolare, mi интересуerebbe sapere quali sono i costi e se è previsto un attestato di partecipazione. Grazie.",Didattica
+"Modifica data di nascita","Salve, vorrei modificare la mia data di nascita sul mio account. Come posso fare?",Profilo
+"Connessione internet lenta e download lenti","Buongiorno, da qualche giorno la mia connessione internet è molto lenta e ho difficoltà a scaricare file. Ho provato a fare un test di velocità e i risultati sono molto al di sotto delle aspettative. Potreste aiutarmi?",Tecnico
+"Recupero password con link non funzionante","Salve, ho dimenticato la password del mio account e ho provato a recuperarla tramite il link che mi è stato inviato via email, ma il link non funziona. Cosa posso fare?",Accesso
+"Materiale didattico in formato epub","Buongiorno, vorrei sapere se il materiale didattico del corso XYZ è disponibile anche in formato epub, per poterlo leggere sul mio ebook reader. Grazie.",Didattica
+"Problema con la webcam esterna","Salve, ho un problema con la mia webcam esterna. Non viene riconosciuta dal computer. Ho provato a cambiare porta USB e a riavviare il computer, ma il problema persiste. Grazie per l'aiuto.",Tecnico
+"Creazione account per un'organizzazione governativa","Buongiorno, vorrei creare un account per la nostra organizzazione governativa. Quali sono i documenti necessari?",Profilo
+"Richiesta di supporto per un problema di firewall","Salve, ho un problema con il firewall del mio computer e non riesco a navigare su alcuni siti. Potreste aiutarmi?",Tecnico
+"Problema di accesso con account disattivato","Buongiorno, non riesco ad accedere alla piattaforma perché il mio account risulta disattivato. Come posso fare per riattivarlo?",Accesso
+"Dubbio sull'utilizzo di una funzione avanzata","Salve, sto utilizzando il software XYZ e ho un dubbio sull'utilizzo di una funzione avanzata. In particolare, non capisco come applicarla correttamente. Potreste aiutarmi?",Tecnico
+"Richiesta di informazioni sul corso di project management","Buongiorno, vorrei avere maggiori informazioni sul corso di project management ABC. In particolare, mi интересуerebbe sapere quali sono le certificazioni ottenibili e se è previsto un esame finale. Grazie.",Didattica
+"Modifica lingua preferita","Salve, vorrei modificare la lingua preferita del mio account. Come posso fare?",Profilo
+"Connessione internet instabile e ping alto","Buongiorno, da qualche giorno la mia connessione internet è molto instabile e ho un ping alto. Questo rende difficile giocare online e partecipare a videoconferenze. Potreste aiutarmi?",Tecnico
+"Recupero password con procedura complessa","Salve, ho dimenticato la password del mio account e ho provato a recuperarla, ma la procedura è molto complessa e non riesco a completarla. Cosa posso fare?",Accesso
+"Materiale didattico in formato mobi","Buongiorno, vorrei sapere se il materiale didattico del corso XYZ è disponibile anche in formato mobi, per poterlo leggere sul mio Kindle. Grazie.",Didattica
+"Problema con il touchpad","Salve, ho un problema con il touchpad del mio computer portatile. Non funziona correttamente e il cursore si muove a scatti. Grazie per l'aiuto.",Tecnico
+"Creazione account per una scuola","Buongiorno, vorrei creare un account per la nostra scuola. Quali sono i requisiti e le modalità?",Profilo
+"Richiesta di supporto per un problema di driver","Salve, ho un problema con i driver del mio computer e alcuni dispositivi non funzionano correttamente. Potreste aiutarmi?",Tecnico
+"Problema di accesso con captcha non superato","Buongiorno, non riesco ad accedere alla piattaforma perché non riesco a superare il captcha. Ho provato diverse volte, ma non riesco a capire cosa devo fare. Cosa posso fare?",Accesso
+"Dubbio sull'utilizzo di un comando specifico","Salve, sto utilizzando il software XYZ e ho un dubbio sull'utilizzo di un comando specifico. In particolare, non capisco come utilizzarlo correttamente. Potreste aiutarmi?",Tecnico
+"Richiesta di informazioni sul corso di data science","Buongiorno, vorrei avere maggiori informazioni sul corso di data science ABC. In particolare, mi интересуerebbe sapere quali sono le competenze acquisite e se è previsto un progetto finale. Grazie.",Didattica
+"Modifica impostazioni di privacy","Salve, vorrei modificare le impostazioni di privacy del mio account. Come posso fare?",Profilo
+"Connessione internet lenta e problemi con lo streaming","Buongiorno, da qualche giorno la mia connessione internet è molto lenta e ho difficoltà a vedere video in streaming. Si bloccano continuamente e la qualità è molto bassa. Potreste aiutarmi?",Tecnico
+"Recupero password con tempi di attesa lunghi","Salve, ho dimenticato la password del mio account e ho provato a recuperarla, ma i tempi di attesa per ricevere il codice di verifica sono molto lunghi. Cosa posso fare?",Accesso
+"Materiale didattico in formato txt","Buongiorno, vorrei sapere se il materiale didattico del corso XYZ è disponibile anche in formato txt, per poterlo modificare e adattare alle mie esigenze. Grazie.",Didattica
+"Problema con il mouse","Salve, ho un problema con il mio mouse. Non funziona correttamente e il cursore si muove in modo strano. Grazie per l'aiuto.",Tecnico
+"Creazione account per un'università","Buongiorno, vorrei creare un account per la nostra università. Quali sono i passaggi da seguire?",Profilo
+"Richiesta di supporto per un problema di software","Salve, ho un problema con un software specifico e avrei bisogno di assistenza. Potreste mettermi in contatto con un tecnico specializzato?",Tecnico
+"Problema accesso registro elettronico","Buongiorno, non riesco ad accedere al registro elettronico. Inserisco le credenziali corrette, ma il sistema mi dice che sono errate. Ho provato a recuperare la password, ma non ho ricevuto l'email. Potete aiutarmi?",Accesso
+"Errore visualizzazione voti","Salve, ho notato che alcuni voti non vengono visualizzati correttamente nel registro elettronico. Sembrano mancanti o assegnati a studenti sbagliati. Potete controllare?",Tecnico
+"Richiesta abilitazione account genitore","Buongiorno, sono il genitore di uno studente e vorrei abilitare il mio account per poter visualizzare le informazioni scolastiche di mio figlio. Come devo fare?",Profilo
+"Problema con l'invio dei compiti online","Salve, sto cercando di inviare i compiti online tramite la piattaforma, ma ricevo un messaggio di errore. Ho provato più volte, ma il problema persiste. Potete aiutarmi?",Tecnico
+"Informazioni sulle assenze","Buongiorno, vorrei sapere come posso giustificare le assenze di mio figlio tramite la piattaforma. Qual è la procedura corretta?",Didattica
+"Dubbio sull'utilizzo della messaggistica interna","Salve, ho un dubbio su come utilizzare la messaggistica interna della piattaforma per comunicare con gli insegnanti. Potete darmi qualche indicazione?",Tecnico
+"Richiesta modifica dati anagrafici studente","Buongiorno, ho notato che ci sono degli errori nei dati anagrafici di mio figlio presenti sulla piattaforma. Come posso fare per correggerli?",Profilo
+"Problema con la prenotazione dei colloqui","Salve, sto cercando di prenotare un colloquio con un insegnante tramite la piattaforma, ma non trovo disponibilità. Potete verificare?",Tecnico
+"Informazioni sui corsi di recupero","Buongiorno, vorrei avere informazioni sui corsi di recupero organizzati dalla scuola. Come posso iscrivere mio figlio?",Didattica
+"Dubbio sull'utilizzo del materiale didattico online","Salve, ho difficoltà a scaricare il materiale didattico online. Potete aiutarmi?",Tecnico
+"Problema con l'accesso alla piattaforma da mobile","Buongiorno, non riesco ad accedere alla piattaforma dal mio smartphone. L'app si blocca o non si carica correttamente. Potete verificare?",Accesso
+"Errore visualizzazione orario scolastico","Salve, l'orario scolastico visualizzato sulla piattaforma non è corretto. Sembra che ci siano delle modifiche non aggiornate. Potete controllare?",Tecnico
+"Richiesta di supporto per la didattica a distanza","Buongiorno, ho bisogno di supporto per utilizzare gli strumenti di didattica a distanza. Non riesco a collegarmi alle lezioni online. Potete aiutarmi?",Tecnico
+"Informazioni sulle attività extracurriculari","Salve, vorrei avere informazioni sulle attività extracurriculari offerte dalla scuola. Come posso iscrivere mio figlio?",Didattica
+"Dubbio sull'utilizzo del forum della classe","Salve, ho un dubbio su come utilizzare il forum della classe per interagire con gli altri studenti e gli insegnanti. Potete darmi qualche indicazione?",Tecnico
+"Problema con la visualizzazione delle pagelle","Buongiorno, non riesco a visualizzare le pagelle di mio figlio sulla piattaforma. Potete verificare?",Tecnico
+"Richiesta di modifica password","Salve, vorrei modificare la password del mio account. Come posso fare?",Profilo
+"Informazioni sui viaggi d'istruzione","Buongiorno, vorrei avere informazioni sui viaggi d'istruzione organizzati dalla scuola. Quali sono le destinazioni e i costi?",Didattica
+"Dubbio sull'utilizzo della bacheca online","Salve, ho un dubbio su come utilizzare la bacheca online della piattaforma per visualizzare gli avvisi della scuola. Potete darmi qualche indicazione?",Tecnico
+"Problema con l'accesso all'area riservata studenti","Buongiorno, non riesco ad accedere all'area riservata studenti della piattaforma. Potete verificare?",Accesso
+"Errore nella registrazione al corso","Salve, ho riscontrato un errore durante la registrazione al corso. Il sistema non mi permette di completare l'iscrizione. Potete aiutarmi?",Tecnico
+"Richiesta di informazioni sui libri di testo","Buongiorno, vorrei avere informazioni sui libri di testo adottati dalla scuola per il prossimo anno scolastico. Dove posso trovare la lista?",Didattica
+"Dubbio sull'utilizzo del calendario scolastico","Salve, ho un dubbio su come utilizzare il calendario scolastico presente sulla piattaforma per visualizzare le festività e gli eventi programmati. Potete darmi qualche indicazione?",Tecnico
+"Problema con la connessione internet a scuola","Buongiorno, ho problemi con la connessione internet a scuola. Non riesco ad accedere alla piattaforma o ad utilizzare i dispositivi digitali. Potete segnalare il problema?",Tecnico
+"Informazioni sulle borse di studio","Salve, vorrei avere informazioni sulle borse di studio disponibili per gli studenti. Come posso fare domanda?",Didattica
+"Dubbio sull'utilizzo della sezione 'Comunicazioni'","Salve, ho un dubbio su come utilizzare la sezione 'Comunicazioni' della piattaforma per ricevere informazioni dalla scuola. Potete darmi qualche indicazione?",Tecnico
+"Problema con la stampa dei documenti","Buongiorno, ho problemi a stampare i documenti presenti sulla piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di supporto per l'utilizzo di software specifici","Salve, ho bisogno di supporto per utilizzare alcuni software specifici utilizzati a scuola. Non so come utilizzarli correttamente. Potete aiutarmi?",Tecnico
+"Informazioni sui progetti didattici","Buongiorno, vorrei avere informazioni sui progetti didatticiRealizzati dalla scuola. Come posso partecipare?",Didattica
+"Dubbio sull'utilizzo della sezione 'Avvisi'","Salve, ho un dubbio su come utilizzare la sezione 'Avvisi' della piattaforma per visualizzare le comunicazioni della scuola. Potete darmi qualche indicazione?",Tecnico
+"Problema accesso area genitori","Buongiorno, non riesco ad accedere all'area genitori della piattaforma. Inserisco le credenziali corrette, ma il sistema mi dice che sono errate. Ho provato a recuperare la password, ma non ho ricevuto l'email. Potete aiutarmi?",Accesso
+"Errore caricamento documenti","Salve, sto cercando di caricare dei documenti sulla piattaforma, ma ricevo un messaggio di errore. Ho provato più volte, ma il problema persiste. Potete aiutarmi?",Tecnico
+"Richiesta certificato di frequenza","Buongiorno, vorrei richiedere un certificato di frequenza per mio figlio. Come devo fare?",Profilo
+"Problema con la visualizzazione delle comunicazioni","Salve, non riesco a visualizzare le comunicazioni inviate dalla scuola sulla piattaforma. Potete controllare?",Tecnico
+"Informazioni sulle modalità di pagamento delle rette","Buongiorno, vorrei avere informazioni sulle modalità di pagamento delle rette scolastiche. Come posso effettuare il pagamento online?",Didattica
+"Dubbio sull'utilizzo del registro presenze","Salve, ho un dubbio su come utilizzare il registro presenze online. Potete darmi qualche indicazione?",Tecnico
+"Richiesta di cambio classe","Buongiorno, vorrei richiedere un cambio classe per mio figlio. Come devo fare?",Profilo
+"Problema con la prenotazione dei libri di testo","Salve, sto cercando di prenotare i libri di testo per il prossimo anno scolastico tramite la piattaforma, ma non riesco a completare la procedura. Potete verificare?",Tecnico
+"Informazioni sui servizi di supporto per studenti con DSA","Buongiorno, vorrei avere informazioni sui servizi di supporto per studenti con DSA offerti dalla scuola. Come posso fare richiesta?",Didattica
+"Dubbio sull'utilizzo della sezione 'Compiti'","Salve, ho difficoltà a capire come funziona la sezione 'Compiti' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema con l'accesso alla piattaforma da tablet","Buongiorno, non riesco ad accedere alla piattaforma dal mio tablet. L'app si blocca o non si carica correttamente. Potete verificare?",Accesso
+"Errore visualizzazione calendario eventi scolastici","Salve, il calendario eventi scolastici visualizzato sulla piattaforma non è corretto. Sembra che ci siano delle informazioni mancanti. Potete controllare?",Tecnico
+"Richiesta di supporto per l'utilizzo di software didattici specifici","Buongiorno, ho bisogno di supporto per utilizzare alcuni software didattici specifici utilizzati a scuola. Non so come utilizzarli correttamente. Potete aiutarmi?",Tecnico
+"Informazioni sulle gite scolastiche","Salve, vorrei avere informazioni sulle gite scolastiche organizzate dalla scuola. Quali sono le destinazioni e i costi?",Didattica
+"Dubbio sull'utilizzo del sistema di valutazione","Salve, ho un dubbio su come funziona il sistema di valutazione utilizzato dalla scuola. Potete darmi qualche chiarimento?",Tecnico
+"Problema con la visualizzazione dei documenti condivisi","Buongiorno, non riesco a visualizzare i documenti condivisi dagli insegnanti sulla piattaforma. Potete verificare?",Tecnico
+"Richiesta di inserimento di un nuovo contatto di emergenza","Salve, vorrei inserire un nuovo contatto di emergenza per mio figlio. Come posso fare?",Profilo
+"Informazioni sulle attività di recupero estive","Buongiorno, vorrei avere informazioni sulle attività di recupero estive organizzate dalla scuola. Come posso iscrivere mio figlio?",Didattica
+"Dubbio sull'utilizzo della sezione 'Materiale didattico'","Salve, ho difficoltà a trovare il materiale didattico di alcune materie. Potete aiutarmi?",Tecnico
+"Problema con l'accesso alla piattaforma da un altro computer","Buongiorno, non riesco ad accedere alla piattaforma da un altro computer. Inserisco le credenziali corrette, ma il sistema mi dice che sono errate. Potete aiutarmi?",Accesso
+"Problema accesso con SPID","Buongiorno, non riesco ad accedere alla piattaforma utilizzando SPID. Il sistema mi dice che c'è un errore di autenticazione. Potete aiutarmi?",Accesso
+"Errore visualizzazione compiti assegnati","Salve, non riesco a visualizzare tutti i compiti assegnati dai docenti. Sembra che alcuni compiti non siano presenti nella lista. Potete controllare?",Tecnico
+"Richiesta di inserimento di un'allergia/intolleranza","Buongiorno, vorrei segnalare un'allergia/intolleranza di mio figlio. Come posso fare?",Profilo
+"Problema con la messaggistica interna: messaggi non inviati","Salve, sto cercando di inviare un messaggio tramite la messaggistica interna, ma il messaggio non viene inviato. Potete verificare?",Tecnico
+"Informazioni sulle procedure di iscrizione","Buongiorno, vorrei avere informazioni sulle procedure di iscrizione per il prossimo anno scolastico. Come devo fare?",Didattica
+"Dubbio sull'utilizzo della sezione 'Documenti'","Salve, ho difficoltà a trovare alcuni documenti nella sezione 'Documenti' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per tutore","Buongiorno, sono il tutore di uno studente e vorrei avere accesso alla piattaforma per visualizzare le informazioni scolastiche. Come devo fare?",Profilo
+"Problema con la visualizzazione dei risultati dei test","Salve, non riesco a visualizzare i risultati dei test sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sui progetti Erasmus+","Buongiorno, vorrei avere informazioni sui progetti Erasmus+ a cui la scuola aderisce. Come posso fare domanda?",Didattica
+"Dubbio sull'utilizzo della sezione 'Biblioteca digitale'","Salve, ho difficoltà a capire come funziona la sezione 'Biblioteca digitale' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con credenziali errate dopo cambio password","Buongiorno, non riesco ad accedere alla piattaforma. Ho appena cambiato la password, ma il sistema continua a dirmi che le credenziali sono errate. Potete aiutarmi?",Accesso
+"Errore visualizzazione materiale didattico","Salve, non riesco a visualizzare il materiale didattico di alcune materie. Sembra che i file non siano disponibili o che ci sia un problema con il download. Potete controllare?",Tecnico
+"Richiesta di accesso per insegnante supplente","Buongiorno, sono un insegnante supplente e vorrei avere accesso alla piattaforma per poter gestire le classi e i compiti. Come devo fare?",Profilo
+"Problema con la messaggistica interna: notifiche non funzionanti","Salve, non ricevo le notifiche dei messaggi inviati tramite la messaggistica interna. Potete verificare?",Tecnico
+"Informazioni sui criteri di ammissione","Buongiorno, vorrei avere informazioni sui criteri di ammissione alla scuola per il prossimo anno scolastico. Dove posso trovare il regolamento?",Didattica
+"Dubbio sull'utilizzo della sezione 'Valutazioni'","Salve, ho difficoltà a capire come funziona la sezione 'Valutazioni' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di inserimento di un permesso di uscita","Buongiorno, vorrei richiedere un permesso di uscita anticipata per mio figlio. Come posso fare?",Profilo
+"Problema con la visualizzazione dei compiti per le vacanze","Salve, non riesco a visualizzare i compiti per le vacanze assegnati dai docenti. Potete verificare?",Tecnico
+"Informazioni sui programmi di scambio culturale","Buongiorno, vorrei avere informazioni sui programmi di scambio culturale a cui la scuola aderisce. Come posso fare domanda?",Didattica
+"Dubbio sull'utilizzo della sezione 'Forum'","Salve, ho difficoltà a capire come funziona il forum della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con account disabilitato per inattività","Buongiorno, non riesco ad accedere alla piattaforma. Il sistema mi dice che il mio account è stato disabilitato per inattività. Come posso riattivarlo?",Accesso
+"Errore caricamento foto profilo","Salve, sto cercando di caricare una foto profilo, ma ricevo un messaggio di errore. Ho provato più volte, ma il problema persiste. Potete aiutarmi?",Tecnico
+"Richiesta di informazioni sulle attività pomeridiane","Buongiorno, vorrei avere informazioni sulle attività pomeridiane offerte dalla scuola. Come posso iscrivere mio figlio?",Didattica
+"Problema con la visualizzazione delle circolari","Salve, non riesco a visualizzare le circolari inviate dalla scuola. Potete controllare?",Tecnico
+"Informazioni sulle modalità di recupero dei debiti formativi","Buongiorno, vorrei avere informazioni sulle modalità di recupero dei debiti formativi. Come posso aiutare mio figlio a prepararsi?",Didattica
+"Dubbio sull'utilizzo della sezione 'Orario lezioni'","Salve, ho difficoltà a capire come funziona la sezione 'Orario lezioni' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di inserimento di un certificato medico","Buongiorno, devo inserire un certificato medico per mio figlio. Come posso fare?",Profilo
+"Problema con la visualizzazione dei messaggi privati","Salve, non riesco a visualizzare i messaggi privati che mi sono stati inviati. Potete verificare?",Tecnico
+"Informazioni sui progetti di ampliamento dell'offerta formativa","Buongiorno, vorrei avere informazioni sui progetti di ampliamento dell'offerta formativa della scuola. Come posso partecipare?",Didattica
+"Dubbio sull'utilizzo della sezione 'Registro di classe'","Salve, ho difficoltà a capire come funziona la sezione 'Registro di classe' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con link di invito non valido","Buongiorno, non riesco ad accedere alla piattaforma tramite il link di invito che mi è stato inviato. Il sistema mi dice che il link non è valido. Potete aiutarmi?",Accesso
+"Errore visualizzazione documenti caricati","Salve, ho caricato dei documenti sulla piattaforma, ma non riesco a visualizzarli. Sembra che ci sia un problema con la visualizzazione dei file. Potete controllare?",Tecnico
+"Richiesta di informazioni sui criteri di valutazione","Buongiorno, vorrei avere informazioni sui criteri di valutazione utilizzati dalla scuola. Dove posso trovare il regolamento?",Didattica
+"Problema con la messaggistica interna: impossibile allegare file","Salve, sto cercando di allegare un file a un messaggio nella messaggistica interna, ma non riesco. Potete verificare?",Tecnico
+"Informazioni sulle attività di orientamento","Buongiorno, vorrei avere informazioni sulle attività di orientamento offerte dalla scuola. A chi devo rivolgermi?",Didattica
+"Dubbio sull'utilizzo della sezione 'News'","Salve, ho difficoltà a capire come funziona la sezione 'News' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per ex studente","Buongiorno, sono un ex studente e vorrei avere accesso alla piattaforma per poter consultare alcuni documenti. È possibile?",Profilo
+"Problema con la visualizzazione dei verbali dei consigli di classe","Salve, non riesco a visualizzare i verbali dei consigli di classe sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sui corsi di lingua straniera","Buongiorno, vorrei avere informazioni sui corsi di lingua straniera offerti dalla scuola. Quali sono i livelli disponibili?",Didattica
+"Dubbio sull'utilizzo della sezione 'Sondaggi'","Salve, ho difficoltà a capire come funziona la sezione 'Sondaggi' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con account bloccato per motivi di sicurezza","Buongiorno, non riesco ad accedere alla piattaforma. Il sistema mi dice che il mio account è stato bloccato per motivi di sicurezza. Come posso sbloccarlo?",Accesso
+"Errore invio modulo di iscrizione","Salve, sto cercando di inviare il modulo di iscrizione online, ma ricevo un messaggio di errore. Potete aiutarmi?",Tecnico
+"Richiesta di informazioni sui laboratori didattici","Buongiorno, vorrei avere informazioni sui laboratori didattici offerti dalla scuola. Come posso iscrivere mio figlio?",Didattica
+"Problema con la visualizzazione delle note disciplinari","Salve, non riesco a visualizzare le note disciplinari sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di rimborso delle rette","Buongiorno, vorrei avere informazioni sulle modalità di rimborso delle rette scolastiche in caso di assenza prolungata. Come devo fare?",Didattica
+"Dubbio sull'utilizzo della sezione 'FAQ'","Salve, ho difficoltà a trovare le risposte alle mie domande nella sezione 'FAQ' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per personale ATA","Buongiorno, sono un membro del personale ATA e vorrei avere accesso alla piattaforma per poter svolgere le mie mansioni. Come devo fare?",Profilo
+"Problema con la visualizzazione dei documenti della segreteria","Salve, non riesco a visualizzare i documenti della segreteria sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di partecipazione ai progetti PON","Buongiorno, vorrei avere informazioni sulle modalità di partecipazione ai progetti PON. Come posso fare domanda?",Didattica
+"Dubbio sull'utilizzo della sezione 'Biblioteca'","Salve, ho difficoltà a capire come funziona la sezione 'Biblioteca' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con codice fiscale non riconosciuto","Buongiorno, non riesco ad accedere alla piattaforma perché il sistema non riconosce il mio codice fiscale. Potete aiutarmi?",Accesso
+"Errore generazione PDF","Salve, sto cercando di generare un PDF di un documento presente sulla piattaforma, ma ricevo un messaggio di errore. Potete aiutarmi?",Tecnico
+"Richiesta di informazioni sui servizi di trasporto scolastico","Buongiorno, vorrei avere informazioni sui servizi di trasporto scolastico offerti dalla scuola. Come posso fare richiesta?",Didattica
+"Problema con la visualizzazione delle graduatorie","Salve, non riesco a visualizzare le graduatorie sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di comunicazione con la scuola","Buongiorno, vorrei sapere quali sono le modalità di comunicazione con la scuola. Come posso contattare gli insegnanti o la segreteria?",Didattica
+"Dubbio sull'utilizzo della sezione 'Area download'","Salve, ho difficoltà a trovare alcuni file nella sezione 'Area download' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per volontari","Buongiorno, sono un volontario e vorrei avere accesso alla piattaforma per poter collaborare con la scuola. Come devo fare?",Profilo
+"Problema con la visualizzazione delle statistiche","Salve, non riesco a visualizzare le statistiche sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle attività di sostegno","Buongiorno, vorrei avere informazioni sulle attività di sostegno offerte dalla scuola. Come posso fare richiesta?",Didattica
+"Dubbio sull'utilizzo della sezione 'Help desk'","Salve, ho difficoltà a capire come funziona la sezione 'Help desk' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con email non confermata","Buongiorno, non riesco ad accedere alla piattaforma perché non ho ancora confermato la mia email. Come posso fare?",Accesso
+"Errore invio messaggio tramite form contatti","Salve, sto cercando di inviare un messaggio tramite il form contatti presente sul sito, ma ricevo un messaggio di errore. Potete aiutarmi?",Tecnico
+"Richiesta di informazioni sui progetti di inclusione","Buongiorno, vorrei avere informazioni sui progetti di inclusioneRealizzati dalla scuola. Come posso partecipare?",Didattica
+"Problema con la visualizzazione dei video tutorial","Salve, non riesco a visualizzare i video tutorial presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di partecipazione ai concorsi","Buongiorno, vorrei avere informazioni sulle modalità di partecipazione ai concorsi organizzati dalla scuola. Come posso fare domanda?",Didattica
+"Dubbio sull'utilizzo della sezione 'Blog'","Salve, ho difficoltà a capire come funziona la sezione 'Blog' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per personale esterno","Buongiorno, sono un membro del personale esterno e vorrei avere accesso alla piattaforma per poter collaborare con la scuola. Come devo fare?",Profilo
+"Problema con la visualizzazione dei file multimediali","Salve, non riesco a visualizzare i file multimediali presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di iscrizione ai laboratori","Buongiorno, vorrei avere informazioni sulle modalità di iscrizione ai laboratori offerti dalla scuola. Come posso fare domanda?",Didattica
+"Dubbio sull'utilizzo della sezione 'Galleria'","Salve, ho difficoltà a capire come funziona la sezione 'Galleria' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con password dimenticata e email non più attiva","Buongiorno, non riesco ad accedere alla piattaforma. Ho dimenticato la password e l'email associata all'account non è più attiva. Cosa posso fare?",Accesso
+"Errore download file","Salve, sto cercando di scaricare un file dalla piattaforma, ma ricevo un messaggio di errore. Potete aiutarmi?",Tecnico
+"Richiesta di informazioni sui corsi di preparazione agli esami","Buongiorno, vorrei avere informazioni sui corsi di preparazione agli esami offerti dalla scuola. Come posso iscrivermi?",Didattica
+"Problema con la visualizzazione dei documenti condivisi tramite cloud","Salve, non riesco a visualizzare i documenti condivisi tramite cloud sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di pagamento dei contributi volontari","Buongiorno, vorrei avere informazioni sulle modalità di pagamento dei contributi volontari. Come posso effettuare il pagamento?",Didattica
+"Dubbio sull'utilizzo della sezione 'Chat'","Salve, ho difficoltà a capire come funziona la sezione 'Chat' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per rappresentanti dei genitori","Buongiorno, sono un rappresentante dei genitori e vorrei avere accesso alla piattaforma per poter comunicare con la scuola. Come devo fare?",Profilo
+"Problema con la visualizzazione dei video caricati dagli insegnanti","Salve, non riesco a visualizzare i video caricati dagli insegnanti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di richiesta di certificati","Buongiorno, vorrei avere informazioni sulle modalità di richiesta di certificati. Come posso fare domanda?",Didattica
+"Dubbio sull'utilizzo della sezione 'Wiki'","Salve, ho difficoltà a capire come funziona la sezione 'Wiki' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con browser non supportato","Buongiorno, non riesco ad accedere alla piattaforma utilizzando il mio browser. Il sistema mi dice che non è supportato. Cosa posso fare?",Accesso
+"Errore visualizzazione orario docenti","Salve, non riesco a visualizzare l'orario dei docenti sulla piattaforma. Potete verificare?",Tecnico
+"Richiesta di informazioni sul regolamento d'istituto","Buongiorno, vorrei avere informazioni sul regolamento d'istituto. Dove posso trovarlo?",Didattica
+"Problema con la messaggistica interna: impossibile inviare messaggi a un gruppo","Salve, sto cercando di inviare un messaggio a un gruppo tramite la messaggistica interna, ma non riesco. Potete verificare?",Tecnico
+"Informazioni sulle modalità di recupero delle insufficienze","Buongiorno, vorrei avere informazioni sulle modalità di recupero delle insufficienze. Come posso aiutare mio figlio a migliorare i suoi voti?",Didattica
+"Dubbio sull'utilizzo della sezione 'Avvisi urgenti'","Salve, ho difficoltà a capire come funziona la sezione 'Avvisi urgenti' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per personale amministrativo","Buongiorno, sono un membro del personale amministrativo e vorrei avere accesso alla piattaforma per poter gestire le pratiche. Come devo fare?",Profilo
+"Problema con la visualizzazione dei documenti condivisi con password","Salve, non riesco a visualizzare i documenti condivisi con password sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sui progetti di educazione ambientale","Buongiorno, vorrei avere informazioni sui progetti di educazione ambientaleRealizzati dalla scuola. Come posso partecipare?",Didattica
+"Dubbio sull'utilizzo della sezione 'Registro dei docenti'","Salve, ho difficoltà a capire come funziona la sezione 'Registro dei docenti' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con nome utente non riconosciuto","Buongiorno, non riesco ad accedere alla piattaforma perché il sistema non riconosce il mio nome utente. Cosa posso fare?",Accesso
+"Errore caricamento video","Salve, sto cercando di caricare un video sulla piattaforma, ma ricevo un messaggio di errore. Ho provato più volte, ma il problema persiste. Potete aiutarmi?",Tecnico
+"Richiesta di informazioni sui corsi di potenziamento","Buongiorno, vorrei avere informazioni sui corsi di potenziamento offerti dalla scuola. Come posso iscrivere mio figlio?",Didattica
+"Problema con la visualizzazione dei messaggi nella chat di classe","Salve, non riesco a visualizzare i messaggi nella chat di classe. Potete verificare?",Tecnico
+"Informazioni sulle modalità di partecipazione ai consigli di classe","Buongiorno, vorrei avere informazioni sulle modalità di partecipazione ai consigli di classe. Come posso fare domanda?",Didattica
+"Dubbio sull'utilizzo della sezione 'Verbali'","Salve, ho difficoltà a capire come funziona la sezione 'Verbali' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per collaboratori scolastici","Buongiorno, sono un collaboratore scolastico e vorrei avere accesso alla piattaforma per poter svolgere le mie mansioni. Come devo fare?",Profilo
+"Problema con la visualizzazione dei file audio","Salve, non riesco a visualizzare i file audio presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sui progetti di continuità didattica","Buongiorno, vorrei avere informazioni sui progetti di continuità didatticaRealizzati dalla scuola. Come posso partecipare?",Didattica
+"Dubbio sull'utilizzo della sezione 'Compiti a casa'","Salve, ho difficoltà a capire come funziona la sezione 'Compiti a casa' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con email non verificata","Buongiorno, non riesco ad accedere alla piattaforma perché non ho ancora verificato la mia email. Come posso fare?",Accesso
+"Errore invio email","Salve, sto cercando di inviare un'email tramite la piattaforma, ma ricevo un messaggio di errore. Potete aiutarmi?",Tecnico
+"Richiesta di informazioni sui criteri di ammissione al liceo","Buongiorno, vorrei avere informazioni sui criteri di ammissione al liceo. Dove posso trovare il bando?",Didattica
+"Problema con la visualizzazione dei documenti condivisi tramite link","Salve, non riesco a visualizzare i documenti condivisi tramite link sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di pagamento delle tasse scolastiche","Buongiorno, vorrei avere informazioni sulle modalità di pagamento delle tasse scolastiche. Come posso effettuare il pagamento online?",Didattica
+"Dubbio sull'utilizzo della sezione 'Registro delle assenze'","Salve, ho difficoltà a capire come funziona la sezione 'Registro delle assenze' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per esperti esterni","Buongiorno, sono un esperto esterno e vorrei avere accesso alla piattaforma per poter collaborare con la scuola. Come devo fare?",Profilo
+"Problema con la visualizzazione dei file compressi","Salve, non riesco a visualizzare i file compressi presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sui progetti di alternanza scuola-lavoro","Buongiorno, vorrei avere informazioni sui progetti di alternanza scuola-lavoro offerti dalla scuola. Come posso partecipare?",Didattica
+"Dubbio sull'utilizzo della sezione 'Materiale didattico per DSA'","Salve, ho difficoltà a trovare il materiale didattico per DSA nella sezione dedicata. Potete aiutarmi?",Tecnico
+"Problema accesso con codice utente errato","Buongiorno, non riesco ad accedere alla piattaforma perché il sistema dice che il mio codice utente è errato. Cosa posso fare?",Accesso
+"Errore caricamento file troppo grande","Salve, sto cercando di caricare un file sulla piattaforma, ma ricevo un messaggio di errore che dice che è troppo grande. Come posso fare?",Tecnico
+"Richiesta di informazioni sui corsi di recupero di latino","Buongiorno, vorrei avere informazioni sui corsi di recupero di latino. Come posso iscrivere mio figlio?",Didattica
+"Problema con la visualizzazione dei documenti PDF","Salve, non riesco a visualizzare i documenti PDF presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di partecipazione ai giochi matematici","Buongiorno, vorrei avere informazioni sulle modalità di partecipazione ai giochi matematici. Come posso iscrivere mio figlio?",Didattica
+"Dubbio sull'utilizzo della sezione 'Bacheca sindacale'","Salve, ho difficoltà a capire come funziona la sezione 'Bacheca sindacale' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per tirocinanti","Buongiorno, sono un tirocinante e vorrei avere accesso alla piattaforma per poter svolgere il mio tirocinio. Come devo fare?",Profilo
+"Problema con la visualizzazione dei video in streaming","Salve, non riesco a visualizzare i video in streaming presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sui progetti di educazione alla legalità","Buongiorno, vorrei avere informazioni sui progetti di educazione alla legalitàRealizzati dalla scuola. Come posso partecipare?",Didattica
+"Dubbio sull'utilizzo della sezione 'Registro delle attività'","Salve, ho difficoltà a capire come funziona la sezione 'Registro delle attività' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con credenziali scadute","Buongiorno, non riesco ad accedere alla piattaforma perché le mie credenziali sono scadute. Come posso fare per rinnovarle?",Accesso
+"Errore invio SMS","Salve, sto cercando di inviare un SMS tramite la piattaforma, ma ricevo un messaggio di errore. Potete aiutarmi?",Tecnico
+"Richiesta di informazioni sui corsi di preparazione all'esame di terza media","Buongiorno, vorrei avere informazioni sui corsi di preparazione all'esame di terza media. Come posso iscrivere mio figlio?",Didattica
+"Problema con la visualizzazione dei documenti Word","Salve, non riesco a visualizzare i documenti Word presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di partecipazione ai tornei sportivi","Buongiorno, vorrei avere informazioni sulle modalità di partecipazione ai tornei sportivi. Come posso iscrivere mio figlio?",Didattica
+"Dubbio sull'utilizzo della sezione 'Area personale'","Salve, ho difficoltà a capire come funziona la sezione 'Area personale' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per esperti esterni per progetti specifici","Buongiorno, sono un esperto esterno e vorrei avere accesso alla piattaforma per poter collaborare ad un progetto specifico. Come devo fare?",Profilo
+"Problema con la visualizzazione dei file Excel","Salve, non riesco a visualizzare i file Excel presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sui progetti di orientamento universitario","Buongiorno, vorrei avere informazioni sui progetti di orientamento universitario offerti dalla scuola. Come posso partecipare?",Didattica
+"Dubbio sull'utilizzo della sezione 'Help'","Salve, ho difficoltà a trovare le informazioni che mi servono nella sezione 'Help' della piattaforma",Profilo
+"Problema accesso con password scaduta dopo cambio password","Buongiorno, ho appena cambiato la password, ma non riesco ad accedere con quella nuova. Il sistema mi dice che è scaduta. Potete aiutarmi?",Accesso
+"Errore visualizzazione compiti corretti","Salve, non riesco a visualizzare i compiti che sono stati corretti dagli insegnanti. Potete verificare?",Tecnico
+"Richiesta di informazioni sul POF","Buongiorno, vorrei avere informazioni sul Piano dell'Offerta Formativa (POF) della scuola. Dove posso trovarlo?",Didattica
+"Problema con la messaggistica interna: messaggi letti ma non visualizzati","Salve, i miei messaggi risultano letti, ma il destinatario dice di non averli visualizzati. Potete verificare?",Tecnico
+"Informazioni sulle modalità di iscrizione al servizio mensa","Buongiorno, vorrei avere informazioni sulle modalità di iscrizione al servizio mensa. Come posso fare domanda?",Didattica
+"Dubbio sull'utilizzo della sezione 'Registro delle attività extracurriculari'","Salve, ho difficoltà a capire come funziona la sezione 'Registro delle attività extracurriculari' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per docenti esterni","Buongiorno, sono un docente esterno e vorrei avere accesso alla piattaforma per poter collaborare con la scuola. Come devo fare?",Profilo
+"Problema con la visualizzazione dei documenti condivisi con Google Drive","Salve, non riesco a visualizzare i documenti condivisi tramite Google Drive sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sui progetti di educazione stradale","Buongiorno, vorrei avere informazioni sui progetti di educazione stradaleRealizzati dalla scuola. Come posso partecipare?",Didattica
+"Dubbio sull'utilizzo della sezione 'Calendario'","Salve, ho difficoltà a capire come funziona la sezione 'Calendario' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con account sospeso","Buongiorno, non riesco ad accedere alla piattaforma. Il sistema mi dice che il mio account è stato sospeso. Come posso fare per riattivarlo?",Accesso
+"Errore caricamento file PDF","Salve, sto cercando di caricare un file PDF sulla piattaforma, ma ricevo un messaggio di errore. Potete aiutarmi?",Tecnico
+"Richiesta di informazioni sui corsi di preparazione agli esami di maturità","Buongiorno, vorrei avere informazioni sui corsi di preparazione agli esami di maturità. Come posso iscrivermi?",Didattica
+"Problema con la visualizzazione delle informazioni sul consiglio di classe","Salve, non riesco a visualizzare le informazioni sul consiglio di classe sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di partecipazione ai concorsi per borse di studio","Buongiorno, vorrei avere informazioni sulle modalità di partecipazione ai concorsi per borse di studio. Come posso fare domanda?",Didattica
+"Dubbio sull'utilizzo della sezione 'Area download riservata'","Salve, ho difficoltà a trovare alcuni file nell'area download riservata. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per personale di supporto","Buongiorno, sono un membro del personale di supporto e vorrei avere accesso alla piattaforma per poter svolgere le mie mansioni. Come devo fare?",Profilo
+"Problema con la visualizzazione dei file PowerPoint","Salve, non riesco a visualizzare i file PowerPoint presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sui progetti di inclusione per studenti stranieri","Buongiorno, vorrei avere informazioni sui progetti di inclusione per studenti stranieri. Come posso fare richiesta?",Didattica
+"Dubbio sull'utilizzo della sezione 'Registro delle comunicazioni'","Salve, ho difficoltà a capire come funziona la sezione 'Registro delle comunicazioni' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con SPID non funzionante","Buongiorno, non riesco ad accedere con SPID. Il sistema mi dice che c'è un problema con l'autenticazione. Potete aiutarmi?",Accesso
+"Errore invio email con allegati","Salve, sto cercando di inviare un'email con degli allegati, ma ricevo un messaggio di errore. Potete aiutarmi?",Tecnico
+"Richiesta di informazioni sui corsi di recupero di matematica","Buongiorno, vorrei avere informazioni sui corsi di recupero di matematica. Come posso iscrivere mio figlio?",Didattica
+"Problema con la visualizzazione dei documenti compressi ZIP","Salve, non riesco a visualizzare i documenti compressi ZIP presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di partecipazione ai progetti di lettura","Buongiorno, vorrei avere informazioni sulle modalità di partecipazione ai progetti di lettura. Come posso fare domanda?",Didattica
+"Dubbio sull'utilizzo della sezione 'Forum di istituto'","Salve, ho difficoltà a capire come funziona il forum di istituto della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per studenti universitari tirocinanti","Buongiorno, sono uno studente universitario tirocinante e vorrei avere accesso alla piattaforma per poter svolgere il mio tirocinio. Come devo fare?",Profilo
+"Problema con la visualizzazione dei video incorporati","Salve, non riesco a visualizzare i video incorporati presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sui progetti di educazione alla cittadinanza","Buongiorno, vorrei avere informazioni sui progetti di educazione alla cittadinanzaRealizzati dalla scuola. Come posso partecipare?",Didattica
+"Dubbio sull'utilizzo della sezione 'Area riservata genitori'","Salve, ho difficoltà a capire come funziona la sezione 'Area riservata genitori' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con credenziali SPID errate","Buongiorno, non riesco ad accedere con SPID. Il sistema mi dice che le mie credenziali sono errate, anche se sono sicuro di averle inserite correttamente. Potete aiutarmi?",Accesso
+"Errore download file da Google Drive","Salve, sto cercando di scaricare un file da Google Drive condiviso sulla piattaforma, ma ricevo un messaggio di errore. Potete aiutarmi?",Tecnico
+"Richiesta di informazioni sui corsi di sostegno per studenti con DSA","Buongiorno, vorrei avere informazioni sui corsi di sostegno per studenti con DSA. Come posso fare richiesta?",Didattica
+"Problema con la visualizzazione dei documenti OpenOffice","Salve, non riesco a visualizzare i documenti OpenOffice presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di partecipazione ai giochi di logica","Buongiorno, vorrei avere informazioni sulle modalità di partecipazione ai giochi di logica. Come posso iscrivere mio figlio?",Didattica
+"Dubbio sull'utilizzo della sezione 'Area riservata docenti'","Salve, ho difficoltà a capire come funziona la sezione 'Area riservata docenti' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per personale bibliotecario","Buongiorno, sono un membro del personale bibliotecario e vorrei avere accesso alla piattaforma per poter gestire la biblioteca scolastica. Come devo fare?",Profilo
+"Problema con la visualizzazione delle immagini","Salve, non riesco a visualizzare le immagini presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sui progetti di potenziamento delle competenze linguistiche","Buongiorno, vorrei avere informazioni sui progetti di potenziamento delle competenze linguistiche. Come posso partecipare?",Didattica
+"Dubbio sull'utilizzo della sezione 'Area riservata studenti'","Salve, ho difficoltà a capire come funziona la sezione 'Area riservata studenti' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con credenziali errate dopo recupero password","Buongiorno, ho recuperato la password, ma non riesco ad accedere con quella nuova. Il sistema mi dice che le credenziali sono errate. Potete aiutarmi?",Accesso
+"Errore caricamento file audio","Salve, sto cercando di caricare un file audio sulla piattaforma, ma ricevo un messaggio di errore. Potete aiutarmi?",Tecnico
+"Richiesta di informazioni sui corsi di preparazione agli esami Cambridge","Buongiorno, vorrei avere informazioni sui corsi di preparazione agli esami Cambridge. Come posso iscrivere mio figlio?",Didattica
+"Problema con la visualizzazione dei documenti Pages","Salve, non riesco a visualizzare i documenti Pages presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di partecipazione ai progetti sportivi","Buongiorno, vorrei avere informazioni sulle modalità di partecipazione ai progetti sportivi. Come posso iscrivere mio figlio?",Didattica
+"Dubbio sull'utilizzo della sezione 'Area riservata personale ATA'","Salve, ho difficoltà a capire come funziona la sezione 'Area riservata personale ATA' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per personale di laboratorio","Buongiorno, sono un membro del personale di laboratorio e vorrei avere accesso alla piattaforma per poter gestire le attività del laboratorio. Come devo fare?",Profilo
+"Problema con la visualizzazione dei video a 360°","Salve, non riesco a visualizzare i video a 360° presenti sulla piattaforma. Potete verificare?",Tecnico
+"Accesso negato: la mia password sembra scomparsa!","Buongiorno, è un vero enigma: la mia password non funziona più! Ho provato a recuperarla, ma niente da fare. Un aiuto?",Accesso
+"Compiti invisibili: un mistero digitale!","Salve, i compiti assegnati sembrano svaniti nel nulla! Non riesco a visualizzarli. Potreste indagare?",Tecnico
+"Richiesta urgente: voglio il libretto delle giustificazioni!","Buongiorno, avrei bisogno del libretto delle giustificazioni per mio figlio. Come posso ottenerlo?",Profilo
+"Messaggi fantasma: la chat è posseduta!","Salve, la chat interna fa le bizze: i messaggi spariscono! Potete controllare cosa succede?",Tecnico
+"Iscrizioni: un labirinto burocratico!","Buongiorno, le iscrizioni per il prossimo anno sono un vero rompicapo! Dove trovo le informazioni chiare?",Didattica
+"Dubbio amletico: come funziona il registro?","Salve, il registro elettronico è un territorio inesplorato per me! Qualche consiglio per orientarmi?",Tecnico
+"Cambio classe: un desiderio irrefrenabile!","Buongiorno, mio figlio vorrebbe cambiare classe: è possibile? Quali sono i passi da seguire?",Profilo
+"Libri introvabili: una caccia al tesoro!","Salve, la lista dei libri di testo è un mistero! Dove la trovo?",Tecnico
+"DSA: un supporto indispensabile!","Buongiorno, vorrei sapere quali supporti offre la scuola per gli studenti con DSA. A chi mi devo rivolgere?",Didattica
+"Sezione 'Compiti': un enigma per me!","Salve, la sezione 'Compiti' è un vero rebus! Potete aiutarmi a decifrarla?",Tecnico
+"App in tilt: un incubo mobile!","Buongiorno, l'app per smartphone non ne vuole sapere di funzionare! Si blocca di continuo. Che fare?",Accesso
+"Orario scolastico: un mosaico incomprensibile!","Salve, l'orario scolastico è un vero ginepraio! Non ci capisco nulla. Potete aiutarmi a decifrarlo?",Tecnico
+"Didattica a distanza: SOS!","Buongiorno, la didattica a distanza è un'odissea! Non riesco a collegarmi. Qualche consiglio?",Tecnico
+"Extra-curricolari: la scuola si anima!","Salve, quali attività extra-curriculari offre la scuola? Mio figlio è interessato!",Didattica
+"Forum di classe: un caos infernale!","Buongiorno, il forum di classe è un vero campo di battaglia! Come posso partecipare in modo costruttivo?",Tecnico
+"Pagelle: l'attesa è finita!","Salve, quando saranno disponibili le pagelle online?",Tecnico
+"Password: un segreto inviolabile!","Buongiorno, voglio cambiare la password del mio account. Come posso fare?",Profilo
+"Viaggi d'istruzione: un'avventura da non perdere!","Salve, quali sono le mete dei viaggi d'istruzione quest'anno? Quanto costano?",Didattica
+"Bacheca online: un mare di informazioni!","Buongiorno, la bacheca online è piena di avvisi! Come faccio a trovare quelli che mi interessano?",Tecnico
+"Area studenti: un accesso negato!","Salve, non riesco ad accedere all'area riservata agli studenti. Potete verificare?",Accesso
+"Iscrizione: un percorso ad ostacoli!","Salve, l'iscrizione al corso è un'impresa! Il sistema mi blocca. Come posso fare?",Tecnico
+"Libri di testo: una giungla di codici!","Buongiorno, la lista dei libri di testo è un vero labirinto! Non ci capisco nulla. Potete aiutarmi?",Didattica
+"Calendario scolastico: un calendario...particolare!","Salve, il calendario scolastico è un enigma! Non trovo le date importanti. Potete aiutarmi?",Tecnico
+"Connessione internet: una tortura!","Buongiorno, la connessione internet a scuola è un disastro! Non funziona mai. Potete segnalare il problema?",Tecnico
+"Borse di studio: un'opportunità da non perdere!","Salve, come posso fare domanda per le borse di studio?",Didattica
+"Sezione 'Comunicazioni': un linguaggio incomprensibile!","Buongiorno, la sezione 'Comunicazioni' è un vero geroglifico! Potete aiutarmi a decifrarla?",Tecnico
+"Stampa documenti: una missione impossibile!","Salve, non riesco a stampare i documenti. La stampante non ne vuole sapere. Che fare?",Tecnico
+"Software specifici: un mondo sconosciuto!","Buongiorno, non so usare alcuni software specifici. Potete aiutarmi?",Tecnico
+"Progetti didattici: un invito a partecipare!","Salve, quali sono i progetti didattici di quest'anno? Come posso partecipare?",Didattica
+"Sezione 'Avvisi': un'alluvione di notifiche!","Buongiorno, la sezione 'Avvisi' è un caos! Troppe notifiche. Come posso fare ordine?",Tecnico
+"SPID: un'identità...sconosciuta!","Buongiorno, non riesco ad accedere con SPID. Dice che non mi riconosce. Potete aiutarmi?",Accesso
+"Documenti caricati: un buco nero!","Salve, ho caricato dei documenti, ma non li trovo più! Dove sono finiti?",Tecnico
+"Certificato di frequenza: un documento fantasma!","Buongiorno, come posso richiedere un certificato di frequenza?",Profilo
+"Comunicazioni: un dialogo...tra sordi!","Salve, non riesco a comunicare con gli insegnanti. I miei messaggi non arrivano. Potete verificare?",Tecnico
+"Prenotazione colloqui: un'impresa titanica!","Buongiorno, prenotare un colloquio è impossibile! Non trovo posti disponibili. Potete aiutarmi?",Tecnico
+"Materiale didattico: una chimera!","Salve, non riesco a trovare il materiale didattico di alcune materie. Potete aiutarmi?",Tecnico
+"Area genitori: un miraggio!","Buongiorno, non riesco ad accedere all'area genitori. Potete verificare?",Accesso
+"Orario scolastico: un'utopia!","Salve, l'orario scolastico cambia di continuo! Non è mai aggiornato. Potete fare qualcosa?",Tecnico
+"Supporto tecnico: un aiuto...inesistente!","Buongiorno, ho bisogno di supporto tecnico, ma non riesco a contattare nessuno. Potete aiutarmi?",Tecnico
+"Gite scolastiche: un'avventura...impossibile!","Salve, vorrei sapere tutto sulle gite scolastiche. Destinazioni, costi, date... Potete darmi qualche informazione?",Didattica
+"Valutazione: un giudizio...insindacabile!","Buongiorno, non capisco come funziona il sistema di valutazione. Potete darmi qualche chiarimento?",Tecnico
+"Documenti condivisi: un tesoro nascosto!","Salve, non riesco a trovare i documenti condivisi dagli insegnanti. Potete aiutarmi?",Tecnico
+"Contatto emergenza: un numero...sconosciuto!","Buongiorno, voglio inserire un nuovo contatto di emergenza. Come posso fare?",Profilo
+"Recupero estivo: un'ultima spiaggia!","Salve, come funzionano i corsi di recupero estivi? Mio figlio ha bisogno di aiuto.",Didattica
+"Sezione 'Materiale didattico': un inventario...lacunoso!","Buongiorno, mancano alcuni materiali didattici. Potete controllare?",Tecnico
+"Accesso da altro computer: un problema...insormontabile!","Salve, non riesco ad accedere da un altro computer. Dice che le credenziali sono errate. Potete aiutarmi?",Accesso
+"SPID: un codice...complicato!","Buongiorno, non riesco ad usare SPID. Troppi passaggi. Potete aiutarmi?",Accesso
+"Email: un messaggio...perduto!","Salve, ho inviato una mail, ma non ho ricevuto risposta. Potete verificare?",Tecnico
+"Informazioni corsi: una ricerca...difficile!","Buongiorno, non trovo informazioni sui corsi che mi interessano. Potete aiutarmi?",Didattica
+"Allegati: un file...indigesto!","Salve, non riesco ad allegare un file. Il sistema lo rifiuta. Potete aiutarmi?",Tecnico
+"Libretto giustificazioni: un documento...introvabile!","Buongiorno, dove posso scaricare il libretto delle giustificazioni?",Profilo
+"Registro presenze: un'arma...a doppio taglio!","Salve, non riesco a capire come funziona il registro presenze online. Potete aiutarmi?",Tecnico
+"Problema accesso con link di recupero password non funzionante","Buongiorno, ho richiesto il recupero password, ma il link che ho ricevuto via email non funziona. Potete aiutarmi?",Accesso
+"Errore visualizzazione documenti Word online","Salve, non riesco a visualizzare i documenti Word direttamente sul browser. Potete verificare?",Tecnico
+"Richiesta di informazioni sui criteri di ammissione al biennio","Buongiorno, vorrei avere informazioni sui criteri di ammissione al biennio. Dove posso trovare il bando?",Didattica
+"Problema con la messaggistica interna: messaggi inviati ma non visualizzati dai destinatari","Salve, i miei messaggi risultano inviati, ma i destinatari dicono di non averli ricevuti. Potete verificare?",Tecnico
+"Informazioni sulle modalità di partecipazione ai progetti di mobilità studentesca","Buongiorno, vorrei avere informazioni sulle modalità di partecipazione ai progetti di mobilità studentesca. Come posso fare domanda?",Didattica
+"Dubbio sull'utilizzo della sezione 'Registro delle lezioni'","Salve, ho difficoltà a capire come funziona la sezione 'Registro delle lezioni' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per personale di biblioteca","Buongiorno, sono un membro del personale di biblioteca e vorrei avere accesso alla piattaforma per poter gestire il servizio. Come devo fare?",Profilo
+"Problema con la visualizzazione dei documenti condivisi tramite Dropbox","Salve, non riesco a visualizzare i documenti condivisi tramite Dropbox sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sui progetti di educazione interculturale","Buongiorno, vorrei avere informazioni sui progetti di educazione interculturaleRealizzati dalla scuola. Come posso partecipare?",Didattica
+"Dubbio sull'utilizzo della sezione 'Area download materiali didattici'","Salve, ho difficoltà a trovare alcuni file nell'area download materiali didattici. Potete aiutarmi?",Tecnico
+"Problema accesso con account sospeso per mancato pagamento","Buongiorno, non riesco ad accedere alla piattaforma. Il sistema mi dice che il mio account è stato sospeso per mancato pagamento. Come posso regolarizzare la situazione?",Accesso
+"Errore caricamento file Excel","Salve, sto cercando di caricare un file Excel sulla piattaforma, ma ricevo un messaggio di errore. Potete aiutarmi?",Tecnico
+"Richiesta di informazioni sui corsi di recupero di inglese","Buongiorno, vorrei avere informazioni sui corsi di recupero di inglese. Come posso iscrivere mio figlio?",Didattica
+"Problema con la visualizzazione dei documenti Google Docs","Salve, non riesco a visualizzare i documenti Google Docs presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di partecipazione ai campionati studenteschi","Buongiorno, vorrei avere informazioni sulle modalità di partecipazione ai campionati studenteschi. Come posso fare domanda?",Didattica
+"Dubbio sull'utilizzo della sezione 'Bacheca di classe'","Salve, ho difficoltà a capire come funziona la sezione 'Bacheca di classe' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per personale di laboratorio scientifico","Buongiorno, sono un membro del personale di laboratorio scientifico e vorrei avere accesso alla piattaforma per poter gestire le attività. Come devo fare?",Profilo
+"Problema con la visualizzazione dei file video MP4","Salve, non riesco a visualizzare i file video MP4 presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sui progetti di orientamento professionale","Buongiorno, vorrei avere informazioni sui progetti di orientamento professionale offerti dalla scuola. Come posso partecipare?",Didattica
+"Dubbio sull'utilizzo della sezione 'Registro delle presenze online'","Salve, ho difficoltà a capire come funziona la sezione 'Registro delle presenze online' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con credenziali errate dopo modifica password","Buongiorno, ho appena modificato la password, ma non riesco ad accedere con quella nuova. Il sistema mi dice che le credenziali sono errate. Potete aiutarmi?",Accesso
+"Errore download file dal registro docenti","Salve, sto cercando di scaricare un file dal registro docenti, ma ricevo un messaggio di errore. Potete aiutarmi?",Tecnico
+"Richiesta di informazioni sui corsi di preparazione agli esami di certificazione linguistica","Buongiorno, vorrei avere informazioni sui corsi di preparazione agli esami di certificazione linguistica. Come posso iscrivere mio figlio?",Didattica
+"Problema con la visualizzazione dei documenti condivisi tramite cartelle condivise","Salve, non riesco a visualizzare i documenti condivisi tramite cartelle condivise sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di pagamento delle gite scolastiche","Buongiorno, vorrei avere informazioni sulle modalità di pagamento delle gite scolastiche. Come posso effettuare il pagamento?",Didattica
+"Dubbio sull'utilizzo della sezione 'Area personale genitori'","Salve, ho difficoltà a capire come funziona la sezione 'Area personale genitori' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per personale di supporto tecnico","Buongiorno, sono un membro del personale di supporto tecnico e vorrei avere accesso alla piattaforma per poter gestire le richieste di assistenza. Come devo fare?",Profilo
+"Problema con la visualizzazione dei file audio WAV","Salve, non riesco a visualizzare i file audio WAV presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sui progetti di educazione all'affettività","Buongiorno, vorrei avere informazioni sui progetti di educazione all'affettivitàRealizzati dalla scuola. Come posso partecipare?",Didattica
+"Dubbio sull'utilizzo della sezione 'Area personale studenti'","Salve, ho difficoltà a capire come funziona la sezione 'Area personale studenti' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con SPID non riconosciuto dal sistema","Buongiorno, non riesco ad accedere con SPID. Il sistema dice che il mio SPID non è riconosciuto. Potete aiutarmi?",Accesso
+"Errore invio email con allegati troppo pesanti","Salve, sto cercando di inviare un'email con degli allegati, ma ricevo un messaggio di errore che dice che sono troppo pesanti. Come posso fare?",Tecnico
+"Richiesta di informazioni sui corsi di recupero di fisica","Buongiorno, vorrei avere informazioni sui corsi di recupero di fisica. Come posso iscrivere mio figlio?",Didattica
+"Problema con la visualizzazione dei documenti Keynote","Salve, non riesco a visualizzare i documenti Keynote presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sulle modalità di partecipazione ai progetti di robotica","Buongiorno, vorrei avere informazioni sulle modalità di partecipazione ai progetti di robotica. Come posso iscrivere mio figlio?",Didattica
+"Dubbio sull'utilizzo della sezione 'Area personale personale ATA'","Salve, ho difficoltà a capire come funziona la sezione 'Area personale personale ATA' della piattaforma. Potete aiutarmi?",Tecnico
+"Richiesta di accesso per personale di segreteria per compiti specifici","Buongiorno, sono un membro del personale di segreteria e vorrei avere accesso alla piattaforma per poter svolgere dei compiti specifici. Come devo fare?",Profilo
+"Problema con la visualizzazione dei video FLV","Salve, non riesco a visualizzare i video FLV presenti sulla piattaforma. Potete verificare?",Tecnico
+"Informazioni sui progetti di potenziamento delle competenze digitali","Buongiorno, vorrei avere informazioni sui progetti di potenziamento delle competenze digitali. Come posso partecipare?",Didattica
+"Dubbio sull'utilizzo della sezione 'Area personale personale di supporto'","Salve, ho difficoltà a capire come funziona la sezione 'Area personale personale di supporto' della piattaforma. Potete aiutarmi?",Tecnico
+"Problema accesso con credenziali errate dopo aggiornamento piattaforma","Buongiorno, dopo l'aggiornamento della piattaforma non riesco più ad accedere con le mie credenziali. Potete aiutarmi?",Accesso
+"Errore download file da area download riservata","Salve, sto cercando di scaricare un file dall'area download riservata, ma ricevo un messaggio di errore. Potete aiutarmi?",Tecnico
+"Richiesta di informazioni sui corsi di preparazione agli esami di ammissione all'università","Buongiorno, vorrei avere informazioni sui corsi di preparazione agli esami di ammissione all'università. Come posso iscrivermi?",Didattica
+"Problema con la visualizzazione dei documenti Pages online","Salve, non riesco a visualizzare i documenti Pages direttamente sul browser. Potete verificare?",Tecnico
+"Informazioni sulle modalità di partecipazione ai progetti musicali","Buongiorno, vorrei avere informazioni sulle modalità di partecipazione ai progetti musicali. Come posso fare domanda?",Didattica
+"Dubbio sull'utilizzo della sezione 'Area personale personale di biblioteca'","Salve, ho difficoltà a capire come funziona la sezione 'Area personale personale di biblioteca' della piattaforma. Potete aiutarmi?",Tecnico
