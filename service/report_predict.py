@@ -4,7 +4,6 @@ Module for generating model performance reports and category predictions.
 This module provides functions to compute comprehensive metrics and visualizations
 for training and test sets, and a helper function for predicting message categories.
 """
-
 import logging
 
 import matplotlib.pyplot as plt  # pylint: disable=import-error
@@ -14,9 +13,13 @@ import seaborn as sns  # pylint: disable=import-error
 from sklearn.metrics import (
     classification_report, confusion_matrix, roc_curve, auc, accuracy_score
 )  # pylint: disable=import-error
+from sklearn.model_selection import StratifiedKFold
 
 # Import the relevant objects from pipeline.py using relative import
-from .pipeline import get_model, process_text
+from .pipeline import (
+    get_model,
+    process_text,
+)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -218,3 +221,135 @@ def predict_category(message, classifier_type, top_n=3):
         return predictions
     category = model.predict([processed_message])[0]
     return [(category, 1.0)]
+
+
+def evaluate_model_with_kfold(model, x_processed, y, save_plots=False):
+    """
+    Evaluate the provided model using 5‑fold StratifiedKFold.
+
+    For each fold, this function calls generate_full_model_report to obtain metrics,
+    then aggregates key statistics:
+      - Average accuracy and AUC for train and test sets.
+      - Average confusion matrix for train and test sets.
+      - Average classification report (averaging numeric metrics) for train and test sets.
+      - Overfitting rating: the difference between training and test accuracy per fold.
+
+    Additionally, it produces a bar graph showing the overfitting differences per fold.
+
+    Args:
+        model: The trained model to evaluate.
+        x_processed: Feature data (pandas Series or numpy array).
+        y: Target labels.
+        save_plots: Boolean flag passed to generate_full_model_report.
+
+    Returns:
+        final_avg_report: A dictionary containing the averaged metrics and overfitting stats.
+    """
+    skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+
+    # Lists to store metrics per fold.
+    train_accuracies = []
+    test_accuracies = []
+    train_aucs = []
+    test_aucs = []
+    train_conf_matrices = []
+    test_conf_matrices = []
+    train_reports = []  # classification report DataFrames for train
+    test_reports = []   # classification report DataFrames for test
+    overfitting_diffs = []  # train accuracy minus test accuracy per fold
+
+    for fold, (train_index, test_index) in enumerate(skf.split(x_processed, y), start=1):
+        if isinstance(x_processed, pd.Series):
+            x_train_fold = x_processed.iloc[train_index]
+            x_test_fold = x_processed.iloc[test_index]
+        else:
+            x_train_fold = x_processed[train_index]
+            x_test_fold = x_processed[test_index]
+        if isinstance(y, pd.Series):
+            y_train_fold = y.iloc[train_index]
+            y_test_fold = y.iloc[test_index]
+        else:
+            y_train_fold = y[train_index]
+            y_test_fold = y[test_index]
+
+        data_dict = {
+            "x_train": x_train_fold,
+            "y_train": y_train_fold,
+            "x_test": x_test_fold,
+            "y_test": y_test_fold
+        }
+
+        # Generate report for the fold.
+        report_fold = generate_full_model_report(model, data_dict, save_plots=save_plots)
+
+        # Collect accuracies and AUCs.
+        train_acc = report_fold["train"]["accuracy"]
+        test_acc = report_fold["test"]["accuracy"]
+        train_accuracies.append(train_acc)
+        test_accuracies.append(test_acc)
+        train_aucs.append(report_fold["train"]["auc"])
+        test_aucs.append(report_fold["test"]["auc"])
+        overfitting_diffs.append(train_acc - test_acc)
+
+        # Collect confusion matrices.
+        train_conf_matrices.append(report_fold["train"]["confusion_matrix"])
+        test_conf_matrices.append(report_fold["test"]["confusion_matrix"])
+
+        # Collect classification reports (DataFrames).
+        train_reports.append(report_fold["train"]["report_df"])
+        test_reports.append(report_fold["test"]["report_df"])
+
+    # Compute averages (ignoring None values in AUC lists).
+    avg_train_accuracy = np.mean(train_accuracies)
+    avg_test_accuracy = np.mean(test_accuracies)
+    train_auc_values = [auc_val for auc_val in train_aucs if auc_val is not None]
+    test_auc_values = [auc_val for auc_val in test_aucs if auc_val is not None]
+    avg_train_auc = np.mean(train_auc_values) if train_auc_values else None
+    avg_test_auc = np.mean(test_auc_values) if test_auc_values else None
+
+    # Average confusion matrix (as a numpy array).
+    avg_train_conf = np.mean(np.array(train_conf_matrices), axis=0)
+    avg_test_conf = np.mean(np.array(test_conf_matrices), axis=0)
+
+    # Average classification reports: concatenate DataFrames and group by index.
+    avg_train_report = pd.concat(train_reports).groupby(level=0).mean()
+    avg_test_report = pd.concat(test_reports).groupby(level=0).mean()
+
+    avg_overfitting_diff = np.mean(overfitting_diffs)
+
+    final_avg_report = {
+        "train": {
+            "avg_accuracy": avg_train_accuracy,
+            "avg_auc": avg_train_auc,
+            "avg_confusion_matrix": avg_train_conf,
+            "avg_classification_report": avg_train_report
+        },
+        "test": {
+            "avg_accuracy": avg_test_accuracy,
+            "avg_auc": avg_test_auc,
+            "avg_confusion_matrix": avg_test_conf,
+            "avg_classification_report": avg_test_report
+        },
+        "overfitting": {
+            "fold_differences": overfitting_diffs,
+            "avg_difference": avg_overfitting_diff
+        }
+    }
+
+    # Plot overfitting differences per fold.
+    plt.figure(figsize=(8, 6))
+    fold_numbers = np.arange(1, len(overfitting_diffs) + 1)
+    plt.bar(fold_numbers, overfitting_diffs, color='salmon')
+    plt.xlabel("Fold Number")
+    plt.ylabel("Train Accuracy - Test Accuracy")
+    plt.title("Overfitting Rating per Fold")
+    plt.axhline(y=avg_overfitting_diff, color='blue', linestyle='--', label="Average Overfitting")
+    plt.legend()
+    if save_plots:
+        plt.savefig("overfitting_rating.png")
+        plt.close()
+    else:
+        plt.show()
+
+    logger.info("Final average evaluation: %s", final_avg_report)
+    return final_avg_report
