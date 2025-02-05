@@ -1,4 +1,4 @@
-# report_and_predict.py
+import logging
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -8,20 +8,20 @@ from sklearn.metrics import (
     classification_report, confusion_matrix, roc_curve, auc, accuracy_score
 )
 
-# Import the relevant objects from pipeline.py
+# Import the relevant objects from pipeline.py using relative import
 from .pipeline import (
     get_model,
-    process_text,
-    X_processed,
-    y,
-    final_model,
-    ClassifierType
+    process_text
 )
+
+# Set up a logger for this module
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 def generate_full_model_report(model, X_train, y_train, X_test, y_test, save_plots=False):
     """
-    Generates and prints a comprehensive report of model performance on both training and test sets.
+    Generates and logs a comprehensive report of model performance on both training and test sets.
     Includes:
       - Classification Report (as a DataFrame)
       - Accuracy
@@ -29,11 +29,11 @@ def generate_full_model_report(model, X_train, y_train, X_test, y_test, save_plo
       - ROC Curve and AUC (for binary classification)
       - A bar plot for per-class precision, recall, and f1-score (from the test set)
 
-    Plots are only shown; they are not saved to disk.
+    Plots are only displayed; they are not saved to disk unless save_plots is set to True.
 
     Returns a dictionary with detailed metrics for further analysis.
     """
-    print("[INFO] Generating full model report...")
+    logger.info("Generating full model report...")
 
     # ---------------------------
     # Predict on train set
@@ -74,27 +74,25 @@ def generate_full_model_report(model, X_train, y_train, X_test, y_test, save_plo
         auc_test = None
 
     # ---------------------------
-    # Print Metrics
+    # Log Metrics
     # ---------------------------
-    print("\n========== TRAINING METRICS ==========")
-    print("Overall Accuracy: {:.4f}".format(train_accuracy))
+    logger.info("========== TRAINING METRICS ==========")
+    logger.info("Overall Accuracy: {:.4f}".format(train_accuracy))
     if auc_train is not None:
-        print("ROC AUC: {:.4f}".format(auc_train))
-    print("\nClassification Report (Train):")
-    print(train_report_df)
+        logger.info("ROC AUC: {:.4f}".format(auc_train))
+    logger.info("Classification Report (Train):\n%s", train_report_df)
     if hasattr(clf, 'classes_'):
-        print("\nConfusion Matrix (Train):\nClasses:", clf.classes_)
-    print(train_conf)
+        logger.info("Confusion Matrix (Train) - Classes: %s", clf.classes_)
+    logger.info("\n%s", train_conf)
 
-    print("\n========== TESTING METRICS ==========")
-    print("Overall Accuracy: {:.4f}".format(test_accuracy))
+    logger.info("========== TESTING METRICS ==========")
+    logger.info("Overall Accuracy: {:.4f}".format(test_accuracy))
     if auc_test is not None:
-        print("ROC AUC: {:.4f}".format(auc_test))
-    print("\nClassification Report (Test):")
-    print(test_report_df)
+        logger.info("ROC AUC: {:.4f}".format(auc_test))
+    logger.info("Classification Report (Test):\n%s", test_report_df)
     if hasattr(clf, 'classes_'):
-        print("\nConfusion Matrix (Test):\nClasses:", clf.classes_)
-    print(test_conf)
+        logger.info("Confusion Matrix (Test) - Classes: %s", clf.classes_)
+    logger.info("\n%s", test_conf)
 
     # ---------------------------
     # Plot Confusion Matrices
@@ -128,9 +126,8 @@ def generate_full_model_report(model, X_train, y_train, X_test, y_test, save_plo
         plt.show()
 
     # ---------------------------
-    # Additional Plot: Bar Chart for per-class metrics (precision, recall, f1)
+    # Additional Plot: Bar Chart for per-class metrics (precision, recall, f1-score)
     # ---------------------------
-    # Exclude aggregate rows from the classification report
     aggregate_rows = ["accuracy", "macro avg", "weighted avg"]
     class_labels = [label for label in test_report_df.index if label not in aggregate_rows]
     if class_labels:
@@ -165,11 +162,10 @@ def predict_category(message, classifier_type, top_n=3):
     If the model supports predict_proba and has multiple classes, returns the top 'top_n'
     predicted categories with their probabilities. Otherwise, returns a single label.
     """
-    print("[INFO] Predicting category for a new message...")
+    logger.info("Predicting category for a new message...")
     model = get_model(classifier_type)
     processed_message = process_text(message)  # minimal_preprocess + spaCy + NER
 
-    # Check if the classifier supports probabilities
     try:
         clf = model.named_steps['clf']
     except Exception:
@@ -178,15 +174,11 @@ def predict_category(message, classifier_type, top_n=3):
     if hasattr(clf, "predict_proba"):
         probs = model.predict_proba([processed_message])[0]
         classes = clf.classes_
-        # Sort by probability (descending)
         sorted_indices = np.argsort(probs)[::-1]
         top_n = min(top_n, len(classes))
         top_indices = sorted_indices[:top_n]
-
-        # Build a list of (class, probability)
         predictions = [(classes[i], probs[i]) for i in top_indices]
         return predictions
     else:
         category = model.predict([processed_message])[0]
-        return [(category, 1.0)]  # 100% for that predicted class
-
+        return [(category, 1.0)]
