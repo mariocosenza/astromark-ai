@@ -47,6 +47,11 @@ logger.info(f"Loaded ticket-gemini-claude.csv with shape {dataframe_gc.shape}")
 def merge_dataframes(frame1, frame2):
     logger.info("Merging dataframes...")
     frame = pd.concat([frame1, frame2])
+
+    num_duplicated = frame.duplicated().sum()
+    frame.drop_duplicates(inplace=True)
+    logger.info("Eliminate " + str(num_duplicated) + " righe duplicate")
+
     frame['titolo_messaggio'] = frame['titolo'] + ' ' + frame['messaggio']
     return frame[['titolo_messaggio', 'categoria']]
 
