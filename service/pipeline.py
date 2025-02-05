@@ -59,7 +59,7 @@ def merge_dataframes(frame1, frame2):
 
     num_duplicated = frame.duplicated().sum()
     frame.drop_duplicates(inplace=True)
-    logger.info("Eliminate " + str(num_duplicated) + " righe duplicate")
+    logger.info("Eliminate", str(num_duplicated),"righe duplicate")
 
     frame['titolo_messaggio'] = frame['titolo'] + ' ' + frame['messaggio']
     return frame[['titolo_messaggio', 'categoria']]
