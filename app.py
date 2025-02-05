@@ -26,10 +26,7 @@ def predict_tag():
         return Response("No title or message provided", status=400, mimetype="text/plain; charset=utf-8")
 
     predictions = ticket_service(title, message)
-
-    # Convert predictions to a plain text representation (for example, a simple string)
-    response_text = f"Predictions: {predictions}"
-    return Response(response_text, status=200, mimetype="text/plain; charset=utf-8")
+    return Response(predictions, status=200, mimetype="text/plain; charset=utf-8")
 
 
 if __name__ == '__main__':
