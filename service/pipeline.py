@@ -73,18 +73,19 @@ logger.info("Loading spaCy model (it_core_news_sm)...")
 nlp = spacy.load('it_core_news_sm')  # Includes NER by default
 
 # Common Italian greetings to remove
-GREETINGS_PATTERNS = [
+GREETINGS_SECRETARY_PATTERNS = [
     r'\bciao\b', r'\bbuongiorno\b', r'\bsalve\b',
     r'\bbuonasera\b', r'\bbuon pomeriggio\b', r'\barrivederci\b',
-    r'\bbuonanotte\b', r'\ba presto\b', r'\baddio\b', r'\bsaluti\b'
+    r'\bbuonanotte\b', r'\ba presto\b', r'\baddio\b', r'\bsaluti\b',
+    r'\bspettabile\b', r'\bcordiali saluti\b', r'distinti saluti\b', r'\bsalve\b', r'\bsegreteria\b'
 ]
 
 
-def remove_greetings(text):
+def remove_greetings_secretary(text):
     """
     Remove common greetings from the text.
     """
-    pattern = re.compile('|'.join(GREETINGS_PATTERNS), flags=re.IGNORECASE)
+    pattern = re.compile('|'.join(GREETINGS_SECRETARY_PATTERNS), flags=re.IGNORECASE)
     return pattern.sub('', text)
 
 
@@ -95,7 +96,7 @@ def minimal_preprocess(text):
     """
     text = text.lower().strip()
     text = re.sub(r'https?://\S+|www\.\S+', '', text)
-    text = remove_greetings(text)
+    text = remove_greetings_secretary(text)
     text = re.sub(r'[^\w\s]', ' ', text)
     text = re.sub(r'\d+', '', text)
     text = re.sub(r'\s+', ' ', text)
