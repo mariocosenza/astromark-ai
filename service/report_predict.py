@@ -190,20 +190,3 @@ def predict_category(message, classifier_type, top_n=3):
         category = model.predict([processed_message])[0]
         return [(category, 1.0)]  # 100% for that predicted class
 
-
-# usage_example.py (hypothetical script in the same folder)
-
-
-from sklearn.model_selection import train_test_split
-
-# Split for evaluation
-X_train_eval, X_test_eval, y_train_eval, y_test_eval = train_test_split(
-    X_processed, y, test_size=0.2, random_state=42, stratify=y
-)
-
-# Report
-report = generate_full_model_report(final_model, X_train_eval, y_train_eval, X_test_eval, y_test_eval)
-
-# Predict
-test_message = "Mio figlio non riesce a vedere il voto di Matematica"
-predictions = predict_category(test_message, ClassifierType.SVM)
