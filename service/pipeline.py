@@ -13,6 +13,10 @@ from sklearn.model_selection import StratifiedKFold, GridSearchCV
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from sklearn.svm import SVC
+from spellchecker import SpellChecker
+
+# Initialize the spell checker for Italian
+spell = SpellChecker(language='it')
 
 # Basic logger configuration
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
@@ -89,18 +93,31 @@ def remove_greetings_secretary(text):
     return pattern.sub('', text)
 
 
+
+
+
 def minimal_preprocess(text):
     """
     Perform minimal normalization on the text:
-    lowercase, remove URLs, greetings, punctuation, numbers, and extra whitespace.
+    lowercase, remove URLs, greetings, punctuation, numbers, and extra whitespace,
+    followed by a fast spell check for Italian text.
     """
+    # Step 1: Normalize text
     text = text.lower().strip()
-    text = re.sub(r'https?://\S+|www\.\S+', '', text)
-    text = remove_greetings_secretary(text)
-    text = re.sub(r'[^\w\s]', ' ', text)
-    text = re.sub(r'\d+', '', text)
-    text = re.sub(r'\s+', ' ', text)
-    return text.strip()
+    text = re.sub(r'https?://\S+|www\.\S+', '', text)  # Remove URLs
+    text = remove_greetings_secretary(text)  # Remove greetings
+    text = re.sub(r'[^\w\s]', ' ', text)  # Remove punctuation
+    text = re.sub(r'\d+', '', text)  # Remove numbers
+    text = re.sub(r'\s+', ' ', text)  # Remove extra spaces
+
+    # Step 2: Tokenize and perform spell check
+    tokens = text.split()  # Split text into words
+    corrected_tokens = [spell.correction(word) if word in spell else word for word in tokens]
+
+    # Step 3: Reconstruct the corrected text
+    corrected_text = ' '.join(corrected_tokens)
+
+    return corrected_text.strip()
 
 
 def process_text(text):
