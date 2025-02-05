@@ -130,18 +130,6 @@ I modelli NER di spaCy sono tipicamente costruiti su architetture neurali che co
 
 Questa architettura permette una robusta identificazione delle entità, sfruttando le capacità di apprendimento automatico per catturare sia caratteristiche locali che contesti più ampi.
 
-\subsubsection{Formazione e Inferenza nei Modelli NER}
-La fase di addestramento dei modelli NER in spaCy prevede l'uso di dataset annotati manualmente, dove ogni entità è etichettata con la classe corrispondente. Durante l'addestramento:
-\begin{itemize}
-    \item Il modello ottimizza una funzione di perdita che misura la discrepanza tra le etichette predette e quelle reali.
-    \item Vengono applicate tecniche di regolarizzazione e normalizzazione per evitare l'overfitting e garantire la generalizzazione su dati nuovi.
-    \item L'ottimizzazione avviene mediante algoritmi di discesa del gradiente, che aggiornano i pesi della rete in base all'errore commesso.
-\end{itemize}
-
-Durante la fase di inferenza, il modello utilizza i pesi appresi per predire le etichette delle entità in nuovi testi. Grazie alle rappresentazioni contestuali e ai meccanismi di deep learning, il modello è in grado di fornire predizioni accurate anche in presenza di ambiguità linguistica.
-
-
-
 \section{Parallelizzazione del Pre-processing}
 Per l'elaborazione di dataset di grandi dimensioni, è fondamentale un uso efficiente delle risorse computazionali. La libreria \texttt{joblib} permette di distribuire il carico su più core della CPU, riducendo i tempi di esecuzione. La funzione seguente implementa la parallelizzazione:
 
