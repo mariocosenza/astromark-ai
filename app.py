@@ -1,3 +1,5 @@
+import logging
+
 from flask import Flask, request, Response
 from service.ticket_service import ticket_service
 from service.gemini_service import get_llm
@@ -5,7 +7,7 @@ from service.gemini_service import get_llm
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 app = Flask(__name__)
-
+logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
 @app.route('/ai/orientation', methods=['POST'])
 def gemini():
     # Parse JSON from request body (forcing JSON parsing)
@@ -31,3 +33,4 @@ def predict_tag():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
