@@ -9,8 +9,6 @@ from sklearn.base import clone
 from sklearn.metrics import (
     classification_report,
     confusion_matrix,
-    roc_curve,
-    auc,
     accuracy_score
 )
 from sklearn.model_selection import StratifiedKFold
@@ -86,7 +84,6 @@ def evaluate_model_with_kfold(
     train_confs, test_confs = [], []
     train_reports, test_reports = [], []
     overfit_diffs = []
-    all_fprs, all_tprs = [], []
 
     for fold_idx, (train_idx, test_idx) in enumerate(folds, start=1):
         logger.info("=== Fold %d/%d ===", fold_idx, n_splits)
@@ -118,12 +115,6 @@ def evaluate_model_with_kfold(
 
         overfit_diffs.append(train_acc - test_acc)
 
-        if len(unique_labels) == 2 and hasattr(fold_model, "predict_proba"):
-            probs_test = fold_model.predict_proba(X_test)[:, 1]
-            fpr, tpr, _ = roc_curve(y_test, probs_test, pos_label=unique_labels[1])
-            all_fprs.append(fpr)
-            all_tprs.append(tpr)
-
     # Compute averages
     avg_train_acc = float(np.mean(train_accs))
     avg_test_acc = float(np.mean(test_accs))
@@ -133,14 +124,6 @@ def evaluate_model_with_kfold(
     avg_train_report = pd.concat(train_reports).groupby(level=0).mean()
     avg_test_report = pd.concat(test_reports).groupby(level=0).mean()
 
-    if len(unique_labels) == 2 and all_fprs:
-        mean_fpr = np.linspace(0, 1, 100)
-        interp_tprs = [np.interp(mean_fpr, fpr, tpr) for fpr, tpr in zip(all_fprs, all_tprs)]
-        mean_tpr = np.mean(interp_tprs, axis=0)
-        test_roc_data = (mean_fpr, mean_tpr)
-        is_binary = True
-    else:
-        test_roc_data, is_binary = None, False
 
     results = {
         "train": {
@@ -156,9 +139,7 @@ def evaluate_model_with_kfold(
         "overfitting": {
             "differences_per_fold": overfit_diffs,
             "avg_difference": avg_overfit
-        },
-        "test_roc_data": test_roc_data,
-        "is_binary": is_binary
+        }
     }
 
     plot_kfold_summary(results, classifier_name="MultiClassModel", save=save_plots)
@@ -227,21 +208,6 @@ def _plot_overfitting_bar(
     plt.ylabel("Train Accuracy - Test Accuracy")
     plt.title(f"{classifier_name} - Overfitting Differences per Fold")
     finalize_plot(save_plots, filename)
-
-
-def _plot_mean_roc_curve(
-        label: str,
-        mean_fpr: np.ndarray,
-        mean_tpr: np.ndarray,
-        color: str
-) -> float:
-    """
-    Helper function to plot the mean ROC curve.
-    """
-    auc_val = auc(mean_fpr, mean_tpr)
-    plt.plot(mean_fpr, mean_tpr, color=color, lw=2, label=f"{label} (AUC = {auc_val:.2f})")
-    return auc_val
-
 
 def plot_kfold_summary(
         kfold_results: Dict[str, Any],
@@ -316,14 +282,6 @@ def compare_classifiers_with_kfold(
         "Classifier": ["Naive_Bayes", "SVM"],
         "Train Accuracy": [nb_results["train"]["accuracy"], svm_results["train"]["accuracy"]],
         "Test Accuracy": [nb_results["test"]["accuracy"], svm_results["test"]["accuracy"]],
-        "Train AUC": [
-            nb_results["train"].get("auc", "N/A"),
-            svm_results["train"].get("auc", "N/A")
-        ],
-        "Test AUC": [
-            nb_results["test"].get("auc", "N/A"),
-            svm_results["test"].get("auc", "N/A")
-        ],
         "Overfitting (Train-Test)": [
             nb_results["overfitting"]["avg_difference"],
             svm_results["overfitting"]["avg_difference"]
@@ -363,34 +321,5 @@ def compare_classifiers_with_kfold(
     plt.axhline(0, color='black', linestyle='--', linewidth=1)
     plt.legend()
     finalize_plot(save_plots, filename="kfold_overfitting_comparison.png" if save_plots else None)
-
-    # Plot mean ROC curves if binary classification
-    nb_roc_data = nb_results["test_roc_data"]
-    svm_roc_data = svm_results["test_roc_data"]
-    nb_is_binary = nb_results["is_binary"]
-    svm_is_binary = svm_results["is_binary"]
-
-    if nb_is_binary or svm_is_binary:
-        plt.figure(figsize=(7, 6))
-        plotted = False
-        if nb_is_binary and nb_roc_data is not None:
-            fprs, tprs = nb_roc_data
-            if len(fprs) > 0:
-                _plot_mean_roc_curve("Naive Bayes", fprs, tprs, color="blue")
-                plotted = True
-        if svm_is_binary and svm_roc_data is not None:
-            fprs, tprs = svm_roc_data
-            if len(fprs) > 0:
-                _plot_mean_roc_curve("SVM", fprs, tprs, color="red")
-                plotted = True
-        if plotted:
-            plt.plot([0, 1], [0, 1], 'k--', label='Random Chance')
-            plt.xlim([0.0, 1.0])
-            plt.ylim([0.0, 1.05])
-            plt.xlabel('False Positive Rate')
-            plt.ylabel('True Positive Rate')
-            plt.title('Mean ROC Curves (Test Set)')
-            plt.legend(loc="lower right")
-            finalize_plot(save_plots, filename="kfold_mean_roc_comparison.png" if save_plots else None)
 
     return df_compare
