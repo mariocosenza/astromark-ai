@@ -14,6 +14,7 @@ from sklearn.metrics import (
     classification_report, confusion_matrix, roc_curve, auc, accuracy_score
 )  # pylint: disable=import-error
 from sklearn.model_selection import StratifiedKFold
+from sklearn.preprocessing import label_binarize
 
 # Import the relevant objects from pipeline.py using relative import
 from .pipeline import (
@@ -27,34 +28,39 @@ logger.setLevel(logging.INFO)
 
 def _compute_metrics(model, x, y):
     """
-    Compute prediction metrics for a dataset.
+    Compute prediction metrics for a dataset, supporting multi-class classification.
 
     Returns:
         report_df: DataFrame of the classification report.
         conf: Confusion matrix.
         accuracy: Accuracy score.
-        auc_val: AUC value if binary classification, else None.
-        roc_data: Tuple of (fpr, tpr) if binary classification, else None.
+        auc_vals: Dictionary of AUC values for each class (One-vs-Rest strategy).
+        roc_data: Dictionary of (fpr, tpr) for each class.
     """
     y_pred = model.predict(x)
-    report_df = pd.DataFrame(
-        classification_report(y, y_pred, output_dict=True)
-    ).transpose()
+    report_df = pd.DataFrame(classification_report(y, y_pred, output_dict=True)).transpose()
     conf = confusion_matrix(y, y_pred)
     accuracy = accuracy_score(y, y_pred)
-    auc_val = None
+
+    clf = model.named_steps['clf'] if hasattr(model, "named_steps") and 'clf' in model.named_steps else model
+
+    auc_vals = None
     roc_data = None
 
-    # Check if model is a pipeline with a classifier under key 'clf'
-    clf = (model.named_steps['clf'] if hasattr(model, "named_steps") and
-           'clf' in model.named_steps else model)
+    if hasattr(clf, 'predict_proba'):
+        y_prob = model.predict_proba(x)
+        n_classes = y_prob.shape[1]
+        auc_vals = {}
+        roc_data = {}
 
-    if hasattr(clf, 'classes_') and len(clf.classes_) == 2:
-        probs = model.predict_proba(x)[:, 1]
-        fpr, tpr, _ = roc_curve(y, probs)
-        auc_val = auc(fpr, tpr)
-        roc_data = (fpr, tpr)
-    return report_df, conf, accuracy, auc_val, roc_data
+        for i in range(n_classes):
+            y_bin = label_binarize(y, classes=np.unique(y))  # Binarizza y
+            fpr, tpr, _ = roc_curve(y_bin[:, i], y_prob[:, i])  # Usa la colonna i-esima
+
+            auc_vals[i] = auc(fpr, tpr)
+            roc_data[i] = (fpr, tpr)
+
+    return report_df, conf, accuracy, auc_vals, roc_data
 
 
 def _plot_figure(plt_obj, title, xlabel, ylabel, save_plots, filename):
@@ -73,60 +79,31 @@ def _plot_figure(plt_obj, title, xlabel, ylabel, save_plots, filename):
 
 def generate_full_model_report(model, data, save_plots=False):
     """
-    Generates and logs a comprehensive report of model performance on both
-    training and test sets.
-
-    The data argument should be a dictionary containing:
-        - x_train, y_train, x_test, y_test
-
-    Returns:
-        A dictionary with detailed metrics for further analysis.
+    Generates a report for model performance on training and test sets, supporting multi-class ROC curves.
     """
     logger.info("Generating full model report...")
 
-    # Compute metrics for training data
-    (train_report_df, train_conf, train_accuracy, auc_train,
-     roc_train) = _compute_metrics(model, data["x_train"], data["y_train"])
+    train_report_df, train_conf, train_accuracy, auc_train, roc_train = _compute_metrics(model, data["x_train"],
+                                                                                         data["y_train"])
+    test_report_df, test_conf, test_accuracy, auc_test, roc_test = _compute_metrics(model, data["x_test"],
+                                                                                    data["y_test"])
 
-    # Compute metrics for test data
-    (test_report_df, test_conf, test_accuracy, auc_test,
-     roc_test) = _compute_metrics(model, data["x_test"], data["y_test"])
+    clf = model.named_steps['clf'] if hasattr(model, "named_steps") and 'clf' in model.named_steps else model
 
-    # Retrieve the classifier from a pipeline if available.
-    clf = (model.named_steps['clf'] if hasattr(model, "named_steps") and
-           'clf' in model.named_steps else model)
-
-    # Log training metrics using lazy formatting
     logger.info("========== TRAINING METRICS ==========")
     logger.info("Overall Accuracy: %.4f", train_accuracy)
     if auc_train is not None:
-        logger.info("ROC AUC: %.4f", auc_train)
+        logger.info("ROC AUC per class: %s", auc_train)
+    else: logger.info("ROC AUC per class: None")
     logger.info("Classification Report (Train):\n%s", train_report_df)
-    if hasattr(clf, 'classes_'):
-        logger.info("Confusion Matrix (Train) - Classes: %s", clf.classes_)
-    logger.info("\n%s", train_conf)
+    logger.info("Confusion Matrix (Train):\n%s", train_conf)
 
-    # Log testing metrics using lazy formatting
     logger.info("========== TESTING METRICS ==========")
     logger.info("Overall Accuracy: %.4f", test_accuracy)
     if auc_test is not None:
-        logger.info("ROC AUC: %.4f", auc_test)
+        logger.info("ROC AUC per class: %s", auc_test)
     logger.info("Classification Report (Test):\n%s", test_report_df)
-    if hasattr(clf, 'classes_'):
-        logger.info("Confusion Matrix (Test) - Classes: %s", clf.classes_)
-    logger.info("\n%s", test_conf)
-
-    # Plot confusion matrices for training and testing data
-    plt.figure(figsize=(6, 5))
-    sns.heatmap(train_conf, annot=True, fmt="d", cmap="Blues")
-    plt.title("Training Confusion Matrix")
-    plt.xlabel("Predicted")
-    plt.ylabel("Actual")
-    if save_plots:
-        plt.savefig("train_confusion_matrix.png")
-        plt.close()
-    else:
-        plt.show()
+    logger.info("Confusion Matrix (Test):\n%s", test_conf)
 
     plt.figure(figsize=(6, 5))
     sns.heatmap(test_conf, annot=True, fmt="d", cmap="Blues")
@@ -139,40 +116,17 @@ def generate_full_model_report(model, data, save_plots=False):
     else:
         plt.show()
 
-    # Plot ROC curves (only if both training and test ROC data exist)
-    if roc_train is not None and roc_test is not None:
-        fpr_train, tpr_train = roc_train
-        fpr_test, tpr_test = roc_test
+    if roc_test is not None:
         plt.figure(figsize=(8, 6))
-        plt.plot(fpr_train, tpr_train,
-                 label="Train ROC (AUC = %.4f)" % auc_train)
-        plt.plot(fpr_test, tpr_test,
-                 label="Test ROC (AUC = %.4f)" % auc_test)
+        for class_idx, (fpr, tpr) in roc_test.items():
+            plt.plot(fpr, tpr, label=f"Class {class_idx} (AUC = {auc_test[class_idx]:.4f})")
         plt.plot([0, 1], [0, 1], 'k--')
         plt.xlabel("False Positive Rate")
         plt.ylabel("True Positive Rate")
-        plt.title("ROC Curve")
+        plt.title("Multi-Class ROC Curve")
         plt.legend(loc="lower right")
         if save_plots:
             plt.savefig("roc_curve.png")
-            plt.close()
-        else:
-            plt.show()
-
-    # Plot bar chart for per-class metrics (precision, recall, f1-score)
-    aggregate_rows = ["accuracy", "macro avg", "weighted avg"]
-    class_labels = [label for label in test_report_df.index
-                    if label not in aggregate_rows]
-    if class_labels:
-        metrics = test_report_df.loc[class_labels, ["precision", "recall", "f1-score"]]
-        metrics.plot(kind="bar", figsize=(10, 6))
-        plt.title("Classification Metrics by Class (Test)")
-        plt.xlabel("Class")
-        plt.ylabel("Score")
-        plt.ylim(0, 1)
-        plt.legend(loc="lower right")
-        if save_plots:
-            plt.savefig("class_metrics.png")
             plt.close()
         else:
             plt.show()
@@ -302,14 +256,18 @@ def evaluate_model_with_kfold(model, x_processed, y, save_plots=False):
     # Compute averages (ignoring None values in AUC lists).
     avg_train_accuracy = np.mean(train_accuracies)
     avg_test_accuracy = np.mean(test_accuracies)
-    train_auc_values = [auc_val for auc_val in train_aucs if auc_val is not None]
-    test_auc_values = [auc_val for auc_val in test_aucs if auc_val is not None]
+
+    # Estrai i valori AUC dalle matrici auc_train e auc_test
+    train_auc_values = [auc for auc in train_aucs if isinstance(auc, (int, float))]
+    test_auc_values = [auc for auc in train_aucs if isinstance(auc, (int, float))]
+
+    # Calcola la media solo sui valori numerici.
     avg_train_auc = np.mean(train_auc_values) if train_auc_values else None
     avg_test_auc = np.mean(test_auc_values) if test_auc_values else None
 
     # Average confusion matrix (as a numpy array).
     avg_train_conf = np.mean(np.array(train_conf_matrices), axis=0)
-    avg_test_conf = np.mean(np.array(test_conf_matrices), axis=0)
+    avg_test_conf = np.mean(np.array(test_conf_matrices), axis=0)#
 
     # Average classification reports: concatenate DataFrames and group by index.
     avg_train_report = pd.concat(train_reports).groupby(level=0).mean()
