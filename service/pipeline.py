@@ -197,10 +197,10 @@ def build_pipeline(classifier_type: ClassifierType) -> Tuple[Pipeline, Dict[str,
             ('clf', classifier)
         ])
         param_grid = {
-            'tfidf__min_df': [1, 3],
+            'tfidf__min_df': [1, 3, 10],
             'tfidf__max_df': [0.85, 0.90],
-            'svd__n_components': [30, 50, 100],
-            'clf__C': [0.1, 0.5, 1.0]
+            'svd__n_components': [30, 50, 100, 150],
+            'clf__C': [0.1, 0.5, 1.0, 2.0]
         }
     else:
         raise ValueError("Unsupported classifier type.")
