@@ -1,101 +1,19 @@
-%! Author = mariocosenza
-%! Date = 03/02/25
-
 \chapter{Pre Processing}
 
 \section{Introduzione}
-Il pre-processing costituisce il fondamento di ogni approccio nel Natural Language Processing (NLP) ed è il primo passo per estrarre informazioni significative da dati testuali non strutturati. Tale fase si occupa di applicare trasformazioni che standardizzano e puliscono il testo, riducendo la complessità intrinseca del linguaggio naturale e facilitando l'analisi computazionale tramite algoritmi di machine learning.
-Gli obiettivi principali del pre-processing sono:
-\begin{itemize}
-    \item \textbf{Riduzione del rumore:} Eliminare elementi ridondanti quali URL, numeri, punteggiatura e formule di cortesia, che possono introdurre variabilità indesiderata.
-    \item \textbf{Unificazione della rappresentazione:} Standardizzare il testo, convertendolo in minuscolo e rimuovendo spazi superflui, per garantire coerenza nell'analisi successiva.
-    \item \textbf{Arricchimento semantico:} Estrarre informazioni rilevanti mediante tokenizzazione, lemmatizzazione e riconoscimento delle entità (NER), operazioni che facilitano la comprensione del contenuto.
-\end{itemize}
-
-Queste operazioni permettono di ottenere una rappresentazione numerica coerente e significativa, indispensabile per l'applicazione efficace di tecniche di machine learning.
-
-\section{Caricamento e Fusione dei Dataset}
-I dati testuali vengono acquisiti tramite file CSV, formato comunemente utilizzato per dati strutturati. La libreria \texttt{pandas} di McKinney (2010) viene impiegata per manipolare in maniera efficiente grandi quantità di dati. Siano $D_1$ e $D_2$ due insiemi di dati contenenti informazioni testuali distribuite su vari campi (ad esempio, \texttt{titolo} e \texttt{messaggio}). L'obiettivo è ottenere un nuovo dataset $D$, dove ogni elemento $d \in D$ è definito come
-\[
-d = (\texttt{titolo\_messaggio}, \texttt{categoria}),
-\]
-con
-\[
-\texttt{titolo\_messaggio} = \texttt{titolo} \oplus \texttt{" "} \oplus \texttt{messaggio},
-\]
-dove $\oplus$ rappresenta la concatenazione di stringhe. La funzione seguente implementa tale operazione:
-
-\begin{lstlisting}[caption={Funzione per la fusione dei DataFrame}]
-def merge_dataframes(frame1, frame2):
-    """
-    Merge two dataframes and combine 'titolo' and 'messaggio' into a single column.
-    Returns a dataframe with columns 'titolo_messaggio' and 'categoria'.
-    """
-    logger.info("Merging dataframes...")
-    frame = pd.concat([frame1, frame2])
-    frame['titolo_messaggio'] = frame['titolo'] + ' ' + frame['messaggio']
-    return frame[['titolo_messaggio', 'categoria']]
-\end{lstlisting}
-
-Questa funzione aggrega dati provenienti da fonti diverse, arricchendo la rappresentazione semantica e rendendola più adatta alle analisi successive.
-
-\section{Operazioni di Pulizia e Normalizzazione}
-La pulizia e la normalizzazione del testo rappresentano due fasi critiche nel processo di pre-processing, volte a ridurre il rumore e la variabilità presenti nei dati testuali. Tali operazioni permettono di trasformare un testo grezzo, caratterizzato da formattazioni incoerenti e elementi superflui, in una rappresentazione standardizzata e coerente, essenziale per l'analisi automatica e per l'applicazione di algoritmi di machine learning. In questa sezione si illustrano in dettaglio le principali operazioni adottate.
-
-\subsection{Conversione in Minuscolo e Rimozione degli Spazi Inutili}
-La conversione in minuscolo è una tecnica fondamentale che consente di uniformare il testo, eliminando la distinzione tra maiuscole e minuscole. Ciò evita che la stessa parola venga trattata come entità differente a causa di variazioni di capitalizzazione. Formalmente, data una stringa \( s \), la funzione di normalizzazione trasforma \( s \) in \( s' \) dove:
-\[
-s' = \text{lowercase}(s).
-\]
-Contestualmente, si procede alla rimozione degli spazi inutili, che include:
-\begin{itemize}
-    \item La rimozione degli spazi iniziali e finali, noti come spazi bianchi (\textit{whitespaces}), che possono essere introdotti durante l'inserimento dei dati.
-    \item La compressione di sequenze di spazi multipli in un unico spazio, garantendo una rappresentazione compatta e uniforme.
-\end{itemize}
-Queste operazioni assicurano che il testo sia presentato in modo standardizzato, facilitando il successivo processo di tokenizzazione.
-
-\subsection{Rimozione di URL, Punteggiatura e Numeri}
-La presenza di URL, segni di punteggiatura e numeri spesso introduce elementi non informativi e rumorosi nei dati testuali. La rimozione di questi elementi si basa su espressioni regolari, che permettono di identificare pattern specifici all'interno del testo. Ad esempio, si utilizzano pattern come:
-\[
-\verb|https?://\S+| \quad \text{e} \quad \verb|www\.\S+|
-\]
-per individuare e rimuovere gli URL. Allo stesso modo, la punteggiatura viene eliminata tramite pattern che corrispondono a caratteri speciali, mentre i numeri vengono rimossi per evitare che elementi numerici possano distorcere la rappresentazione semantica, salvo quando sono rilevanti per il contesto specifico dell'analisi.
-
-\subsection{Eliminazione di Saluti e Formule di Cortesia}
-Nei testi comunicativi, è comune imbattersi in formule di saluto e cortesia (ad es. "ciao", "buongiorno") che, pur avendo un valore comunicativo nel contesto quotidiano, non apportano informazioni utili all'analisi semantica. L'eliminazione di tali elementi viene realizzata mediante pattern predefiniti, che identificano queste espressioni e le rimuovono dal testo. Tale operazione aiuta a focalizzare l'analisi sui contenuti realmente informativi, riducendo la presenza di elementi di disturbo.
-
-\subsection{Tokenizzazione e Correzione Ortografica}
-La tokenizzazione è il processo mediante il quale il testo viene segmentato in unità minime, chiamate token. Un token può essere una parola, un simbolo o un segno di punteggiatura (anche se in questo contesto la punteggiatura è stata precedentemente rimossa). La tokenizzazione consente di passare da una rappresentazione continua del testo a una rappresentazione discreta, facilitando l'applicazione di tecniche statistiche e algoritmi di machine learning. 
-
-Parallelamente, viene applicata una correzione ortografica che uniforma i token, correggendo eventuali errori di battitura o variazioni inconsistenti. Tale operazione è particolarmente utile per ridurre la frammentazione del vocabolario, ovvero la presenza di molteplici varianti per la stessa parola, che potrebbero compromettere l'efficacia dell'analisi. La funzione seguente realizza l'intero processo di pulizia, tokenizzazione e correzione ortografica:
-
-\begin{lstlisting}[caption={Funzione minimal\_preprocess}]
-def minimal_preprocess(text):
-    text = text.lower().strip()
-    text = re.sub(r'https?://\S+|www\.\S+', '', text)
-    text = remove_greetings_secretary(text)
-    text = re.sub(r'[^\w\s]', ' ', text)
-    text = re.sub(r'\d+', '', text)
-    text = re.sub(r'\s+', ' ', text)
-    # Tokenizzazione e correzione ortografica
-    tokens = text.split()
-    corrected_tokens = [spell.correction(word) if word in spell else word for word in tokens]
-    corrected_text = ' '.join(corrected_tokens)
-    return corrected_text.strip()
-\end{lstlisting}
-
-Questo approccio sequenziale garantisce una pulizia sistematica e una standardizzazione efficace del testo.
+La fase di pre-processing approfondisce la trasformazione del testo già estratto e pulito, arricchendo la rappresentazione semantica mediante operazioni quali tokenizzazione, lemmatizzazione e Named Entity Recognition (NER). Queste tecniche avanzate migliorano l'analisi computazionale e preparano il testo per algoritmi di machine learning.
 
 \section{Tokenizzazione, Lemmatizzazione e Named Entity Recognition}
-Per arricchire il testo dal punto di vista semantico, si adottano tecniche avanzate con la libreria \texttt{spaCy}.
+Per incrementare il valore semantico del testo, vengono applicate le seguenti operazioni:
+\begin{itemize}
+    \item \textbf{Tokenizzazione:} Segmenta il testo in unità minime (token).
+    \item \textbf{Lemmatizzazione:} Riduce ogni token alla sua forma base, diminuendo la variabilità morfologica.
+    \item \textbf{Named Entity Recognition (NER):} Identifica entità come nomi, organizzazioni e località, etichettandole come ad esempio \texttt{NER\_PERSON}.
+\end{itemize}
 
-\subsection{Tokenizzazione e Lemmatizzazione}
-La tokenizzazione segmenta il testo in token, mentre la lemmatizzazione riduce ogni token alla sua forma base, diminuendo la variabilità morfologica. Queste tecniche permettono di aggregare varianti morfologiche e di semplificare il vocabolario.
+La seguente funzione integra questi passaggi:
 
-\subsection{Named Entity Recognition (NER)}
-Il riconoscimento delle entità identifica elementi come nomi, organizzazioni o località, integrandoli nel testo come token aggiuntivi (ad es. "NER\_PERSON"). Questo arricchimento migliora la rappresentazione semantica del testo per le analisi successive. La funzione seguente integra queste operazioni:
-
-\begin{lstlisting}[caption={Funzione process\_text}]
+\begin{lstlisting}[language=Python,caption={Funzione process_text}]
 def process_text(text):
     cleaned_text = minimal_preprocess(text)
     doc = nlp(cleaned_text)
@@ -110,42 +28,23 @@ def process_text(text):
         tokens.append("NER_%s" % ent.label_)
     return ' '.join(tokens)
 \end{lstlisting}
-Per comprendere a fondo come spaCy gestisca il riconoscimento delle entità, è fondamentale approfondire il ruolo delle tecniche di deep learning che supportano questi processi.
 
-\subsubsection{Deep Learning in spaCy}
-spaCy utilizza modelli basati su deep learning per il riconoscimento delle entità, sfruttando reti neurali convoluzionali (CNN) e, nelle versioni più recenti, architetture ibride che possono includere meccanismi di attenzione e trasformatori. Questi modelli sono addestrati su grandi corpora etichettati, permettendo loro di apprendere rappresentazioni complesse e contestuali delle parole. In particolare:
+\subsection{Deep Learning in spaCy per il Riconoscimento delle Entità}
+spaCy impiega modelli basati su deep learning che integrano:
 \begin{itemize}
-    \item Le CNN sono impiegate per estrarre caratteristiche locali dal testo, rilevando pattern caratteristici che indicano la presenza di un'entità.
-    \item I meccanismi di attenzione consentono al modello di pesare in modo diverso le parole nel contesto di una frase, migliorando la capacità di identificare le entità anche in contesti ambigui.
-    \item Le architetture trasformative, se adottate, permettono di modellare relazioni a lungo raggio tra token, fornendo una comprensione più profonda del contesto linguistico.
+    \item \textbf{Reti Neurali Convoluzionali (CNN):} Per estrarre caratteristiche locali dal testo.
+    \item \textbf{Meccanismi di Attenzione:} Per contestualizzare i token in maniera differenziata.
+    \item \textbf{Architetture Trasformative:} In grado di modellare relazioni a lungo raggio fra i token.
 \end{itemize}
-
-Queste tecniche di deep learning consentono al modello NER di spaCy di generalizzare bene anche su dati non visti, migliorando l'accuratezza e la robustezza del riconoscimento.
-
-\subsubsection{Architettura dei Modelli NER in spaCy}
-I modelli NER di spaCy sono tipicamente costruiti su architetture neurali che combinano rappresentazioni distribuite (word embeddings) e convoluzioni. Le fasi principali dell'architettura includono:
-\begin{enumerate}
-    \item \textbf{Incorporamento delle Parole:} Ogni parola viene convertita in un vettore denso che ne cattura le proprietà semantiche e sintattiche.
-    \item \textbf{Estrazione delle Caratteristiche:} Le CNN vengono applicate ai vettori densi per estrarre pattern locali. Questo stadio è fondamentale per identificare segnali utili per il riconoscimento delle entità.
-    \item \textbf{Contestualizzazione:} Attraverso strati di rete neurale, il modello integra il contesto circostante, determinando il ruolo di ogni parola all'interno della frase.
-    \item \textbf{Predizione:} Infine, il modello produce una sequenza di etichette che indicano, per ciascun token, se e a quale entità appartiene.
-\end{enumerate}
-
-Questa architettura permette una robusta identificazione delle entità, sfruttando le capacità di apprendimento automatico per catturare sia caratteristiche locali che contesti più ampi.
+Queste tecnologie permettono di ottenere un elevato livello di accuratezza nel riconoscimento delle entità, anche su testi complessi.
 
 \section{Parallelizzazione del Pre-processing}
-Per l'elaborazione di dataset di grandi dimensioni, è fondamentale un uso efficiente delle risorse computazionali. La libreria \texttt{joblib} permette di distribuire il carico su più core della CPU, riducendo i tempi di esecuzione. La funzione seguente implementa la parallelizzazione:
+Per gestire dataset di grandi dimensioni, la parallelizzazione sfrutta la libreria \texttt{joblib} per distribuire il processo su più core. Il backend "threading" viene utilizzato per ottimizzare l'uso delle risorse hardware. Esempio:
 
-\begin{lstlisting}[caption={Funzione parallel\_process\_texts}]
+\begin{lstlisting}[language=Python,caption={Funzione parallel\_process\_texts}]
 def parallel_process_texts(series, n_jobs=-1):
     logger.info("Parallel text processing with threading backend...")
     with parallel_backend('threading', n_jobs=n_jobs):
         processed = Parallel()(delayed(process_text)(text) for text in series)
     return pd.Series(processed, index=series.index)
 \end{lstlisting}
-
-L'utilizzo del backend "threading" garantisce un impiego ottimale delle risorse hardware, rendendo scalabile l'intero processo di pre-processing.
-
-\section{Considerazioni Finali}
-Il processo di pre-processing qui descritto integra tecniche fondamentali e metodologie consolidate per la preparazione di dati testuali destinati ad analisi automatizzate. L'unione di operazioni di pulizia, normalizzazione, tokenizzazione, lemmatizzazione e riconoscimento delle entità permette di ottenere una rappresentazione semantica robusta e coerente, riducendo al minimo il rumore e la variabilità intrinseca del linguaggio naturale. 
-L'approccio modulare, unito alla parallelizzazione tramite joblib, rappresenta una soluzione scalabile e performante, indispensabile per applicazioni di data science e machine learning su dataset di grandi dimensioni. Tali metodologie, supportate da solide basi teoriche e riferimenti autorevoli, costituiscono un pilastro fondamentale per lo sviluppo di modelli di machine learning efficaci e generalizzabili.

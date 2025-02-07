@@ -1,5 +1,63 @@
-%! Author = giuliosacrestano
-%! Date = 03/02/25
+\chapter{Text Extraction and Cleanup}
 
-\chapter{textExtractionAndCleanup}
-textExtractionAndCleanup
+\section{Introduzione}
+La fase di \textbf{Text Extraction and Cleanup} si occupa dell'estrazione dei dati testuali dalle fonti e della successiva normalizzazione e pulizia, rendendo il testo più coerente e privo di rumore. Queste operazioni costituiscono il primo passo fondamentale per garantire che il testo sia pronto per l'analisi e per le ulteriori operazioni di pre-processing.
+
+\section{Caricamento e Fusione dei Dataset}
+I dati vengono acquisiti tipicamente da file CSV. Utilizzando la libreria \texttt{pandas}, due insiemi di dati, ad esempio $D_1$ e $D_2$, vengono fusi per formare un nuovo dataset $D$. Ogni elemento del dataset risultante è definito come:
+\[
+d = (\texttt{titolo\_messaggio}, \texttt{categoria}),
+\]
+con
+\[
+\texttt{titolo\_messaggio} = \texttt{titolo} \oplus \texttt{" "} \oplus \texttt{messaggio},
+\]
+dove $\oplus$ rappresenta la concatenazione di stringhe. La seguente funzione implementa tale operazione:
+
+\begin{lstlisting}[language=Python,caption={Funzione per la fusione dei DataFrame}]
+def merge_dataframes(frame1, frame2):
+    """
+    Merge two dataframes and combine 'titolo' and 'messaggio' into a single column.
+    Returns a dataframe with columns 'titolo_messaggio' and 'categoria'.
+    """
+    logger.info("Merging dataframes...")
+    frame = pd.concat([frame1, frame2])
+    frame['titolo_messaggio'] = frame['titolo'] + ' ' + frame['messaggio']
+    return frame[['titolo_messaggio', 'categoria']]
+\end{lstlisting}
+
+\section{Operazioni di Pulizia e Normalizzazione}
+Questa fase consiste nel ridurre la complessità del testo, eliminando elementi non informativi e standardizzando la rappresentazione.
+
+\subsection{Conversione in Minuscolo e Rimozione degli Spazi Inutili}
+Per eliminare la distinzione tra maiuscole e minuscole e rimuovere spazi in eccesso, il testo viene convertito in minuscolo e sottoposto a stripping. Formalmente, per una stringa \( s \):
+\[
+s' = \text{lowercase}(s)
+\]
+seguendo la rimozione di spazi iniziali e finali, oltre alla compressione di spazi multipli.
+
+\subsection{Rimozione di URL, Punteggiatura e Numeri}
+Utilizzando espressioni regolari, si eliminano pattern specifici come URL (corrispondenti a \verb|https?://\S+| o \verb|www\.\S+|), punteggiatura e numeri, che possono introdurre rumore nella rappresentazione del testo.
+
+\subsection{Eliminazione di Saluti e Formule di Cortesia}
+Le formule di saluto (es. "ciao", "buongiorno") vengono identificate e rimosse dalla text body per focalizzare l'analisi sui contenuti informativi.
+
+\subsection{Tokenizzazione e Correzione Ortografica}
+La tokenizzazione segmenta il testo in parole (token) e, contemporaneamente, una correzione ortografica viene applicata per uniformare termini scritti in maniera incoerente. La funzione seguente realizza l'intero processo di pulizia e normalizzazione:
+
+\begin{lstlisting}[language=Python,caption={Funzione minimal\_preprocess}]
+def minimal_preprocess(text):
+    text = text.lower().strip()
+    text = re.sub(r'https?://\S+|www\.\S+', '', text)
+    text = remove_greetings_secretary(text)
+    text = re.sub(r'[^\w\s]', ' ', text)
+    text = re.sub(r'\d+', '', text)
+    text = re.sub(r'\s+', ' ', text)
+    # Tokenizzazione e correzione ortografica
+    tokens = text.split()
+    corrected_tokens = [spell.correction(word) if word in spell else word for word in tokens]
+    corrected_text = ' '.join(corrected_tokens)
+    return corrected_text.strip()
+\end{lstlisting}
+
+Quest'ultima operazione insieme alle precedenti sono essenziali per preparare dati testuali grezzi e renderli utili per analisi successive. Attraverso la fusione dei dataset e una rigorosa pulizia del testo, si ottiene una rappresentazione priva di rumore e pronta per le fasi avanzate di pre-processing.
