@@ -1,0 +1,19 @@
+# Librerie da installare (External Dependencies):
+joblib
+pandas
+psutil
+spacy
+scikit-learn
+pyspellchecker
+google-generativeai
+matplotlib
+numpy
+seaborn
+Flask
+
+# Scarica il modello di lingua italiana di SpaCy
+spacy[model] @ https://github.com/explosion/spacy-models/releases/download/it_core_news_sm-3.4.0/it_core_news_sm-3.4.0.tar.gz
+
+# Librerie del progetto (Local/Standard Libraries):
+# - logging, os, re, time, enum, threading, typing: Queste sono librerie standard Python.
+# - pipeline (da .pipeline), service.ticket_service, service.gemini_service: Questi sono moduli del progetto e non devono essere installati tramite pip.
