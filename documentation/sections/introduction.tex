@@ -16,3 +16,37 @@ Astromark AI è un'applicazione di machine learning basata su Python, progettata
 \end{itemize}
 
 Astromark AI è la soluzione ideale per sviluppatori e ricercatori alla ricerca di una piattaforma affidabile e di facile utilizzo per la classificazione testuale.
+\section{Specifica PEAS}
+Di seguito è riportata la descrizione PEAS dell'ambiente operativo di Astromark-AI.
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{PEAS}} \\
+\hline
+\textbf{Performance} & Criteri per valutare il successo dell'agente, ad esempio la percentuale di risposte corrette e utili , il tempo medio di risposta. \\
+\hline
+\textbf{Environment} & L'ambiente in cui l'agente opera: i ticket inviati, da genitori o docenti, alla Piattaforma Astromark per riceve assistenza su una problematica. \\
+\hline
+\textbf{Actuators} & I mezzi con cui l'agente agisce sull'ambiente, Astromarl-AI comunicare con l'ambiente organizzando i ticket in base alla categoria. \\
+\hline
+\textbf{Sensors} & I canali attraverso cui l'agente percepisce l'ambiente, input testuali , nello specifico i ticket . \\
+\hline
+\end{tabular}
+\caption{Specifica PEAS}
+\label{tab:peas}
+\end{table}
+
+\FloatBarrier
+
+\section{Caratteristiche ambiente}
+L'ambiente operativo è:
+\begin{itemize}
+    \item \textbf{Completamente Osservabile: }possiamo accedere ai ticket in qualsiasi momento
+    \item \textbf{Deterministico: }lo stato successivo dell’ambiente è completamente determinato dallo stato corrente e dall’azione eseguita dall’agente
+    \item \textbf{Sequenziale: }le scelta dell'azione non dipende dal singolo episodio
+    \item \textbf{Statico: }l'ambiente rimane invariato mentre l'agente sta deliberando.
+    \item \textbf{Discreto: }l'ambiente fornisce un numero limitato di percezioni
+    \item \textbf{Singolo: }l'ambiente consente la presenza di un unico agente.
+\end{itemize}
+
