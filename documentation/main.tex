@@ -4,6 +4,7 @@
 \usepackage[italian]{babel}
 \usepackage{lmodern}
 \usepackage{geometry}
+\usepackage{enumitem}
 \usepackage{graphicx}
 \usepackage{setspace}
 \usepackage{fancyhdr}
@@ -15,6 +16,7 @@
 \usepackage{color}
 \usepackage{caption}
 \usepackage{float}
+\usepackage{placeins}
 
 % Geometry for A4 paper with custom margins
 \geometry{
@@ -65,8 +67,19 @@
 }
 
 % Document title page
-\title{\textbf{Astromark-AI}\\ \large Analisi e Sviluppo}
-\author{Mario Cosenza \\ Mario Fasolino \\ Giulio Sacrestao \\ Università degli Studi di Salerno \\ Corso di Fondamenti di Intelligenza Artificiale}
+\title{%
+  \textbf{Astromark-AI}\\[0.5cm]
+  \large Analisi e Sviluppo\\[0.5cm]
+
+  \\
+}
+\author{%
+  Mario Cosenza \and
+  Mario Fasolino \and
+  Giulio Sacrestao\\[0.5cm]
+  Università degli Studi di Salerno\\
+  Corso di Fondamenti di Intelligenza Artificiale%
+}
 \date{Anno Accademico 2024/2025}
 
 \begin{document}
@@ -78,11 +91,12 @@
     {\Huge \textbf{Astromark-AI}}\\[1.5cm]
     {\Large Analisi e Sviluppo}\\[2cm]
     \includegraphics[width=0.4\textwidth]{images/astromarkLogo.jpg}\\[2cm]
-    {\large \textbf{Autori:}}\\
+    {\large \textbf{Autori:}}\\[0.5cm]
     Mario Cosenza\\
     Mario Fasolino\\
     Giulio Sacrestao\\[1cm]
-    {\large \textbf{Università degli Studi di Salerno}}\\
+    {\small \textbf{Repo:} \url{https://github.com/mariocosenza/astromark-ai}}\\[1cm]
+    {\large \textbf{Università degli Studi di Salerno}}\\[0.5cm]
     {\large \textbf{Corso di Fondamenti di Intelligenza Artificiale}}\\[1cm]
     {\large Anno Accademico 2024/2025}
     \vfill
@@ -103,7 +117,7 @@
 
 % Include chapters
 \input{sections/introduction}
-\input{sections/dataAquisition}
+\input{sections/dataAcquisition}
 \input{sections/textExtractionAndCleanup}
 \input{sections/preProcessing}
 \input{sections/featureEngineering}

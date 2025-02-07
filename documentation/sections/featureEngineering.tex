@@ -1,5 +1,49 @@
-%! Author = giuliosacrestano
-%! Date = 03/02/25
+%! Author = giuliosacrestano , mariocosenza
+%! Date = 06/02/25
 
-\chapter{featureEngineering}
-featureEngineering
+\chapter{Feature Engineering}
+
+\section{Introduzione}
+La fase di Feature Engineering è cruciale nel processo di sviluppo di modelli di machine learning, specialmente in ambito Natural Language Processing (NLP). Questa fase si occupa della trasformazione dei dati grezzi in rappresentazioni numeriche che catturino le caratteristiche essenziali dei testi. Un’accurata progettazione in questa fase riduce il rumore e la complessità computazionale, ponendo solide basi per le successive attività di modellazione.
+
+\section{Trasformazione del Testo con TF-IDF}
+L'approccio TF-IDF (Term Frequency-Inverse Document Frequency) è una tecnica consolidata per convertire testi in vettori numerici. Essa assegna un peso a ciascun termine in un documento, rendendo più rilevanti i termini discriminanti rispetto a quelli troppo comuni.
+Formalmente, il peso \(w(t,d)\) per un termine \(t\) in un documento \(d\) appartenente ad un corpus \(D\) è definito da:
+\[
+w(t,d) = \text{tf}(t,d) \cdot \log \frac{N}{\text{df}(t)}
+\]
+Nella quale:
+\begin{itemize}
+    \item \(\text{tf}(t,d)\) è il conteggio del termine \(t\) nel documento \(d\);
+    \item \(N\) rappresenta il numero totale dei documenti nel corpus;
+    \item \(\text{df}(t)\) indica il numero di documenti in cui il termine \(t\) appare.
+\end{itemize}
+
+I parametri comuni del vettorizzatore TF-IDF sono:
+\begin{itemize}
+    \item \texttt{use\_idf=True}: attiva la ponderazione inversa.
+    \item \texttt{ngram\_range=(1, 2)}: include sia unigrammi che bigrammi per cogliere relazioni tra parole.
+    \item \texttt{max\_features=3000}: limita il vocabolario ai termini più rilevanti, migliorando l'efficienza.
+    \item \texttt{norm='l2'}: applica la normalizzazione per uniformare i vettori.
+    \item \texttt{smooth\_idf=True}: evita problemi di divisione per zero mediante una regolarizzazione dell’IDF.
+    \item \texttt{sublinear\_tf=True}: applica una scala logaritmica per attenuare l’effetto di termini dalle frequenze molto elevate.
+\end{itemize}
+
+\section{Riduzione della Dimensionalità tramite Truncated SVD}
+La rappresentazione TF-IDF genera uno spazio vettoriale di elevata dimensionalità, spesso sparso. La tecnica di Truncated Singular Value Decomposition (SVD) riduce la dimensionalità mantenendo la maggior parte della varianza informativa. Data una matrice \(A \in \mathbb{R}^{m \times n}\) ottenuta dal TF-IDF, la SVD decompone la matrice nel seguente modo:
+\[
+A = U \Sigma V^T,
+\]
+Nella quale:
+\begin{itemize}
+    \item \(U\) e \(V\) sono matrici ortogonali;
+    \item \(\Sigma\) è una matrice diagonale con i valori singolari in ordine decrescente.
+\end{itemize}
+Aplicando la Truncated SVD, si conserva un numero ridotto \(k\) di valori singolari:
+\[
+A_k = U_k \Sigma_k V_k^T,
+\]
+con \(k\) scelto in base all'analisi della varianza da preservare (ad esempio, 30, 50, 100). Questa operazione consente di semplificare il modello, eliminando rumore e ridondanze nel set di feature.
+
+\section{Conclusioni}
+Una corretta fase di Feature Engineering, tramite TF-IDF e Truncated SVD, permette di ottenere una rappresentazione dei dati testuali efficace e compatta. Tali tecniche riducono il sovrumodello, migliorando le prestazioni computazionali e la generalizzazione del modello di machine learning. Questo approccio formale e ben definito costituisce la base per una modellazione robusta e accurata.

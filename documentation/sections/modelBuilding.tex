@@ -1,5 +1,141 @@
-%! Author = giuliosacrestano
-%! Date = 03/02/25
+%! Author = giuliosacrestano , mariocosenza
+%! Date = 06/02/25
 
-\chapter{modelBuilding}
-modelBuilding
+\chapter{Model Building}
+
+\section{Introduzione}
+Il processo di \emph{Model Building} è fondamentale per tradurre le rappresentazioni numeriche ottenute in fase di Feature Engineering in un modello capace di classifier testi in modo accurato e robusto. In questo capitolo si descrive formalmente la composizione di una pipeline modulare, l'ottimizzazione degli iperparametri e la scelta del classificatore, fornendo definizioni matematiche ed esempi di implementazione.
+
+\section{Definizione della Pipeline}
+La pipeline utilizzata per la modellazione è definita come una funzione composita:
+\[
+f(x) = f_n \circ f_{n-1} \circ \cdots \circ f_1(x),
+\]
+dove ciascun \( f_i \) rappresenta una trasformazione applicata al dato grezzo \( x \) (tipicamente un documento testuale). L'output finale \( f(x) \) è la predizione del modello, ossia l'etichetta di classe assegnata.
+La pipeline si compone dei seguenti elementi:
+\begin{enumerate}
+  \item \textbf{Vettorizzazione:} Converte il testo in vettori numerici mediante TF-IDF.
+  \item \textbf{(Opzionale) Riduzione della Dimensionalità:} Utilizza tecniche come la Truncated SVD per ridurre lo spazio delle feature, soprattutto se il modello è molto complesso.
+  \item \textbf{Classificazione:} Addestra un classificatore, ad esempio \emph{Naive Bayes} o \emph{Support Vector Machine (SVM)}, per assegnare ad ogni documento un'etichetta.
+\end{enumerate}
+
+\section{Scelta del Classificatore}
+La scelta del classificatore dipende dalla natura dei dati e dalle esigenze del problema:
+\begin{itemize}
+  \item \textbf{Naive Bayes:} Basato su un modello probabilistico che assume l'indipendenza condizionale delle feature. È particolarmente efficace per dati testuali e regola il proprio comportamento tramite il parametro \texttt{alpha}.
+  \item \textbf{Support Vector Machine (SVM):} Utilizza un kernel lineare per individuare l'iperpiano che separa al meglio le diverse classi. L'opzione \texttt{probability=True} permette di stimare probabilità, mentre il parametro \texttt{C} gestisce il compromesso tra margine e errore di classificazione.
+\end{itemize}
+
+\section{Implementazione della Pipeline}
+Il file seguente (\texttt{build\_pipeline.py}) illustra un esempio completo in Python che definisce la pipeline. Tale file integra la configurazione del vettorizzatore TF-IDF, la possibile applicazione della Truncated SVD e la scelta del classificatore.
+
+\begin{lstlisting}[language=Python,caption={File pipeline.py}]
+from typing import Tuple, Dict, Any
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import TruncatedSVD
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import SVC
+
+class ClassifierType:
+    NAIVE_BAYES = 'naive_bayes'
+    SVM = 'svm'
+
+def build_pipeline(classifier_type: str) -> Tuple[Pipeline, Dict[str, Any]]:
+    # Configurazione del vettorizzatore TF-IDF
+    tfidf = TfidfVectorizer(
+        use_idf=True,
+        ngram_range=(1, 2),
+        max_features=3000,
+        norm='l2',
+        smooth_idf=True,
+        sublinear_tf=True
+    )
+
+    if classifier_type == ClassifierType.NAIVE_BAYES:
+        classifier = MultinomialNB()
+        pipeline = Pipeline([
+            ('tfidf', tfidf),
+            ('clf', classifier)
+        ])
+        param_grid = {
+            'tfidf__min_df': [1, 3],
+            'tfidf__max_df': [0.85, 0.90],
+            'clf__alpha': [1.0, 1.5, 2.0]
+        }
+    elif classifier_type == ClassifierType.SVM:
+        # In SVM, si applica la Truncated SVD per ridurre la dimensionalità
+        svd = TruncatedSVD(n_components=100, random_state=42)
+        classifier = SVC(probability=True, kernel='linear', random_state=42)
+        pipeline = Pipeline([
+            ('tfidf', tfidf),
+            ('svd', svd),
+            ('clf', classifier)
+        ])
+        param_grid = {
+            'tfidf__min_df': [1, 3],
+            'tfidf__max_df': [0.85, 0.90],
+            'svd__n_components': [30, 50, 100],
+            'clf__C': [0.1, 0.5, 1.0]
+        }
+    else:
+        raise ValueError("Classifier type not supported.")
+
+    return pipeline, param_grid
+
+if __name__ == '__main__':
+    # Esempio di utilizzo della pipeline per SVM
+    pipeline, params = build_pipeline(ClassifierType.SVM)
+    print("Pipeline configurata con i seguenti iperparametri:", params)
+\end{lstlisting}
+
+\section{Ottimizzazione degli Iperparametri}
+L'ottimizzazione degli iperparametri viene realizzata tramite Grid Search. Formalmente, si cerca:
+\[
+\theta^* = \arg \min_{\theta \in \Theta} J_{\text{CV}}(\theta),
+\]
+dove \(J_{\text{CV}}(\theta)\) è il costo medio stimato mediante validazione incrociata (ad esempio, con 5 fold).
+Il file seguente (\texttt{run\_grid\_search.py}) mostra un esempio di implementazione della ricerca su griglia per trovare la migliore combinazione di iperparametri.
+
+\begin{lstlisting}[language=Python]
+from typing import Tuple, Dict, Any, Optional
+import pandas as pd
+from sklearn.model_selection import KFold, GridSearchCV
+from build_pipeline import build_pipeline, ClassifierType
+
+def run_grid_search(x_data: pd.Series,
+                    y_data: pd.Series,
+                    classifier_type: str,
+                    monitor: bool = False
+                   ) -> Tuple[GridSearchCV, Optional[Dict[str, Any]]]:
+    pipeline, param_grid = build_pipeline(classifier_type)
+    # Suddivisione dei dati in 5 fold per la validazione incrociata
+    kf = KFold(n_splits=5, shuffle=True, random_state=42)
+    grid_search = GridSearchCV(pipeline, param_grid, cv=kf, n_jobs=-1, verbose=0)
+
+    if monitor:
+        # Possibile implementazione del monitoraggio delle risorse (CPU, memoria, tempo)
+        pass
+    else:
+        grid_search.fit(x_data, y_data)
+
+    return grid_search, None
+
+if __name__ == '__main__':
+    import numpy as np
+    # Esempio con dati sintetici
+    x_test = pd.Series(["esempio di testo", "altro esempio", "documento di prova"])
+    y_test = pd.Series([0, 1, 0])
+    grid, _ = run_grid_search(x_test, y_test, ClassifierType.NAIVE_BAYES)
+    print("Miglior configurazione trovata:", grid.best_params_)
+\end{lstlisting}
+
+\section{Conclusioni}
+Il processo di \emph{Model Building} illustrato in questo documento si basa su una pipeline modulare che integra:
+\begin{itemize}
+  \item La trasformazione testuale con TF-IDF,
+  \item La riduzione della dimensionalità tramite Truncated SVD (quando necessario),
+  \item La scelta oculata del classificatore (Naive Bayes o SVM),
+  \item e l'ottimizzazione degli iperparametri tramite Grid Search, supportata da validazione incrociata.
+\end{itemize}
+Questo approccio formale e strutturato garantisce la realizzazione di modelli robusti, efficienti e generalizzabili, in grado di affrontare con successo le sfide poste dalla classificazione testuale.
