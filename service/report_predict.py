@@ -11,7 +11,7 @@ from sklearn.metrics import (
     confusion_matrix,
     accuracy_score
 )
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import KFold
 
 # Import pipeline objects
 from .pipeline import (
@@ -76,7 +76,7 @@ def evaluate_model_with_kfold(
     """
     unique_labels = np.unique(y)
     if folds is None:
-        skf = StratifiedKFold(n_splits=n_splits, shuffle=shuffle, random_state=random_state)
+        skf = KFold(n_splits=n_splits, shuffle=shuffle, random_state=random_state)
         folds = list(skf.split(X, y))
 
     # Containers for fold metrics
@@ -270,7 +270,7 @@ def compare_classifiers_with_kfold(
     nb_model = get_model(ClassifierType.NAIVE_BAYES)
     svm_model = get_model(ClassifierType.SVM)
 
-    skf = StratifiedKFold(n_splits=n_splits, shuffle=shuffle, random_state=random_state)
+    skf = KFold(n_splits=n_splits, shuffle=shuffle, random_state=random_state)
     folds = list(skf.split(X, y))
 
     logger.info("Evaluating Naive Bayes with KFold...")
