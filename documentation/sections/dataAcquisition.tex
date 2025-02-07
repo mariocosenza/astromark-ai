@@ -1,14 +1,11 @@
-%! Author = giuliosacrestano
-%! Date = 03/02/25
-
 \chapter{Data Acquisition}
 
 
 \section{Introduzione}
-La fase di Data Acquisition è un passaggio fondamentale in qualsiasi progetto di Natural Language Processing (NLP), poiché la qualità e la quantità dei dati raccolti influiscono direttamente sulle prestazioni dei modelli. Durante questa fase, non solo si raccolgono i dati da fonti eterogenee, come dataset pubblici, API o documenti testuali, ma si verifica anche la loro qualità, eliminando errori, duplicati o valori mancanti. Per garantire coerenza tra i dati acquisiti, si applicano tecniche di normalizzazione, che riducono discrepanze nelle scale dei valori e uniformano i formati. Infine, i dati filtrati e arricchiti vengono archiviati in strutture adeguate, per facilitarne l’uso nelle fasi successive del progetto.
+La fase di Data Acquisition è un passaggio fondamentale in qualsiasi progetto di Natural Language Processing (NLP), poiché la qualità e la quantità dei dati raccolti influiscono direttamente sulle prestazioni dei modelli. Durante questa fase, non solo si raccolgono i dati da fonti eterogenee, come dataset pubblici, API o documenti testuali, ma si verifica anche la loro qualità, eliminando errori, duplicati o valori mancanti. Per garantire coerenza tra i dati acquisiti, si applicano tecniche di normalizzazione, che riducono le discrepanze nelle scale dei valori e uniformano i formati. Infine, i dati filtrati e arricchiti vengono archiviati in strutture adeguate, per facilitarne l’uso nelle fasi successive del progetto.
 
 \section{Raccolta dati per Astromark-AI}
-Trovare un dataset pubblico in italiano che rispecchiasse le caratteristiche del sistema si è rivelato particolarmente complesso. Per ovviare a questa difficoltà, si è optato per la generazione sintetica del dataset mediante i principali modelli linguistici di grandi dimensioni (LLM) disponibili sul mercato, tra cui ChatGPT, Gemini e Claude. In particolare per ChatGPT sono stati utilizzati i modelli più avanzati ovvero o3 mini, o3 mini high e o1. Nel caso di Claude è stato utilizzato Claude Sonnet 3.5 e infine Gemini 2.0 flash. Tuttavia, questo approccio ha introdotto nuove problematiche, come la necessità di definire a priori le caratteristiche desiderate del dataset e di affinare le tecniche di prompt engineering per ottenere risultati adeguati.
+Trovare un dataset pubblico in italiano che rispecchiasse le caratteristiche del sistema si è rivelato particolarmente complesso. Per ovviare a questa difficoltà, si è optato per la generazione sintetica del dataset mediante i principali modelli linguistici di grandi dimensioni (LLM) disponibili sul mercato, tra cui ChatGPT, Gemini e Claude. In particolare, per ChatGPT sono stati utilizzati i modelli più avanzati, ovvero o3 mini, o3 mini high e o1. Nel caso di Claude è stato utilizzato Claude Sonnet 3.5 ed infine Gemini 2.0 flash. Tuttavia, questo approccio ha introdotto nuove problematiche, come la necessità di definire a priori le caratteristiche desiderate del dataset e di affinare le tecniche di prompt engineering per ottenere risultati adeguati.
 
 \section{Definizione caratteristiche e categorie}
 Per la creazione del prompt, era fondamentale conoscere le variabili dipendenti, ovvero le categorie da classificare con il modello, e le caratteristiche rilevanti. A seguito di un'analisi dei requisiti funzionali dell'applicazione Astromark, sono state individuate le seguenti categorie:
@@ -19,7 +16,7 @@ Per la creazione del prompt, era fondamentale conoscere le variabili dipendenti,
     \item \textbf{Segreteria:}  Richieste amministrative riguardanti certificati, iscrizioni, richieste di documentazione ufficiale, modulistica o comunicazioni con la segreteria scolastica.
     \item \textbf{Tecnico:} Problemi di natura tecnica con dispositivi, software o piattaforme utilizzate per la didattica, come malfunzionamenti del registro elettronico, difficoltà con la connessione o errori nell'uso delle applicazioni scolastiche.
 \end{itemize}
-Per quanto riguarda le caratteristiche si è pensato ad una struttura semplice formata in questo modo:
+Per quanto riguarda le caratteristiche, si è pensato ad una struttura semplice formata in questo modo:
 \begin{table}[h]
     \centering
     \begin{tabular}{|c|c|c|}
@@ -48,19 +45,19 @@ Nella seguente parte viene riportata la conversazione avvenuta con o3 mini high 
     \centering
     \includegraphics[width=0.8\textwidth]{images/pythonError.png}
     \caption{Errore nella generazione del dataset}
-    \label{fig:pythonError}
+    \label{fig:firstPrompt}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/csvPrompt.png}
     \caption{Richiesta di generare un csv}
-    \label{fig:csvPrompt}
+    \label{fig:firstPrompt}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/csvResponse.png}
     \caption{Risposta corretta}
-    \label{fig:csvResponse}
+    \label{fig:firstPrompt}
 \end{figure}
 
 \FloatBarrier
@@ -71,10 +68,7 @@ Da questo punto in poi il modello ha continuato la generazione del dataset rispo
     \centering
     \includegraphics[width=0.8\textwidth]{images/error.png}
     \caption{Errore nella generazione}
-    \label{fig:error}
+    \label{fig:firstPrompt}
 \end{figure}
 
-
-\section{Conclusioni}
-La fase di Data Acquisition è stata un passaggio fondamentale nella costruzione di un dataset adeguato per il sistema Astromark-AI. L’assenza di un dataset pubblico in italiano con caratteristiche compatibili ha reso necessaria la generazione sintetica dei dati attraverso modelli linguistici avanzati. Sin dalle prime generazioni, è emerso chiaramente come l’uso di un dataset sintetico potesse influenzare significativamente le prestazioni del modello. Le frasi generate risultavano spesso ripetitive o poco adatte al contesto, evidenziando una marcata distanza da un dataset realistico. Per mitigare queste limitazioni, sono stati sperimentati diversi approcci, tra cui l’introduzione di richieste più creative e l’adozione di stili diversi in linea con il contesto di una scuola secondaria. Tuttavia, i risultati ottenuti non sono stati del tutto soddisfacenti. Alcune migliorie sarebbero potute essere quelle di aggiungere altre caretteristiche al dataset, ad esempio da che tipo di utente provenisse il messaggio (Docente o Genitore). Alla dificolta di generare un efficace prompt si sono affiancati gli evidentei limiti dei modelli avanzati che producevano errori o output in modo errato.Questa sfida ha sottolineato l’importanza cruciale della ricerca e selezione del dataset nello sviluppo di modelli di intelligenza artificiale.Nonostante le difficoltà, il dataset ottenuto rappresenta comunque una base utile per le fasi successive del progetto, in particolare per l'addestramento e la valutazione dei modelli di classificazione.
-
+Sin dalle prime generazioni, è emerso chiaramente come l’uso di un dataset sintetico potesse influenzare significativamente le prestazioni del modello. Le frasi generate risultavano spesso ripetitive o poco adatte al contesto, evidenziando una marcata distanza da un dataset realistico. Per mitigare queste limitazioni, sono stati sperimentati diversi approcci, tra cui l’introduzione di richieste più creative e l’adozione di stili diversi in linea con il contesto di una scuola secondaria. Tuttavia, i risultati ottenuti non sono stati del tutto soddisfacenti. Alcune migliorie sarebbero potute essere quelle di aggiungere altre caretteristiche al dataset, ad esempio da che tipo di utente provenisse il messaggio (Docente o Genitore).Questa sfida ha sottolineato l’importanza cruciale della ricerca e selezione del dataset nello sviluppo di modelli di intelligenza artificiale. Nonostante le difficoltà, il dataset ottenuto rappresenta comunque una base utile per le fasi successive del progetto, in particolare per l'addestramento e la valutazione dei modelli di classificazione.

@@ -1,6 +1,3 @@
-%! Author = giuliosacrestano , mariocosenza
-%! Date = 06/02/25
-
 \chapter{Model Building}
 
 \section{Introduzione}
@@ -64,7 +61,7 @@ def build_pipeline(classifier_type: str) -> Tuple[Pipeline, Dict[str, Any]]:
             'clf__alpha': [1.0, 1.5, 2.0]
         }
     elif classifier_type == ClassifierType.SVM:
-        # In SVM, si applica la Truncated SVD per ridurre la dimensionalità
+        # In SVM, si applica la Truncated SVD per ridurre la dimensionalita
         svd = TruncatedSVD(n_components=100, random_state=42)
         classifier = SVC(probability=True, kernel='linear', random_state=42)
         pipeline = Pipeline([
@@ -112,7 +109,7 @@ def run_grid_search(x_data: pd.Series,
     # Suddivisione dei dati in 5 fold per la validazione incrociata
     kf = KFold(n_splits=5, shuffle=True, random_state=42)
     grid_search = GridSearchCV(pipeline, param_grid, cv=kf, n_jobs=-1, verbose=0)
-
+    
     if monitor:
         # Possibile implementazione del monitoraggio delle risorse (CPU, memoria, tempo)
         pass
@@ -129,13 +126,3 @@ if __name__ == '__main__':
     grid, _ = run_grid_search(x_test, y_test, ClassifierType.NAIVE_BAYES)
     print("Miglior configurazione trovata:", grid.best_params_)
 \end{lstlisting}
-
-\section{Conclusioni}
-Il processo di \emph{Model Building} illustrato in questo documento si basa su una pipeline modulare che integra:
-\begin{itemize}
-  \item La trasformazione testuale con TF-IDF,
-  \item La riduzione della dimensionalità tramite Truncated SVD (quando necessario),
-  \item La scelta oculata del classificatore (Naive Bayes o SVM),
-  \item e l'ottimizzazione degli iperparametri tramite Grid Search, supportata da validazione incrociata.
-\end{itemize}
-Questo approccio formale e strutturato garantisce la realizzazione di modelli robusti, efficienti e generalizzabili, in grado di affrontare con successo le sfide poste dalla classificazione testuale.
