@@ -1,6 +1,64 @@
-%! Author = giuliosacrestano
-%! Date = 04/02/25
+\chapter{Deployment}
+\newtheorem{definition}{Definizione}[chapter]
 
-% Preamble
-\chapter{deployment}
-deployment
+\section{Server di Sviluppo Flask}
+Flask fornisce un server di sviluppo integrato che facilita il testing e lo sviluppo dell'applicazione. Il server viene configurato nel file principale dell'applicazione attraverso una semplice istruzione che ne definisce le modalità di esecuzione:
+
+\begin{lstlisting}[language=Python, caption=Configurazione Server Flask]
+if __name__ == '__main__':
+    app.run(debug=True)
+\end{lstlisting}
+
+\begin{definition}[Server di Sviluppo]
+Il server di sviluppo Flask è un web server leggero integrato nel framework, progettato per facilitare il processo di sviluppo e debug dell'applicazione. Non è ottimizzato per l'ambiente di produzione e non dovrebbe essere utilizzato in tale contesto.
+\end{definition}
+
+\section{Endpoints dell'API}
+L'applicazione espone due endpoint principali per i servizi basati su intelligenza artificiale. Il primo endpoint gestisce l'orientamento degli studenti attraverso il modello Gemini di Google, mentre il secondo si occupa della classificazione dei ticket di supporto.
+\begin{definition}[Endpoint]
+Un endpoint rappresenta un punto di accesso specifico dell'API che risponde a determinate richieste HTTP. Nel contesto di questa applicazione, gli endpoint sono progettati per gestire richieste POST e restituire risposte in formato testuale con codifica UTF-8.
+\end{definition}
+
+\section{Integrazione con Spring}
+L'applicazione Spring si interfaccia con il servizio Flask utilizzando RestTemplate per le comunicazioni HTTP. Questa integrazione permette di mantenere una separazione dei contesti applicativi garantendo al contempo una comunicazione efficiente tra i servizi.
+
+\begin{lstlisting}[language=Java, caption=Codice Integrazione Spring]
+private String callTicketService(String title, String message) {
+    var restTemplate = new RestTemplate();
+    var formData = new LinkedMultiValueMap<String, String>();
+    formData.add("title", title);
+    formData.add("message", message);
+    
+    var headers = new HttpHeaders();
+    headers.setContentType(
+        MediaType.APPLICATION_FORM_URLENCODED);
+    
+    var requestEntity = new HttpEntity<MultiValueMap<String, String>>(
+        formData, headers);
+    
+    ResponseEntity<String> response = restTemplate.postForEntity(
+        ticketServiceUrl, 
+        requestEntity, 
+        String.class);
+    
+    return response.getBody();
+}
+\end{lstlisting}
+
+\begin{definition}[RestTemplate]
+RestTemplate è una classe fornita da Spring Framework che semplifica l'interazione con servizi REST. Gestisce automaticamente la serializzazione e deserializzazione degli oggetti Java in richieste HTTP e viceversa.
+\end{definition}
+
+\section{Configurazione}
+La configurazione dell'applicazione Flask include alcuni parametri fondamentali per il corretto funzionamento del servizio. In particolare, viene gestita la codifica JSON per supportare caratteri UTF-8 e viene configurato il sistema di logging per il monitoraggio dell'applicazione:
+
+\begin{lstlisting}[language=Python, caption=Configurazione Base]
+app.config['JSON_AS_ASCII'] = False
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(levelname)s] %(message)s'
+)
+\end{lstlisting}
+
+Le variabili d'ambiente necessarie includono la chiave API per il servizio Gemini e l'URL del servizio ticket in Spring. Queste configurazioni devono essere gestite in modo appropriato nell'ambiente di deployment per garantire il corretto funzionamento dell'applicazione.
