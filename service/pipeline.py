@@ -378,9 +378,9 @@ def measure_pc_metrics_during_training(classifier_type: ClassifierType,
     save_model(best_model, classifier_type)
     return best_model
 
-
-# Select classifier and retrieve final model (load if it exists)
-selected_classifier: ClassifierType = ClassifierType.SVM
-logger.info("Selected classifier: %s", selected_classifier.value)
-logger.info("Retrieving final model (will load if it already exists)...")
-final_model: Pipeline = get_model(selected_classifier)
+def select_default_classifier() -> Pipeline:
+    # Select classifier and retrieve final model (load if it exists)
+    selected_classifier: ClassifierType = ClassifierType.SVM
+    logger.info("Selected classifier: %s", selected_classifier.value)
+    logger.info("Retrieving final model (will load if it already exists)...")
+    return get_model(selected_classifier)

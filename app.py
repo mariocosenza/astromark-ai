@@ -1,6 +1,8 @@
 import logging
 
 from flask import Flask, request, Response
+
+from service.pipeline import select_default_classifier
 from service.ticket_service import ticket_service
 from service.gemini_service import get_llm
 
@@ -30,7 +32,8 @@ def predict_tag():
     predictions = ticket_service(title, message)
     return Response(predictions, status=200, mimetype="text/plain; charset=utf-8")
 
-
+select_default_classifier()
 if __name__ == '__main__':
     app.run(debug=True)
+
 
