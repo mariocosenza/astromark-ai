@@ -1,11 +1,11 @@
 \chapter{Evaluation}
 
 \section{Introduzione}
-In questo capitolo, esamineremo i risultati ottenuti dalla \textbf{validazione incrociata} (\textbf{K-fold cross-validation}) sui modelli di classificazione \textbf{Naive Bayes} e \textbf{Support Vector Machine} (\textbf{SVM}). L'obiettivo principale è valutare le prestazioni di ciascun modello in modo sistematico e approfondito, utilizzando un approccio rigoroso basato su \textbf{metriche quantitative}.
+In questo capitolo, sono esaminati i risultati ottenuti dalla \textbf{validazione incrociata} (\textbf{K-fold cross-validation}) sui modelli di classificazione \textbf{Naive Bayes} e \textbf{Support Vector Machine} (\textbf{SVM}). L'obiettivo principale è valutare le prestazioni di ciascun modello in modo sistematico e approfondito, utilizzando un approccio rigoroso basato su \textbf{metriche quantitative}.
 
-Per ottenere un'analisi dettagliata, misureremo le performance di entrambi i modelli attraverso metriche chiave come \textbf{accuratezza}, \textbf{matrice di confusione}, \textbf{precisione}, \textbf{recall}, \textbf{F1-score} e \textbf{overfitting}. La \textbf{validazione incrociata} consente di ridurre la variabilità nei risultati e garantire che le \textbf{prestazioni osservate} non dipendano da una particolare suddivisione dei dati. In questo contesto, il \textbf{confronto} tra Naive Bayes e SVM permetterà di evidenziare differenze significative in termini di \textbf{capacità predittiva}, \textbf{robustezza} e \textbf{adattabilità} a differenti \textbf{distribuzioni dei dati}.
+Per ottenere un'analisi dettagliata, sono state misurate le performance di entrambi i modelli attraverso metriche chiave come \textbf{accuratezza}, \textbf{matrice di confusione}, \textbf{precisione}, \textbf{recall}, \textbf{F1-score} e \textbf{overfitting}. La \textbf{validazione incrociata} consente di ridurre la variabilità nei risultati e garantire che le \textbf{prestazioni osservate} non dipendano da una particolare suddivisione dei dati. In questo contesto, il \textbf{confronto} tra Naive Bayes e SVM permette di evidenziare differenze significative in termini di \textbf{capacità predittiva}, \textbf{robustezza} e \textbf{adattabilità} a differenti \textbf{distribuzioni dei dati}.
 
-Infine, discuteremo dei possibili \textbf{scenari applicativi} in cui ciascun modello potrebbe risultare più adatto, considerando fattori come la \textbf{sensibilità ai dati sbilanciati}, le \textbf{risorse computazionali richieste} e l'\textbf{interpretabilità del modello}.
+Infine, sono discussi dei possibili \textbf{scenari applicativi} in cui ciascun modello potrebbe risultare più adatto, considerando fattori come la \textbf{sensibilità ai dati sbilanciati}, le \textbf{risorse computazionali richieste} e l'\textbf{interpretabilità del modello}.
 
 
 
@@ -89,7 +89,7 @@ Le metriche per ogni categoria sono mostrate nella seguente tabella e visualizza
     \label{fig:metrics_train_naive_bayes}
 \end{figure}
 
-Il modello mostra buone performance complessive, ma nelle categorie \textbf{Segreteria} e \textbf{Tecnico} ci sono margini di miglioramento. \textbf{Segreteria} ha alta precisione ma basso richiamo, mentre \textbf{Tecnico} ha alta capacità di identificare le istanze (buon richiamo), ma con una precisione più bassa. Queste discrepanze suggeriscono che il modello può essere ottimizzato per bilanciare meglio precisione e richiamo in queste categorie.
+Il modello mostra buone performance complessive, ma nelle categorie \textbf{Segreteria} e \textbf{Tecnico} ci sono margini di miglioramento. \textbf{Segreteria} ha alta precisione ma basso recall, mentre \textbf{Tecnico} ha alta capacità di identificare le istanze (buon recall), ma con una precisione più bassa.
 
 \newpage
 
@@ -166,7 +166,7 @@ La matrice di confusione, che riporta il numero di previsioni corrette ed errate
     \label{fig:confusion_matrix_train_svm}
 \end{figure}
 
-Il modello mostra buone prestazioni complessive, con un’alta percentuale di istanze correttamente classificate, come evidenziato dai valori elevati sulla \textbf{diagonale principale}. Tuttavia, ci sono errori notabili tra alcune classi, in particolare tra le classi 1 e 4, dove il modello fatica a distinguere correttamente. Questo evidenzia alcune aree in cui il modello potrebbe migliorare nel riconoscere meglio le differenze tra queste classi.
+Il modello mostra buone prestazioni complessive, con un’alta percentuale di istanze correttamente classificate, come evidenziato dai valori elevati sulla \textbf{diagonale principale}. Tuttavia, ci sono errori notabili tra alcune classi, in particolare tra le classi 1 e 4, dove il modello fatica a distinguere correttamente.
 
 \newpage
 
@@ -204,7 +204,7 @@ Le metriche per ogni categoria sono mostrate nella seguente tabella e visualizza
     \label{fig:metrics_train_svm}
 \end{figure}
 
-Il modello ha buone performance complessive, ma nelle categorie \textbf{Tecnico} e \textbf{Didattica} ci sono margini di miglioramento. \textbf{Tecnico} mostra un buon richiamo, ma una precisione relativamente bassa, mentre \textbf{Didattica} ha una buona precisione, ma un richiamo leggermente inferiore. Queste discrepanze indicano che il modello potrebbe essere ottimizzato per migliorare l'equilibrio tra precisione e richiamo in queste categorie.
+Il modello ha buone performance complessive, ma nelle categorie \textbf{Tecnico} e \textbf{Didattica} ci sono margini di miglioramento. \textbf{Tecnico} mostra un buon richiamo, ma una precisione relativamente bassa, mentre \textbf{Didattica} ha una buona precisione, ma un richiamo leggermente inferiore.
 
 \newpage
 
@@ -307,14 +307,9 @@ Per meglio visualizzare e comprendere l'andamento dell'overfitting, è stato cal
 
 \section{Conclusioni}
 
-Entrambi i modelli, Naive Bayes e Support Vector Machine (SVM), hanno mostrato prestazioni eccellenti nel compito di \textbf{classificazione}, evidenziando differenze minime nelle metriche di valutazione. Sebbene il modello SVM ottenga leggermente migliori risultati in termini di accuratezza sui dati di test, con un'accuratezza del \textbf{90.79\%} rispetto al \textbf{89.74\%} di Naive Bayes, la differenza tra i due modelli risulta essere piuttosto contenuta, con un margine di soli pochi punti percentuali. Questo indica che entrambi i modelli sono ben calibrati per il compito e sono capaci di generalizzare efficacemente anche su dati non visti.
-
+Entrambi i modelli, Naive Bayes e Support Vector Machine (SVM), hanno mostrato prestazioni eccellenti nel compito di \textbf{classificazione}, evidenziando differenze minime nelle metriche di valutazione. Sebbene il modello SVM ottenga risultati migliori leggermente in termini di accuratezza sui dati di test, con un'accuratezza del \textbf{90.79\%} rispetto al \textbf{89.74\%} di Naive Bayes, la differenza tra i due modelli risulta essere piuttosto contenuta, con un margine di pochi punti percentuali. Questo indica che entrambi i modelli sono ben calibrati per il compito e sono capaci di generalizzare efficacemente. \newline
 \textbf{Naive Bayes}, grazie alla sua semplicità e velocità di esecuzione, potrebbe essere la scelta preferibile in scenari in cui le risorse computazionali sono limitate o in situazioni che richiedono modelli facilmente interpretabili. Inoltre, la capacità di Naive Bayes di gestire efficacemente grandi volumi di dati con risorse relativamente basse lo rende adatto per applicazioni in tempo reale o su dispositivi con risorse limitate.
 
 D'altra parte, il modello \textbf{SVM} si distingue per una maggiore precisione in alcuni casi, come evidenziato dalle metriche di precisione e recall, ed è generalmente considerato una scelta solida quando è necessaria una maggiore accuratezza, specialmente in contesti dove la performance sui dati di test è cruciale e si dispone di risorse computazionali adeguate. SVM è inoltre più adatto per situazioni che richiedono una maggiore capacità di generalizzazione rispetto a modelli con assunzioni più forti, come Naive Bayes.
 
 In definitiva, entrambi i modelli sono validi per il problema in esame e presentano un buon compromesso tra \textbf{accuratezza} e capacità di \textbf{generalizzazione}. La scelta finale tra Naive Bayes e SVM dipenderà da considerazioni specifiche relative all'ambiente applicativo, come la disponibilità di risorse computazionali, la necessità di interpretabilità del modello e la priorità data a una leggera miglioria nelle prestazioni rispetto alla velocità di esecuzione.
-
-
-
-

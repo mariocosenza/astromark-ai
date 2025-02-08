@@ -2,7 +2,7 @@
 \newtheorem{definition}{Definizione}[chapter]
 
 \section{Server di Sviluppo Flask}
-Flask fornisce un server di sviluppo integrato che facilita il testing e lo sviluppo dell'applicazione. Il server viene configurato nel file principale dell'applicazione attraverso una semplice istruzione che ne definisce le modalità di esecuzione:
+Flask fornisce un server integrato che facilita il testing e lo sviluppo dell'applicazione. Il server viene configurato nel file principale dell'applicazione attraverso una semplice istruzione che ne definisce le modalità di esecuzione:
 
 \begin{lstlisting}[language=Python, caption=Configurazione Server Flask]
 if __name__ == '__main__':
@@ -10,7 +10,7 @@ if __name__ == '__main__':
 \end{lstlisting}
 
 \begin{definition}[Server di Sviluppo]
-Il server di sviluppo Flask è un web server leggero integrato nel framework, progettato per facilitare il processo di sviluppo e debug dell'applicazione. Non è ottimizzato per l'ambiente di produzione e non dovrebbe essere utilizzato in tale contesto.
+Il server di sviluppo Flask è un web server leggero integrato nel framework, progettato per facilitare il processo di sviluppo e debug dell'applicazione.
 \end{definition}
 
 \section{Endpoints dell'API}
@@ -21,6 +21,7 @@ Un endpoint rappresenta un punto di accesso specifico dell'API che risponde a de
 
 \section{Integrazione con Spring}
 L'applicazione Spring si interfaccia con il servizio Flask utilizzando RestTemplate per le comunicazioni HTTP. Questa integrazione permette di mantenere una separazione dei contesti applicativi garantendo al contempo una comunicazione efficiente tra i servizi.
+\newpage
 
 \begin{lstlisting}[language=Java, caption=Codice Integrazione Spring]
 private String callTicketService(String title, String message) {
@@ -28,19 +29,19 @@ private String callTicketService(String title, String message) {
     var formData = new LinkedMultiValueMap<String, String>();
     formData.add("title", title);
     formData.add("message", message);
-    
+
     var headers = new HttpHeaders();
     headers.setContentType(
         MediaType.APPLICATION_FORM_URLENCODED);
-    
+
     var requestEntity = new HttpEntity<MultiValueMap<String, String>>(
         formData, headers);
-    
+
     ResponseEntity<String> response = restTemplate.postForEntity(
-        ticketServiceUrl, 
-        requestEntity, 
+        ticketServiceUrl,
+        requestEntity,
         String.class);
-    
+
     return response.getBody();
 }
 \end{lstlisting}
@@ -52,7 +53,7 @@ RestTemplate è una classe fornita da Spring Framework che semplifica l'interazi
 \section{Configurazione}
 La configurazione dell'applicazione Flask include alcuni parametri fondamentali per il corretto funzionamento del servizio. In particolare, viene gestita la codifica JSON per supportare caratteri UTF-8 e viene configurato il sistema di logging per il monitoraggio dell'applicazione:
 
-\begin{lstlisting}[language=Python, caption=Configurazione Base]
+\begin{lstlisting}[language=Python, caption=Configurazione base]
 app.config['JSON_AS_ASCII'] = False
 
 logging.basicConfig(

@@ -5,23 +5,23 @@ La presente appendice approfondisce due tematiche di rilevanza nel contesto educ
 \subsection*{Il Problema dell'Orientamento Universitario}
 L'orientamento universitario comporta diverse sfide:
 \begin{itemize}
-    \item \textbf{Scelta del percorso di studi:} Valutare le proprie attitudini, interessi e performance scolastiche per identificare il corso di studi più adatto.
-    \item \textbf{Informazione e supporto:} La mancanza di un riferimento strutturato può rendere difficoltosa la scelta, lasciando gli studenti senza un adeguato sostegno informativo.
-    \item \textbf{Adattamento al mercato del lavoro:} In un contesto in rapida evoluzione, la decisione sul percorso formativo deve tener conto anche delle future opportunità professionali.
+    \item \textbf{Scelta del percorso di studi:} valutare le proprie attitudini, interessi e performance scolastiche per identificare il corso di studi più adatto.
+    \item \textbf{Informazione e supporto:} la mancanza di un riferimento strutturato può rendere difficoltosa la scelta, lasciando gli studenti senza un adeguato sostegno informativo.
+    \item \textbf{Adattamento al mercato del lavoro:} in un contesto in rapida evoluzione, la decisione sul percorso formativo deve tener conto anche delle future opportunità professionali.
 \end{itemize}
 L’utilizzo dei modelli generativi offre l’opportunità di supportare il processo decisionale, fornendo analisi approfondite basate sui dati individuali e sulle tendenze del mercato, contribuendo a orientamenti più informati e personalizzati.
 
-\subsection*{Modelli Generativi e Loro Configurazione}
+\subsection*{Modelli Generativi e la loro Configurazione}
 I modelli generativi utilizzano algoritmi di intelligenza artificiale per creare contenuti testuali partendo da un input specifico. La configurazione del modello si basa su parametri chiave:
 \begin{itemize}
-    \item \textbf{Temperature:} Controlla il grado di casualità e creatività dell'output. Valori alti generano risultati più variabili.
-    \item \textbf{Top\_p e Top\_k:} Limitano il ventaglio delle possibili scelte durante la generazione, indirizzando il modello verso risposte più coerenti.
-    \item \textbf{Max\_output\_tokens:} Definisce il numero massimo di token, ovvero le unità base del testo, che il modello può produrre.
+    \item \textbf{Temperature:} controlla il grado di casualità e creatività dell'output. Valori alti generano risultati più variabili.
+    \item \textbf{Top\_p e Top\_k:} limitano il ventaglio delle possibili scelte durante la generazione, indirizzando il modello verso risposte più coerenti.
+    \item \textbf{Max\_output\_tokens:} definisce il numero massimo di token, ovvero le unità base del testo, che il modello può produrre.
 \end{itemize}
-È fondamentale una gestione sicura delle chiavi API, solitamente tramite variabili d'ambiente, per garantire l’accesso protetto ai servizi di intelligenza artificiale.
+La gestione delle chiavi API avviene tramite variabile d'ambiente, per garantire l’accesso protetto ai servizi di intelligenza artificiale.
 
 \subsection*{Esempio di Codice}
-Di seguito viene riportato un esempio in Python che illustra come configurare e utilizzare un modello generativo per fornire suggerimenti formali sull’orientamento universitario:
+Di seguito viene riportato un esempio in Python che illustra come configurare e utilizzare un modello generativo per fornire suggerimenti formali sull'orientamento universitario:
 
 \begin{lstlisting}[language=Python, caption=Esempio di utilizzo di un modello generativo per l'orientamento universitario, basicstyle=\ttfamily\small, breaklines=true]
 import os
@@ -37,15 +37,11 @@ config = genai.types.GenerationConfig(
 
 def genera_suggerimenti(voti):
     # Configurazione del client con la chiave API sicura
-    genai.configure(api_key=os.environ.get("API_CHIAVE"))
+    genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
     modello = genai.GenerativeModel("gemini-1.5-flash", generation_config=config)
-    
+
     # Definizione del prompt per la richiesta di orientamento
     prompt = f"Fornisci un consiglio formale per l'orientamento universitario. Voti: {voti}"
     risposta = modello.generate_content(prompt)
     return risposta.text
-
-# Esempio di utilizzo
-if __name__ == "__main__":
-    print(genera_suggerimenti("28, 30, 27"))
 \end{lstlisting}

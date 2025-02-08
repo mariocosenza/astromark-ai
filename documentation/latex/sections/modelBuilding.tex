@@ -1,0 +1,202 @@
+ \chapter{Model Building}
+
+ \section{Introduzione}
+ Il processo di \emph{Model Building} è fondamentale per tradurre le rappresentazioni numeriche ottenute in fase di Feature Engineering in un modello capace di classificare testi in modo accurato e robusto. In questo capitolo si descrive formalmente la composizione di una pipeline modulare, l'ottimizzazione degli iperparametri e la scelta del classificatore, fornendo definizioni matematiche ed esempi di implementazione.
+
+ \section{Definizione della Pipeline}
+ \textbf{Definizione 6.1 (Pipeline di Machine Learning)}. \textit{Una pipeline di machine learning è definita come una sequenza ordinata di trasformazioni dati, implementata per automatizzare il flusso di lavoro di modellazione.} Formalmente, una pipeline \( \mathcal{P} \) è una funzione composita di \( n \) trasformazioni \( f_i \):
+ \[
+ \mathcal{P}(x) = f_n \circ f_{n-1} \circ \cdots \circ f_1(x),
+ \]
+ dove ciascun \( f_i \) rappresenta una trasformazione applicata al dato grezzo \( x \). L'output finale \( \mathcal{P}(x) \) è la predizione del modello, ossia l'etichetta di classe assegnata.
+ La pipeline si compone dei seguenti elementi:
+ \begin{enumerate}
+   \item \textbf{Vettorizzazione:} Converte il testo in vettori numerici mediante TF-IDF.
+   \item \textbf{(Opzionale) Riduzione della Dimensionalità:} Utilizza tecniche come la Truncated SVD per ridurre lo spazio delle feature, soprattutto se il modello è molto complesso.
+   \item \textbf{Classificazione:} Addestra un classificatore, ad esempio \emph{Naive Bayes} o \emph{Support Vector Machine (SVM)}, per assegnare ad ogni documento un'etichetta.
+ \end{enumerate}
+ \newpage
+
+ \section{Scelta del Classificatore}
+ La scelta del classificatore dipende dalla natura dei dati e dalle esigenze del problema:
+ \begin{itemize}
+   \item \textbf{Naive Bayes:} basato su un modello probabilistico che assume l'indipendenza condizionale delle feature. È particolarmente efficace per dati testuali e regola il proprio comportamento tramite il parametro \texttt{alpha}.
+
+   \textbf{Definizione 6.2 (Classificatore Naive Bayes)}. \textit{Un classificatore Naive Bayes è un algoritmo di classificazione probabilistico basato sull'applicazione del teorema di Bayes con l'assunzione "naive" di indipendenza condizionale tra ogni coppia di feature data la classe della variabile.}
+
+   Per il testo, questa assunzione si traduce nell'ipotesi che la presenza di una parola in un documento sia indipendente dalla presenza di altre parole, dato l'argomento del documento. Il parametro \texttt{alpha} in \texttt{MultinomialNB} è un parametro di smoothing additivo, che previene probabilità nulle per parole non viste nei dati di training.
+
+   \item \textbf{Support Vector Machine (SVM):} utilizza un kernel lineare per individuare l'iperpiano che separa al meglio le diverse classi. L'opzione \texttt{probability=True} permette di stimare probabilità, mentre il parametro \texttt{C} gestisce il compromesso tra margine e errore di classificazione.
+
+   \textbf{Definizione 6.3 (Support Vector Machine - SVM)}. \textit{Un Support Vector Machine (SVM) è un algoritmo di apprendimento supervisionato utilizzato per la classificazione e la regressione. In un contesto di classificazione binaria, un SVM mira a trovare l'iperpiano ottimale che massimizza il margine tra le due classi nello spazio delle feature. Per dati non linearmente separabili, SVM utilizza funzioni kernel per mappare i dati in uno spazio di dimensionalità superiore dove è possibile trovare un iperpiano lineare.}
+
+   Il parametro \texttt{C} è un parametro di regolarizzazione che controlla il trade-off tra massimizzare il margine e minimizzare l'errore di classificazione sui dati di training. Un valore minore di \texttt{C} privilegia un margine più ampio, potenzialmente portando a una maggiore generalizzazione, mentre un valore maggiore di \texttt{C} cerca di classificare correttamente tutti i punti di training, rischiando l'overfitting. L'opzione \texttt{probability=True} abilita la stima della probabilità di appartenenza alla classe, utilizzando la cross-validazione.
+ \end{itemize}
+ \newpage
+
+ \section{Implementazione della Pipeline}
+ Lo snippet di codice seguente (\texttt{pipeline.py}) illustra la costruzione della pipeline in Python. Tale esempio mostra la configurazione del vettorizzatore TF-IDF, la possibile applicazione della Truncated SVD e la scelta del classificatore.
+
+ \begin{lstlisting}[language=Python,caption={File pipeline.py}]
+ from typing import Tuple, Dict, Any
+ from sklearn.pipeline import Pipeline
+ from sklearn.feature_extraction.text import TfidfVectorizer
+ from sklearn.decomposition import TruncatedSVD
+ from sklearn.naive_bayes import MultinomialNB
+ from sklearn.svm import SVC
+
+ class ClassifierType:
+     NAIVE_BAYES = 'naive_bayes'
+     SVM = 'svm'
+
+ def build_pipeline(classifier_type: str) -> Tuple[Pipeline, Dict[str, Any]]:
+     # Configurazione del vettorizzatore TF-IDF
+     tfidf = TfidfVectorizer(
+         use_idf=True,
+         ngram_range=(1, 2),
+         max_features=3000,
+         norm='l2',
+         smooth_idf=True,
+         sublinear_tf=True
+     )
+
+     if classifier_type == ClassifierType.NAIVE_BAYES:
+         classifier = MultinomialNB()
+         pipeline = Pipeline([
+             ('tfidf', tfidf),
+             ('clf', classifier)
+         ])
+         param_grid = {
+             'tfidf__min_df': [1, 3],
+             'tfidf__max_df': [0.85, 0.90],
+             'clf__alpha': [1.0, 1.5, 2.0]
+         }
+     elif classifier_type == ClassifierType.SVM:
+         # In SVM, si applica la Truncated SVD per ridurre la dimensionalita
+         svd = TruncatedSVD(n_components=100, random_state=42)
+         classifier = SVC(probability=True, kernel='linear', random_state=42)
+         pipeline = Pipeline([
+             ('tfidf', tfidf),
+             ('svd', svd),
+             ('clf', classifier)
+         ])
+         param_grid = {
+             'tfidf__min_df': [1, 3],
+             'tfidf__max_df': [0.85, 0.90],
+             'svd__n_components': [30, 50, 100, 150],
+             'clf__C': [0.1, 0.5, 1.0, 2.0]
+         }
+     else:
+         raise ValueError("Classifier type not supported.")
+
+     return pipeline, param_grid
+ \end{lstlisting}
+
+ \section{Ottimizzazione degli Iperparametri}
+ L'ottimizzazione degli iperparametri viene realizzata tramite Grid Search. Formalmente, si cerca:
+ \[
+ \theta^* = \arg \min_{\theta \in \Theta} J_{\text{CV}}(\theta),
+ \]
+ dove \(J_{\text{CV}}(\theta)\) è il costo medio stimato mediante validazione incrociata (ad esempio, con 5 fold).
+
+ \textbf{Definizione 6.4 (Grid Search)}. \textit{Grid Search è un algoritmo di ottimizzazione degli iperparametri che esegue una ricerca esaustiva attraverso un sottoinsieme definito dallo spazio degli iperparametri di un modello. Per ogni combinazione di iperparametri nella griglia, valuta le prestazioni del modello utilizzando la cross-validazione. La combinazione che produce le migliori prestazioni (secondo una metrica di valutazione scelta, come l'accuratezza o l'F1-score) viene selezionata come la configurazione ottimale degli iperparametri.}
+
+ Il seguente snippet mostra un esempio dell'utilizzo di Grid Search per trovare la migliore combinazione di iperparametri.
+
+ \begin{lstlisting}[language=Python]
+ from typing import Tuple, Dict, Any, Optional
+ import pandas as pd
+ from sklearn.model_selection import KFold, GridSearchCV
+ from build_pipeline import build_pipeline, ClassifierType
+
+ def run_grid_search(x_data: pd.Series,
+                     y_data: pd.Series,
+                     classifier_type: str,
+                     monitor: bool = False
+                    ) -> Tuple[GridSearchCV, Optional[Dict[str, Any]]]:
+     pipeline, param_grid = build_pipeline(classifier_type)
+     # Suddivisione dei dati in 5 fold per la validazione incrociata
+     kf = KFold(n_splits=5, shuffle=True, random_state=42)
+     grid_search = GridSearchCV(pipeline, param_grid, cv=kf, n_jobs=-1, verbose=0)
+
+     if monitor:
+         # Possibile implementazione del monitoraggio delle risorse (CPU, memoria, tempo)
+         pass
+     else:
+         grid_search.fit(x_data, y_data)
+
+     return grid_search, None
+ \end{lstlisting}
+
+ \section{Funzioni di Inferenza: \texttt{get\_model} e \texttt{predict\_category}}
+
+ Questa sezione descrive in dettaglio le funzioni \texttt{get\_model} e \texttt{predict\_category}, cruciali per la fase di inferenza del modello. Queste funzioni incapsulano rispettivamente il caricamento e l'addestramento del modello, e la predizione della categoria di nuovi messaggi.
+
+ \subsection{\texttt{get\_model}}
+
+ La funzione \texttt{get\_model(classifier\_type: ClassifierType) -> Pipeline} gestisce il caricamento e l'addestramento del modello di classificazione.\newline
+ \textbf{Definizione 6.5 (Modello Pre-addestrato)}. \textit{un modello pre-addestrato è un modello di machine learning che è stato precedentemente addestrato su un dataset di grandi dimensioni.} \newline
+ In questo contesto, un modello pre-addestrato viene salvato su disco dopo la fase di ottimizzazione degli iperparametri per essere riutilizzato senza dover ripetere l'intero processo di addestramento. La funzione opera come segue:
+ \begin{enumerate}
+     \item \textbf{Caricamento del Modello Pre-addestrato:} tenta di caricare un modello pre-addestrato dal disco per il \texttt{classifier\_type} specificato.
+     \item \textbf{Addestramento tramite Grid Search (se necessario):} se non viene trovato alcun modello salvato, la funzione procede con l'addestramento di un nuovo modello, utilizzando i dati di training \(X_{\text{processed}}\) e le etichette \(y\).
+     \item \textbf{Salvataggio del Modello:} dopo l'addestramento, il modello ottimizzato viene salvato su disco per utilizzi futuri.
+     \item \textbf{Restituzione del Modello:} la funzione restituisce il modello, sia esso caricato o appena addestrato.
+ \end{enumerate}
+\newpage
+ \begin{lstlisting}[language=Python,caption={Funzione get\_model}]
+  def get_model(classifier_type: ClassifierType) -> Pipeline:
+      """
+      Load a pre-trained model if available; otherwise, train via grid search and save the model.
+      Returns the model.
+      """
+      model = load_model(classifier_type)
+      if model is None:
+          logger.info("No saved model found for %s. Training a new one...", classifier_type.value)
+          model = perform_grid_search(X_processed, y, classifier_type)
+          save_model(model, classifier_type)
+      else:
+          logger.info("Using saved model for %s.", classifier_type.value)
+      return model
+ \end{lstlisting}
+
+ \subsection{\texttt{predict\_category}}
+
+ La funzione \texttt{predict\_category(message: str, classifier\_type: ClassifierType, top\_n: int = 3) -> List[Tuple[Any, float]]} è responsabile della predizione della categoria per un nuovo messaggio di testo. \newline
+
+ \textbf{Definizione 6.6 (Predizione di Categoria)}. \textit{La predizione di categoria è il processo di assegnazione di una o più etichette di categoria predefinite a un nuovo documento di testo, basandosi su un modello di classificazione addestrato.}\newline
+
+ La funzione esegue i seguenti passi:
+ \begin{enumerate}
+     \item \textbf{Pre-processamento del Messaggio di Input:} il messaggio di input viene pre-processato utilizzando la funzione \texttt{process\_text}, che include le operazioni di pulizia e normalizzazione del testo descritte nel capitolo precedente.
+     \item \textbf{Predizione e Probabilità:} utilizza il modello caricato per predire la categoria del messaggio pre-processato. Se il modello supporta la stima delle probabilità (come nel caso di SVM con \texttt{probability=True} e Naive Bayes), la funzione calcola le probabilità per ciascuna classe.
+     \item \textbf{Restituzione delle Top-N Predizioni:} se sono disponibili le probabilità, la funzione restituisce una lista delle \texttt{top\_n} categorie più probabili, ordinate per probabilità decrescente, insieme alle rispettive probabilità.
+ \end{enumerate}
+\newpage
+ \begin{lstlisting}[language=Python,caption={Funzione predict\_category}]
+  def predict_category(
+          message: str,
+          classifier_type: ClassifierType,
+          top_n: int = 3
+  ) -> List[Tuple[Any, float]]:
+      """
+      Preprocess the input message and predict its category using the specified classifier.
+      Returns top-N predicted labels and probabilities if available.
+      """
+      logger.info("Predicting category for a new message...")
+      model = get_model(classifier_type)
+      processed_message = process_text(message)
+      clf = model.named_steps.get('clf', model)  # Use dict-like access if available
+
+      if hasattr(clf, "predict_proba"):
+          probs = model.predict_proba([processed_message])[0]
+          classes = clf.classes_
+          sorted_indices = np.argsort(probs)[::-1]
+          top_n = min(top_n, len(classes))
+          predictions = [(classes[i], probs[i]) for i in sorted_indices[:top_n]]
+          return predictions
+
+      # Fallback: predict single label with probability 1.0
+      category = model.predict([processed_message])[0]
+      return [(category, 1.0)]
+ \end{lstlisting}
