@@ -7,9 +7,10 @@ scikit-learn~=1.6.1
 pyspellchecker~=0.8.2
 google-generativeai
 matplotlib~=3.10.0
-numpy~=2.2.2
+numpy~=1.26.4
 seaborn~=0.13.2
 Flask~=3.1.0
+gensim~=4.3.3
 
 # Scarica il modello di lingua italiana di SpaCy
 spacy[model] @ https://github.com/explosion/spacy-models/releases/download/it_core_news_sm-3.4.0/it_core_news_sm-3.4.0.tar.gz
