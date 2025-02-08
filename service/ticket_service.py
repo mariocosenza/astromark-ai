@@ -1,6 +1,7 @@
 from .pipeline import ClassifierType
 from .report_predict import predict_category
 
+
 def ticket_service(title, message):
     full_text = f"{title} {message}".strip()
     # Call the predict_category function; it should return a list of (label, probability) tuples
@@ -12,4 +13,3 @@ def ticket_service(title, message):
     else:
         print("No prediction obtained.")
         return "Category"
-
