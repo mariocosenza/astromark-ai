@@ -18,6 +18,7 @@ from .pipeline import (
     process_text,
     get_model,
     ClassifierType,
+    build_pipeline
 )
 
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
@@ -124,7 +125,6 @@ def evaluate_model_with_kfold(
     avg_train_report = pd.concat(train_reports).groupby(level=0).mean()
     avg_test_report = pd.concat(test_reports).groupby(level=0).mean()
 
-
     results = {
         "train": {
             "accuracy": avg_train_acc,
@@ -208,6 +208,7 @@ def _plot_overfitting_bar(
     plt.ylabel("Train Accuracy - Test Accuracy")
     plt.title(f"{classifier_name} - Overfitting Differences per Fold")
     finalize_plot(save_plots, filename)
+
 
 def plot_kfold_summary(
         kfold_results: Dict[str, Any],
@@ -323,3 +324,70 @@ def compare_classifiers_with_kfold(
     finalize_plot(save_plots, filename="kfold_overfitting_comparison.png" if save_plots else None)
 
     return df_compare
+
+
+def plot_hughes_phenomenon_truncated_svd_fixed(
+        X: Union[pd.Series, np.ndarray],
+        y: Union[pd.Series, np.ndarray],
+        n_splits: int = 5,
+        save_plot: bool = False,
+        filename: Optional[str] = None
+) -> None:
+    """
+    Create a Hughes Phenomenon graph for the SVM pipeline by varying the number of
+    TruncatedSVD components. This function tests only the specific values: 1000, 3000, and 5000.
+    For each value, it performs K-fold cross-validation, computes the average train and test accuracy,
+    and plots the results.
+
+    Parameters:
+        X (Union[pd.Series, np.ndarray]): Input feature data.
+        y (Union[pd.Series, np.ndarray]): Target labels.
+        n_splits (int): Number of folds for cross-validation (default is 5).
+        save_plot (bool): If True, the plot is saved to a file.
+        filename (Optional[str]): Filename to save the plot if save_plot is True.
+    """
+    logger.info("Creating Hughes Phenomenon graph for fixed TruncatedSVD components: 200, 500, 1000, 2000, 3000...")
+
+    # Define the specific number of components to test.
+    components_list = [200, 500, 1000, 2000, 3000]
+    train_accuracies = []
+    test_accuracies = []
+
+    skf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+
+    for n_comp in components_list:
+        fold_train_scores = []
+        fold_test_scores = []
+
+        # Build the base pipeline for SVM (includes TruncatedSVD)
+        pipeline, _ = build_pipeline(ClassifierType.SVM)
+        # Set the number of SVD components to the current value.
+        pipeline.named_steps['svd'].n_components = n_comp
+
+        for train_idx, test_idx in skf.split(X, y):
+            # Support both pd.Series and array-like structures.
+            X_train = X.iloc[train_idx] if isinstance(X, pd.Series) else X[train_idx]
+            X_test = X.iloc[test_idx] if isinstance(X, pd.Series) else X[test_idx]
+            y_train = y.iloc[train_idx] if isinstance(y, pd.Series) else y[train_idx]
+            y_test = y.iloc[test_idx] if isinstance(y, pd.Series) else y[test_idx]
+
+            # Clone the pipeline for each fold to ensure independence.
+            fold_pipeline = clone(pipeline)
+            fold_pipeline.fit(X_train, y_train)
+
+            fold_train_scores.append(accuracy_score(y_train, fold_pipeline.predict(X_train)))
+            fold_test_scores.append(accuracy_score(y_test, fold_pipeline.predict(X_test)))
+
+        train_accuracies.append(np.mean(fold_train_scores))
+        test_accuracies.append(np.mean(fold_test_scores))
+
+    plt.figure(figsize=(8, 6))
+    plt.plot(components_list, train_accuracies, marker='o', label='Train Accuracy')
+    plt.plot(components_list, test_accuracies, marker='o', label='Test Accuracy')
+    plt.xlabel('Number of TruncatedSVD Components')
+    plt.ylabel('Accuracy')
+    plt.title('Hughes Phenomenon: Effect of TruncatedSVD Components on Accuracy')
+    plt.legend()
+
+    finalize_plot(save_plot, filename)
+    logger.info("Hughes Phenomenon graph created with components %s.", components_list)
