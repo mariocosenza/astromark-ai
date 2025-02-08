@@ -1,0 +1,75 @@
+\chapter{Feature Engineering}
+
+\section{Introduzione}
+La fase di Feature Engineering è cruciale nel processo di sviluppo di modelli di machine learning, specialmente in ambito Natural Language Processing (NLP). Questa fase si occupa della trasformazione dei dati grezzi in rappresentazioni numeriche che catturino le caratteristiche essenziali dei testi. Un’accurata progettazione in questa fase riduce il rumore e la complessità computazionale, ponendo solide basi per le successive attività di modellazione.
+
+\section{Trasformazione del Testo con TF-IDF}
+L'approccio TF-IDF (Term Frequency-Inverse Document Frequency) è una tecnica consolidata per convertire testi in vettori numerici. Essa assegna un peso a ciascun termine in un documento, rendendo più rilevanti i termini discriminanti rispetto a quelli troppo comuni.
+Formalmente, il peso \(w(t,d)\) per un termine \(t\) in un documento \(d\) appartenente ad un corpus \(D\) è definito da:
+\[
+w(t,d) = \text{tf}(t,d) \cdot \log \frac{N}{\text{df}(t)}
+\]
+Nella quale:
+\begin{itemize}
+    \item \(\text{tf}(t,d)\) è il conteggio del termine \(t\) nel documento \(d\);
+    \item \(N\) rappresenta il numero totale dei documenti nel corpus;
+    \item \(\text{df}(t)\) indica il numero di documenti in cui il termine \(t\) appare.
+\end{itemize}
+
+I parametri comuni del vettorizzatore TF-IDF sono:
+\begin{itemize}
+    \item \texttt{use\_idf=True}: attiva la ponderazione inversa.
+    \item \texttt{ngram\_range=(1, 2)}: include sia unigrammi che bigrammi per cogliere relazioni tra parole.
+    \item \texttt{max\_features=3000}: limita il vocabolario ai termini più rilevanti, migliorando l'efficienza.
+    \item \texttt{norm='l2'}: applica la normalizzazione per uniformare i vettori.
+    \item \texttt{smooth\_idf=True}: evita problemi di divisione per zero mediante una regolarizzazione dell’IDF.
+    \item \texttt{sublinear\_tf=True}: applica una scala logaritmica per attenuare l’effetto di termini dalle frequenze molto elevate.
+\end{itemize}
+
+\section{Confronto tra Word2Vec e TF-IDF}
+
+\subsection{Word2Vec: Definizione e Caratteristiche}
+\textbf{Definizione 5.1 (Word2Vec)}. \textit{Word2Vec è un insieme di modelli di rete neurale che producono word embedding, ovvero rappresentazioni vettoriali distribuite di parole in uno spazio continuo a \(n\) dimensioni. Formalmente, dato un vocabolario \(V\), Word2Vec apprende una funzione \(\phi: V \rightarrow \mathbb{R}^n\) che mappa ogni parola \(w \in V\) in un vettore \(\vec{w} \in \mathbb{R}^n\), dove \(n\) è la dimensione dello spazio di embedding.}
+
+Word2Vec utilizza due architetture principali:
+\begin{itemize}
+    \item \textbf{Continuous Bag of Words (CBOW):} predice una parola target date le parole del contesto. La probabilità condizionata è definita come:
+    \[
+    P(w_t|w_{t-k}, ..., w_{t-1}, w_{t+1}, ..., w_{t+k}) = \frac{\exp(\vec{w_t}^T \cdot \vec{h})}{\sum_{w' \in V} \exp(\vec{w'}^T \cdot \vec{h})}
+    \]
+    dove \(\vec{h}\) è la media dei vettori delle parole di contesto.
+
+    \item \textbf{Skip-gram:} predice le parole del contesto data una parola target.
+\end{itemize}
+
+\subsection{Motivazione della Scelta di TF-IDF}
+La scelta di utilizzare TF-IDF invece di Word2Vec è stata guidata da diverse considerazioni teoriche e pratiche:
+
+\begin{enumerate}
+    \item \textbf{Interpretabilità:} TF-IDF produce rappresentazioni sparse e direttamente interpretabili, dove ogni dimensione corrisponde a una specifica parola del vocabolario.
+    \item \textbf{Efficienza Computazionale:} TF-IDF non richiede una fase di pre-training su grandi corpora di testo, risultando computazionalmente più efficiente. La complessità temporale per la costruzione della matrice TF-IDF è \(O(|D| \cdot \bar{L})\), dove \(|D|\) è il numero di documenti e \(\bar{L}\) è la lunghezza media dei documenti.
+
+    \item \textbf{Dimensione del Dataset:} Word2Vec richiede tipicamente grandi quantità di dati per apprendere embedding significativi. Per un dataset di dimensioni moderate, TF-IDF offre una rappresentazione più robusta senza il rischio di underfitting.
+
+    \item \textbf{Specificità del Dominio:} TF-IDF cattura efficacemente l'importanza relativa dei termini nel contesto specifico del corpus, mentre Word2Vec potrebbe introdurre bias dovuti al pre-training su domini diversi.
+\end{enumerate}
+
+\section{Riduzione della Dimensionalità tramite Truncated SVD}
+La rappresentazione TF-IDF genera uno spazio vettoriale di elevata dimensionalità, spesso sparso. La tecnica di Truncated Singular Value Decomposition (SVD) riduce la dimensionalità mantenendo la maggior parte della varianza informativa. Data una matrice \(A \in \mathbb{R}^{m \times n}\) ottenuta dal TF-IDF, la SVD decompone la matrice nel seguente modo:
+\[
+A = U \Sigma V^T,
+\]
+Nella quale:
+\begin{itemize}
+    \item \(U\) e \(V\) sono matrici ortogonali;
+    \item \(\Sigma\) è una matrice diagonale con i valori singolari in ordine decrescente.
+\end{itemize}
+Aplicando la Truncated SVD, si conserva un numero ridotto \(k\) di valori singolari:
+\[
+A_k = U_k \Sigma_k V_k^T,
+\]
+con \(k\) scelto in base all'analisi della varianza da preservare (ad esempio, 30, 50, 100). Questa operazione consente di semplificare il modello, eliminando rumore e ridondanze nel set di feature.
+
+
+
+La riduzione della dimensionalità tramite Truncated SV insieme alla trasformazione del testo con TF-IDF permettono di ottenere una rappresentazione dei dati testuali efficace e compatta. Tali tecniche , migliorano le prestazioni computazionali e la generalizzazione del modello di machine learning.

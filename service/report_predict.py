@@ -1,220 +1,393 @@
-"""
-Module for generating model performance reports and category predictions.
-
-This module provides functions to compute comprehensive metrics and visualizations
-for training and test sets, and a helper function for predicting message categories.
-"""
-
 import logging
+from typing import Any, Dict, List, Tuple, Union, Optional
 
-import matplotlib.pyplot as plt  # pylint: disable=import-error
-import numpy as np  # pylint: disable=import-error
-import pandas as pd  # pylint: disable=import-error
-import seaborn as sns  # pylint: disable=import-error
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from sklearn.base import clone
 from sklearn.metrics import (
-    classification_report, confusion_matrix, roc_curve, auc, accuracy_score
-)  # pylint: disable=import-error
+    classification_report,
+    confusion_matrix,
+    accuracy_score
+)
+from sklearn.model_selection import KFold
 
-# Import the relevant objects from pipeline.py using relative import
-from .pipeline import get_model, process_text
+# Import pipeline objects
+from .pipeline import (
+    process_text,
+    get_model,
+    ClassifierType,
+    build_pipeline
+)
 
+logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-def _compute_metrics(model, x, y):
+def predict_category(
+        message: str,
+        classifier_type: ClassifierType,
+        top_n: int = 3
+) -> List[Tuple[Any, float]]:
     """
-    Compute prediction metrics for a dataset.
-
-    Returns:
-        report_df: DataFrame of the classification report.
-        conf: Confusion matrix.
-        accuracy: Accuracy score.
-        auc_val: AUC value if binary classification, else None.
-        roc_data: Tuple of (fpr, tpr) if binary classification, else None.
-    """
-    y_pred = model.predict(x)
-    report_df = pd.DataFrame(
-        classification_report(y, y_pred, output_dict=True)
-    ).transpose()
-    conf = confusion_matrix(y, y_pred)
-    accuracy = accuracy_score(y, y_pred)
-    auc_val = None
-    roc_data = None
-
-    # Check if model is a pipeline with a classifier under key 'clf'
-    clf = (model.named_steps['clf'] if hasattr(model, "named_steps") and
-           'clf' in model.named_steps else model)
-
-    if hasattr(clf, 'classes_') and len(clf.classes_) == 2:
-        probs = model.predict_proba(x)[:, 1]
-        fpr, tpr, _ = roc_curve(y, probs)
-        auc_val = auc(fpr, tpr)
-        roc_data = (fpr, tpr)
-    return report_df, conf, accuracy, auc_val, roc_data
-
-
-def _plot_figure(plt_obj, title, xlabel, ylabel, save_plots, filename):
-    """
-    Save the figure to file if save_plots is True; otherwise, display it.
-    """
-    plt_obj.title(title)
-    plt_obj.xlabel(xlabel)
-    plt_obj.ylabel(ylabel)
-    if save_plots:
-        plt_obj.savefig(filename)
-        plt_obj.close()
-    else:
-        plt_obj.show()
-
-
-def generate_full_model_report(model, data, save_plots=False):
-    """
-    Generates and logs a comprehensive report of model performance on both
-    training and test sets.
-
-    The data argument should be a dictionary containing:
-        - x_train, y_train, x_test, y_test
-
-    Returns:
-        A dictionary with detailed metrics for further analysis.
-    """
-    logger.info("Generating full model report...")
-
-    # Compute metrics for training data
-    (train_report_df, train_conf, train_accuracy, auc_train,
-     roc_train) = _compute_metrics(model, data["x_train"], data["y_train"])
-
-    # Compute metrics for test data
-    (test_report_df, test_conf, test_accuracy, auc_test,
-     roc_test) = _compute_metrics(model, data["x_test"], data["y_test"])
-
-    # Retrieve the classifier from a pipeline if available.
-    clf = (model.named_steps['clf'] if hasattr(model, "named_steps") and
-           'clf' in model.named_steps else model)
-
-    # Log training metrics using lazy formatting
-    logger.info("========== TRAINING METRICS ==========")
-    logger.info("Overall Accuracy: %.4f", train_accuracy)
-    if auc_train is not None:
-        logger.info("ROC AUC: %.4f", auc_train)
-    logger.info("Classification Report (Train):\n%s", train_report_df)
-    if hasattr(clf, 'classes_'):
-        logger.info("Confusion Matrix (Train) - Classes: %s", clf.classes_)
-    logger.info("\n%s", train_conf)
-
-    # Log testing metrics using lazy formatting
-    logger.info("========== TESTING METRICS ==========")
-    logger.info("Overall Accuracy: %.4f", test_accuracy)
-    if auc_test is not None:
-        logger.info("ROC AUC: %.4f", auc_test)
-    logger.info("Classification Report (Test):\n%s", test_report_df)
-    if hasattr(clf, 'classes_'):
-        logger.info("Confusion Matrix (Test) - Classes: %s", clf.classes_)
-    logger.info("\n%s", test_conf)
-
-    # Plot confusion matrices for training and testing data
-    plt.figure(figsize=(6, 5))
-    sns.heatmap(train_conf, annot=True, fmt="d", cmap="Blues")
-    plt.title("Training Confusion Matrix")
-    plt.xlabel("Predicted")
-    plt.ylabel("Actual")
-    if save_plots:
-        plt.savefig("train_confusion_matrix.png")
-        plt.close()
-    else:
-        plt.show()
-
-    plt.figure(figsize=(6, 5))
-    sns.heatmap(test_conf, annot=True, fmt="d", cmap="Blues")
-    plt.title("Testing Confusion Matrix")
-    plt.xlabel("Predicted")
-    plt.ylabel("Actual")
-    if save_plots:
-        plt.savefig("test_confusion_matrix.png")
-        plt.close()
-    else:
-        plt.show()
-
-    # Plot ROC curves (only if both training and test ROC data exist)
-    if roc_train is not None and roc_test is not None:
-        fpr_train, tpr_train = roc_train
-        fpr_test, tpr_test = roc_test
-        plt.figure(figsize=(8, 6))
-        plt.plot(fpr_train, tpr_train,
-                 label="Train ROC (AUC = %.4f)" % auc_train)
-        plt.plot(fpr_test, tpr_test,
-                 label="Test ROC (AUC = %.4f)" % auc_test)
-        plt.plot([0, 1], [0, 1], 'k--')
-        plt.xlabel("False Positive Rate")
-        plt.ylabel("True Positive Rate")
-        plt.title("ROC Curve")
-        plt.legend(loc="lower right")
-        if save_plots:
-            plt.savefig("roc_curve.png")
-            plt.close()
-        else:
-            plt.show()
-
-    # Plot bar chart for per-class metrics (precision, recall, f1-score)
-    aggregate_rows = ["accuracy", "macro avg", "weighted avg"]
-    class_labels = [label for label in test_report_df.index
-                    if label not in aggregate_rows]
-    if class_labels:
-        metrics = test_report_df.loc[class_labels, ["precision", "recall", "f1-score"]]
-        metrics.plot(kind="bar", figsize=(10, 6))
-        plt.title("Classification Metrics by Class (Test)")
-        plt.xlabel("Class")
-        plt.ylabel("Score")
-        plt.ylim(0, 1)
-        plt.legend(loc="lower right")
-        if save_plots:
-            plt.savefig("class_metrics.png")
-            plt.close()
-        else:
-            plt.show()
-
-    return {
-        "train": {
-            "accuracy": train_accuracy,
-            "auc": auc_train,
-            "report_df": train_report_df,
-            "confusion_matrix": train_conf,
-            "roc_data": roc_train,
-        },
-        "test": {
-            "accuracy": test_accuracy,
-            "auc": auc_test,
-            "report_df": test_report_df,
-            "confusion_matrix": test_conf,
-            "roc_data": roc_test,
-        }
-    }
-
-
-def predict_category(message, classifier_type, top_n=3):
-    """
-    Preprocesses the input message and predicts its category using the specified
-    classifier.
-
-    If the model supports predict_proba and has multiple classes, returns the
-    top 'top_n' predicted categories with their probabilities. Otherwise, returns
-    a single label.
+    Preprocess the input message and predict its category using the specified classifier.
+    Returns top-N predicted labels and probabilities if available.
     """
     logger.info("Predicting category for a new message...")
     model = get_model(classifier_type)
-    processed_message = process_text(message)  # minimal_preprocess + spaCy + NER
-
-    clf = (model.named_steps['clf'] if hasattr(model, "named_steps") and
-           'clf' in model.named_steps else model)
+    processed_message = process_text(message)
+    clf = model.named_steps.get('clf', model)  # Use dict-like access if available
 
     if hasattr(clf, "predict_proba"):
         probs = model.predict_proba([processed_message])[0]
         classes = clf.classes_
         sorted_indices = np.argsort(probs)[::-1]
         top_n = min(top_n, len(classes))
-        top_indices = sorted_indices[:top_n]
-        predictions = [(classes[i], probs[i]) for i in top_indices]
+        predictions = [(classes[i], probs[i]) for i in sorted_indices[:top_n]]
         return predictions
+
+    # Fallback: predict single label with probability 1.0
     category = model.predict([processed_message])[0]
     return [(category, 1.0)]
+
+
+def evaluate_model_with_kfold(
+        model: Any,
+        X: Union[pd.Series, np.ndarray],
+        y: Union[pd.Series, np.ndarray],
+        n_splits: int = 5,
+        shuffle: bool = True,
+        random_state: int = 42,
+        save_plots: bool = False,
+        folds: Optional[List[Tuple[np.ndarray, np.ndarray]]] = None
+) -> Dict[str, Any]:
+    """
+    Perform K-fold cross-validation on the given trained pipeline.
+    For each fold:
+      - Clone the pipeline
+      - Fit on the training subset and evaluate on train and test data
+
+    If save_plots=True, produces plots of averaged confusion matrices,
+    classification metrics, and overfitting differences.
+    If `folds` is provided, these splits are used instead of generating new ones.
+
+    Returns a dictionary of averaged metrics across folds.
+    """
+    unique_labels = np.unique(y)
+    if folds is None:
+        skf = KFold(n_splits=n_splits, shuffle=shuffle, random_state=random_state)
+        folds = list(skf.split(X, y))
+
+    # Containers for fold metrics
+    train_accs, test_accs = [], []
+    train_confs, test_confs = [], []
+    train_reports, test_reports = [], []
+    overfit_diffs = []
+
+    for fold_idx, (train_idx, test_idx) in enumerate(folds, start=1):
+        logger.info("=== Fold %d/%d ===", fold_idx, n_splits)
+        X_train = X.iloc[train_idx] if isinstance(X, pd.Series) else X[train_idx]
+        X_test = X.iloc[test_idx] if isinstance(X, pd.Series) else X[test_idx]
+        y_train = y.iloc[train_idx] if isinstance(y, pd.Series) else y[train_idx]
+        y_test = y.iloc[test_idx] if isinstance(y, pd.Series) else y[test_idx]
+
+        fold_model = clone(model)
+        fold_model.fit(X_train, y_train)
+
+        # Train evaluation
+        y_pred_train = fold_model.predict(X_train)
+        train_acc = accuracy_score(y_train, y_pred_train)
+        train_accs.append(train_acc)
+        train_confs.append(confusion_matrix(y_train, y_pred_train, labels=unique_labels))
+        train_reports.append(pd.DataFrame(
+            classification_report(y_train, y_pred_train, labels=unique_labels, zero_division=0, output_dict=True)
+        ).transpose())
+
+        # Test evaluation
+        y_pred_test = fold_model.predict(X_test)
+        test_acc = accuracy_score(y_test, y_pred_test)
+        test_accs.append(test_acc)
+        test_confs.append(confusion_matrix(y_test, y_pred_test, labels=unique_labels))
+        test_reports.append(pd.DataFrame(
+            classification_report(y_test, y_pred_test, labels=unique_labels, zero_division=0, output_dict=True)
+        ).transpose())
+
+        overfit_diffs.append(train_acc - test_acc)
+
+    # Compute averages
+    avg_train_acc = float(np.mean(train_accs))
+    avg_test_acc = float(np.mean(test_accs))
+    avg_overfit = float(np.mean(overfit_diffs))
+    avg_train_conf = np.mean(train_confs, axis=0)
+    avg_test_conf = np.mean(test_confs, axis=0)
+    avg_train_report = pd.concat(train_reports).groupby(level=0).mean()
+    avg_test_report = pd.concat(test_reports).groupby(level=0).mean()
+
+    results = {
+        "train": {
+            "accuracy": avg_train_acc,
+            "confusion_matrix": avg_train_conf,
+            "report_df": avg_train_report
+        },
+        "test": {
+            "accuracy": avg_test_acc,
+            "confusion_matrix": avg_test_conf,
+            "report_df": avg_test_report
+        },
+        "overfitting": {
+            "differences_per_fold": overfit_diffs,
+            "avg_difference": avg_overfit
+        }
+    }
+
+    plot_kfold_summary(results, classifier_name="MultiClassModel", save=save_plots)
+    return results
+
+
+def finalize_plot(save_plots: bool, filename: Optional[str] = None) -> None:
+    """
+    Finalize the current plot: if save_plots is True and filename provided,
+    save the plot; otherwise, display it.
+    """
+    plt.tight_layout()
+    if save_plots and filename:
+        plt.savefig(filename)
+        plt.close()
+        logger.info("Plot saved to '%s'", filename)
+    else:
+        plt.show()
+
+
+def _plot_confusion_matrix(
+        conf_mat: np.ndarray,
+        title: str,
+        save_plots: bool,
+        filename: Optional[str] = None
+) -> None:
+    plt.figure(figsize=(6, 5))
+    sns.heatmap(conf_mat, annot=True, fmt="g", cmap="Blues")
+    plt.title(title)
+    plt.xlabel("Predicted")
+    plt.ylabel("Actual")
+    finalize_plot(save_plots, filename)
+
+
+def _plot_bar_classification_metrics(
+        df_report: pd.DataFrame,
+        title: str,
+        save_plots: bool,
+        filename: Optional[str] = None
+) -> None:
+    aggregate_rows = {"accuracy", "macro avg", "weighted avg"}
+    class_labels = [idx for idx in df_report.index if idx not in aggregate_rows]
+    if not class_labels:
+        return
+    metrics = df_report.loc[class_labels, ["precision", "recall", "f1-score"]]
+    metrics.plot(kind="bar", figsize=(7, 5))
+    plt.title(title)
+    plt.xlabel("Class")
+    plt.ylabel("Score")
+    plt.ylim(0, 1)
+    plt.legend(loc="lower right")
+    finalize_plot(save_plots, filename)
+
+
+def _plot_overfitting_bar(
+        diffs: List[float],
+        classifier_name: str,
+        save_plots: bool,
+        filename: Optional[str] = None
+) -> None:
+    fold_numbers = np.arange(1, len(diffs) + 1)
+    plt.figure(figsize=(7, 5))
+    plt.bar(fold_numbers, diffs, color='orange')
+    plt.axhline(0, color='black', linestyle='--')
+    plt.xlabel("Fold #")
+    plt.ylabel("Train Accuracy - Test Accuracy")
+    plt.title(f"{classifier_name} - Overfitting Differences per Fold")
+    finalize_plot(save_plots, filename)
+
+
+def plot_kfold_summary(
+        kfold_results: Dict[str, Any],
+        classifier_name: str = "MultiClassModel",
+        save: bool = False
+) -> None:
+    """
+    Generate summary plots for K-Fold results including:
+      - Averaged train/test confusion matrices
+      - Bar charts for train/test classification metrics
+      - Bar chart for overfitting differences
+    """
+    _plot_confusion_matrix(
+        kfold_results["train"]["confusion_matrix"],
+        title=f"{classifier_name} - Train Confusion Matrix (Avg)",
+        save_plots=save,
+        filename=f"{classifier_name}_train_conf.png"
+    )
+    _plot_confusion_matrix(
+        kfold_results["test"]["confusion_matrix"],
+        title=f"{classifier_name} - Test Confusion Matrix (Avg)",
+        save_plots=save,
+        filename=f"{classifier_name}_test_conf.png"
+    )
+    _plot_bar_classification_metrics(
+        kfold_results["train"]["report_df"],
+        title=f"{classifier_name} - Train Metrics (Avg)",
+        save_plots=save,
+        filename=f"{classifier_name}_train_metrics.png"
+    )
+    _plot_bar_classification_metrics(
+        kfold_results["test"]["report_df"],
+        title=f"{classifier_name} - Test Metrics (Avg)",
+        save_plots=save,
+        filename=f"{classifier_name}_test_metrics.png"
+    )
+    _plot_overfitting_bar(
+        kfold_results["overfitting"]["differences_per_fold"],
+        classifier_name,
+        save_plots=save,
+        filename=f"{classifier_name}_overfitting_bar.png" if save else None
+    )
+
+
+def compare_classifiers_with_kfold(
+        X: Union[pd.Series, np.ndarray],
+        y: Union[pd.Series, np.ndarray],
+        n_splits: int = 5,
+        shuffle: bool = True,
+        random_state: int = 42,
+        save_plots: bool = False,
+        save_data: bool = False
+) -> pd.DataFrame:
+    """
+    Compare Naive Bayes vs. SVM using K‑fold cross-validation on the given data.
+    Loads each model via get_model(), evaluates using the same folds,
+    and returns a DataFrame summarizing average metrics.
+    """
+    logger.info("Comparing Naive Bayes vs. SVM with %d-fold cross-validation...", n_splits)
+    nb_model = get_model(ClassifierType.NAIVE_BAYES)
+    svm_model = get_model(ClassifierType.SVM)
+
+    skf = KFold(n_splits=n_splits, shuffle=shuffle, random_state=random_state)
+    folds = list(skf.split(X, y))
+
+    logger.info("Evaluating Naive Bayes with KFold...")
+    nb_results = evaluate_model_with_kfold(nb_model, X, y, n_splits, shuffle, random_state, save_plots, folds=folds)
+    logger.info("Evaluating SVM with KFold...")
+    svm_results = evaluate_model_with_kfold(svm_model, X, y, n_splits, shuffle, random_state, save_plots, folds=folds)
+
+    data = {
+        "Classifier": ["Naive_Bayes", "SVM"],
+        "Train Accuracy": [nb_results["train"]["accuracy"], svm_results["train"]["accuracy"]],
+        "Test Accuracy": [nb_results["test"]["accuracy"], svm_results["test"]["accuracy"]],
+        "Overfitting (Train-Test)": [
+            nb_results["overfitting"]["avg_difference"],
+            svm_results["overfitting"]["avg_difference"]
+        ]
+    }
+    df_compare = pd.DataFrame(data)
+    logger.info("KFold Comparison:\n%s", df_compare.to_string(index=False))
+
+    if save_data:
+        df_compare.to_csv("kfold_comparison.csv", index=False)
+        logger.info("Comparison DataFrame saved to 'kfold_comparison.csv'.")
+
+    # Plot test accuracy comparison
+    plt.figure(figsize=(6, 4))
+    plt.bar(df_compare["Classifier"], df_compare["Test Accuracy"], color=['skyblue', 'coral'])
+    plt.title(f"Classifier Comparison - {n_splits}-Fold Test Accuracy")
+    plt.ylabel("Accuracy")
+    plt.ylim(0, 1)
+    for i, v in enumerate(df_compare["Test Accuracy"]):
+        plt.text(i, v + 0.005, f"{v:.3f}", ha='center', fontweight='bold')
+    finalize_plot(save_plots, filename="kfold_test_accuracy_comparison.png" if save_plots else None)
+
+    # Overfitting differences bar chart
+    nb_overfit = nb_results["overfitting"]["differences_per_fold"]
+    svm_overfit = svm_results["overfitting"]["differences_per_fold"]
+    fold_indices = np.arange(n_splits)
+    x_positions_nb = fold_indices * 2.0
+    x_positions_svm = fold_indices * 2.0 + 0.8
+
+    plt.figure(figsize=(8, 5))
+    plt.bar(x_positions_nb, nb_overfit, width=0.8, label="Naive Bayes", color='skyblue')
+    plt.bar(x_positions_svm, svm_overfit, width=0.8, label="SVM", color='coral')
+    plt.xlabel("Fold Number")
+    plt.ylabel("Train Accuracy - Test Accuracy")
+    plt.title(f"Overfitting Differences per Fold ({n_splits}-Fold)")
+    plt.xticks(x_positions_nb + 0.4, [f"Fold {i + 1}" for i in fold_indices])
+    plt.axhline(0, color='black', linestyle='--', linewidth=1)
+    plt.legend()
+    finalize_plot(save_plots, filename="kfold_overfitting_comparison.png" if save_plots else None)
+
+    return df_compare
+
+
+def plot_hughes_phenomenon_truncated_svd_fixed(
+        X: Union[pd.Series, np.ndarray],
+        y: Union[pd.Series, np.ndarray],
+        n_splits: int = 5,
+        save_plot: bool = False,
+        filename: Optional[str] = None
+) -> None:
+    """
+    Create a Hughes Phenomenon graph for the SVM pipeline by varying the number of
+    TruncatedSVD components. This function tests only the specific values: 1000, 3000, and 5000.
+    For each value, it performs K-fold cross-validation, computes the average train and test accuracy,
+    and plots the results.
+
+    Parameters:
+        X (Union[pd.Series, np.ndarray]): Input feature data.
+        y (Union[pd.Series, np.ndarray]): Target labels.
+        n_splits (int): Number of folds for cross-validation (default is 5).
+        save_plot (bool): If True, the plot is saved to a file.
+        filename (Optional[str]): Filename to save the plot if save_plot is True.
+    """
+    logger.info("Creating Hughes Phenomenon graph for fixed TruncatedSVD components: 200, 500, 1000, 2000, 3000...")
+
+    # Define the specific number of components to test.
+    components_list = [200, 500, 1000, 2000, 3000]
+    train_accuracies = []
+    test_accuracies = []
+
+    skf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+
+    for n_comp in components_list:
+        fold_train_scores = []
+        fold_test_scores = []
+
+        # Build the base pipeline for SVM (includes TruncatedSVD)
+        pipeline, _ = build_pipeline(ClassifierType.SVM)
+        # Set the number of SVD components to the current value.
+        pipeline.named_steps['svd'].n_components = n_comp
+
+        for train_idx, test_idx in skf.split(X, y):
+            # Support both pd.Series and array-like structures.
+            X_train = X.iloc[train_idx] if isinstance(X, pd.Series) else X[train_idx]
+            X_test = X.iloc[test_idx] if isinstance(X, pd.Series) else X[test_idx]
+            y_train = y.iloc[train_idx] if isinstance(y, pd.Series) else y[train_idx]
+            y_test = y.iloc[test_idx] if isinstance(y, pd.Series) else y[test_idx]
+
+            # Clone the pipeline for each fold to ensure independence.
+            fold_pipeline = clone(pipeline)
+            fold_pipeline.fit(X_train, y_train)
+
+            fold_train_scores.append(accuracy_score(y_train, fold_pipeline.predict(X_train)))
+            fold_test_scores.append(accuracy_score(y_test, fold_pipeline.predict(X_test)))
+
+        train_accuracies.append(np.mean(fold_train_scores))
+        test_accuracies.append(np.mean(fold_test_scores))
+
+    plt.figure(figsize=(8, 6))
+    plt.plot(components_list, train_accuracies, marker='o', label='Train Accuracy')
+    plt.plot(components_list, test_accuracies, marker='o', label='Test Accuracy')
+    plt.xlabel('Number of TruncatedSVD Components')
+    plt.ylabel('Accuracy')
+    plt.title('Hughes Phenomenon: Effect of TruncatedSVD Components on Accuracy')
+    plt.legend()
+
+    finalize_plot(save_plot, filename)
+    logger.info("Hughes Phenomenon graph created with components %s.", components_list)

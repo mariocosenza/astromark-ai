@@ -1,4 +1,5 @@
 import os
+
 import google.generativeai as genai
 
 model_config = genai.types.GenerationConfig(
@@ -7,6 +8,7 @@ model_config = genai.types.GenerationConfig(
     top_k=1,
     max_output_tokens=150
 )
+
 
 def get_llm(mark_text):
     genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))

@@ -1,0 +1,29 @@
+\chapter{Conclusioni Finali}
+L'analisi e lo sviluppo di \textit{AstroMark-AI} hanno evidenziato l'efficacia dell'approccio adottato per la classificazione testuale mediante tecniche di machine learning. Il confronto tra i modelli \textit{Naive Bayes} e \textit{Support Vector Machine (SVM)} ha mostrato prestazioni simili, con \textit{SVM} che ha ottenuto un leggero vantaggio in termini di accuratezza, raggiungendo il $90.79\%$ rispetto all'$89.74\%$ di \textit{Naive Bayes}. Tuttavia, entrambi i modelli hanno dimostrato una buona generalizzazione e robustezza.
+
+L'uso di \textit{TF-IDF} come metodo di rappresentazione testuale si è rivelato efficace per l'elaborazione dei dati, garantendo un equilibrio tra interpretabilità e prestazioni computazionali. La pipeline di preprocessing e feature engineering ha permesso di migliorare la qualità dei dati, riducendo il rumore e ottimizzando la rappresentazione delle informazioni.
+
+Dal punto di vista pratico, \textit{Naive Bayes} si conferma una scelta ideale per applicazioni che richiedono rapidità di esecuzione e basso consumo di risorse, mentre \textit{SVM} è preferibile nei casi in cui è necessaria una maggiore precisione. La decisione su quale modello adottare dipenderà quindi dal contesto applicativo e dai vincoli computazionali.
+
+Infine, l'implementazione e il deployment del sistema su un'architettura basata su \textit{Flask} e la sua integrazione con \textit{Spring} hanno dimostrato la fattibilità di un sistema scalabile ed efficiente. Questo lavoro costituisce una base solida per futuri miglioramenti, tra cui l'esplorazione di modelli neurali più avanzati o l'integrazione di tecniche di apprendimento attivo per migliorare continuamente le prestazioni del sistema.
+
+\subsection{Limitazioni}
+Un aspetto critico di questo lavoro è la validazione delle performance utilizzando un dataset generato artificialmente tramite modelli di \textit{Large Language Models} (LLM) piuttosto che dati raccolti da scenari d’uso reali. Questo introduce alcune limitazioni significative:
+
+\begin{itemize}
+    \item \textbf{Mancanza di variabilità naturale}: i dati generati tendono a presentare una struttura e una distribuzione più regolari rispetto a quelli raccolti da utenti reali, riducendo la capacità del modello di adattarsi a espressioni linguistiche spontanee e meno formali.
+    \item \textbf{Possibili bias nei dati sintetici}: poiché i dati sono generati da AI pre-addestrate su fonti specifiche, potrebbero riflettere le limitazioni intrinseche dei modelli linguistici, trasmettendo eventuali pregiudizi o schemi linguistici artificiali che non rispecchiano perfettamente l'uso effettivo del linguaggio.
+    \item \textbf{Difficoltà nella generalizzazione}: un modello addestrato su dati sintetici potrebbe ottenere buone prestazioni sul dataset di test, ma riscontrare difficoltà significative quando applicato su dati provenienti da un ambiente reale, dove il linguaggio può essere più variegato e meno strutturato.
+    \item \textbf{Assenza di rumore tipico delle interazioni reali}: nei dati reali sono presenti errori grammaticali, abbreviazioni, linguaggio informale e altre variabili che un dataset generato artificialmente non sempre cattura in modo fedele.
+\end{itemize}
+
+\subsection{Lavori futuri}
+Per superare queste limitazioni e rendere il modello più robusto in contesti reali, alcune possibili direzioni future includono:
+\begin{itemize}
+    \item L'adozione di modelli basati su reti neurali per migliorare la capacità di generalizzazione.
+    \item L'integrazione di un sistema di \textit{active learning} per affinare il modello con nuovi dati etichettati in modo incrementale.
+    \item La raccolta e l'annotazione di dati reali per migliorare la qualità del dataset e confrontare le performance con dati sintetici.
+    \item L'ottimizzazione delle prestazioni attraverso tecniche di compressione dei modelli e accelerazione hardware.
+\end{itemize}
+
+Con queste prospettive, \textit{AstroMark-AI} si pone come una piattaforma versatile e in continua evoluzione, pronta a rispondere alle esigenze di analisi automatizzata del testo con strumenti di intelligenza artificiale.

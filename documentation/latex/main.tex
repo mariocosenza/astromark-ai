@@ -1,0 +1,131 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{amsmath,amssymb}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{placeins}
+
+% Geometry for A4 paper with custom margins
+\geometry{
+  a4paper,
+  left=25mm,
+  right=25mm,
+  top=25mm,
+  bottom=25mm,
+}
+
+% Hyperref setup
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue,
+  pdftitle={AstroMark-AI - Analisi e Sviluppo},
+  pdfauthor={Mario Cosenza, Mario Fasolino, Giulio Sacrestao}
+}
+
+\addto\captionsitalian{
+\renewcommand{\lstlistingname}{Listato}}
+
+% Header and footer settings
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Pre Processing}
+\fancyhead[R]{\nouppercase{\leftmark}}
+\fancyfoot[C]{\thepage}
+
+% Title formatting for chapters
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+% Python code listing configuration
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color[RGB]{204,120,50},     % Orange for keywords
+    stringstyle=\color[RGB]{6,125,23},        % Dark green for strings
+    commentstyle=\color[RGB]{128,128,128},    % Gray for comments
+    identifierstyle=\color[RGB]{0,0,0},       % Black for identifiers
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color[RGB]{128,128,128},% Tiny gray numbers
+    backgroundcolor=\color[RGB]{255,255,255}  % White background
+}
+
+% Document title page
+\title{%
+  \textbf{AstroMark-AI}\\[0.5cm]
+  \large Analisi e Sviluppo\\[0.5cm]
+
+  \\
+}
+\author{%
+  Mario Cosenza \and
+  Mario Fasolino \and
+  Giulio Sacrestao\\[0.5cm]
+  Università degli Studi di Salerno\\
+  Corso di Fondamenti di Intelligenza Artificiale%
+}
+\date{Anno Accademico 2024/2025}
+
+\begin{document}
+
+% Cover page with logo
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    {\Huge \textbf{AstroMark-AI}}\\[1.5cm]
+    {\Large Analisi e Sviluppo}\\[2cm]
+    \includegraphics[width=0.4\textwidth]{images/astromarkLogo.jpg}\\[2cm]
+    {\large \textbf{Autori:}}\\[0.5cm]
+    Mario Cosenza\\
+    Mario Fasolino\\
+    Giulio Sacrestao\\[1cm]
+    {\small \textbf{Repo:} \url{https://github.com/mariocosenza/astromark-ai}}\\[1cm]
+    {\large \textbf{Università degli Studi di Salerno}}\\[0.5cm]
+    {\large \textbf{Corso di Fondamenti di Intelligenza Artificiale}}\\[1cm]
+    {\large Anno Accademico 2024/2025}
+    \vfill
+\end{titlepage}
+
+\newpage
+
+% Reset header and footer after the title page
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{AstroMark-AI}
+\fancyhead[R]{Progetto di NLP}
+\fancyfoot[C]{\thepage}
+
+% Table of Contents
+\tableofcontents
+\newpage
+
+% Include chapters
+\input{sections/introduction}
+\input{sections/dataAquisition}
+\input{sections/textExtractionAndCleanup}
+\input{sections/preProcessing}
+\input{sections/featureEngineering}
+\input{sections/modelBuilding}
+\input{sections/evaluation}
+\input{sections/deployment}
+\input{sections/ending}
+
+\appendix
+\input{sections/appendix}
+\end{document}

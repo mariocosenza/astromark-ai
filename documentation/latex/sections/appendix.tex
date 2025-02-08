@@ -1,0 +1,47 @@
+\chapter{Modelli Generativi e l'Orientamento Universitario}
+\subsection*{Premessa}
+La presente appendice approfondisce due tematiche di rilevanza nel contesto educativo: l'impiego di modelli generativi e la problematica dell'orientamento universitario. Quest'ultimo aspetto è particolarmente cruciale per gli studenti di scuola secondaria di secondo grado, che devono confrontarsi con un panorama educativo complesso e in continua evoluzione.
+
+\subsection*{Il Problema dell'Orientamento Universitario}
+L'orientamento universitario comporta diverse sfide:
+\begin{itemize}
+    \item \textbf{Scelta del percorso di studi:} valutare le proprie attitudini, interessi e performance scolastiche per identificare il corso di studi più adatto.
+    \item \textbf{Informazione e supporto:} la mancanza di un riferimento strutturato può rendere difficoltosa la scelta, lasciando gli studenti senza un adeguato sostegno informativo.
+    \item \textbf{Adattamento al mercato del lavoro:} in un contesto in rapida evoluzione, la decisione sul percorso formativo deve tener conto anche delle future opportunità professionali.
+\end{itemize}
+L’utilizzo dei modelli generativi offre l’opportunità di supportare il processo decisionale, fornendo analisi approfondite basate sui dati individuali e sulle tendenze del mercato, contribuendo a orientamenti più informati e personalizzati.
+
+\subsection*{Modelli Generativi e la loro Configurazione}
+I modelli generativi utilizzano algoritmi di intelligenza artificiale per creare contenuti testuali partendo da un input specifico. La configurazione del modello si basa su parametri chiave:
+\begin{itemize}
+    \item \textbf{Temperature:} controlla il grado di casualità e creatività dell'output. Valori alti generano risultati più variabili.
+    \item \textbf{Top\_p e Top\_k:} limitano il ventaglio delle possibili scelte durante la generazione, indirizzando il modello verso risposte più coerenti.
+    \item \textbf{Max\_output\_tokens:} definisce il numero massimo di token, ovvero le unità base del testo, che il modello può produrre.
+\end{itemize}
+La gestione delle chiavi API avviene tramite variabile d'ambiente, per garantire l’accesso protetto ai servizi di intelligenza artificiale.
+
+\subsection*{Esempio di Codice}
+Di seguito viene riportato un esempio in Python che illustra come configurare e utilizzare un modello generativo per fornire suggerimenti formali sull'orientamento universitario:
+
+\begin{lstlisting}[language=Python, caption=Esempio di utilizzo di un modello generativo per l'orientamento universitario, basicstyle=\ttfamily\small, breaklines=true]
+import os
+import google.generativeai as genai
+
+# Configurazione dei parametri del modello generativo
+config = genai.types.GenerationConfig(
+    temperature=1.5,  # Regola la creativita del testo
+    top_p=0.7,        # Limita il ventaglio delle scelte possibili
+    top_k=1,          # Seleziona la scelta piu probabile
+    max_output_tokens=100  # Limite massimo per la lunghezza del testo generato
+)
+
+def genera_suggerimenti(voti):
+    # Configurazione del client con la chiave API sicura
+    genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+    modello = genai.GenerativeModel("gemini-1.5-flash", generation_config=config)
+
+    # Definizione del prompt per la richiesta di orientamento
+    prompt = f"Fornisci un consiglio formale per l'orientamento universitario. Voti: {voti}"
+    risposta = modello.generate_content(prompt)
+    return risposta.text
+\end{lstlisting}

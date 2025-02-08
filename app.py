@@ -1,11 +1,16 @@
+import logging
+
 from flask import Flask, request, Response
+
+from service.pipeline import select_default_classifier, ClassifierType
 from service.ticket_service import ticket_service
 from service.gemini_service import get_llm
+from service.word2vec_pipeline import get_word2vec_model
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 app = Flask(__name__)
-
+logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
 @app.route('/ai/orientation', methods=['POST'])
 def gemini():
     # Parse JSON from request body (forcing JSON parsing)
@@ -29,5 +34,10 @@ def predict_tag():
     return Response(predictions, status=200, mimetype="text/plain; charset=utf-8")
 
 
+# get_word2vec_model(ClassifierType.SVM)
+select_default_classifier() #if you want to use word2vec comment this line
+
 if __name__ == '__main__':
     app.run(debug=True)
+
+

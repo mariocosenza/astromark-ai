@@ -1,0 +1,48 @@
+\chapter{Pre Processing}
+
+\section{Introduzione}
+La fase di pre-processing approfondisce la trasformazione del testo già estratto e pulito, arricchendo la rappresentazione semantica mediante operazioni quali tokenizzazione, lemmatizzazione e Named Entity Recognition (NER). Queste tecniche avanzate migliorano l'analisi computazionale e preparano il testo per algoritmi di machine learning.
+
+\section{Tokenizzazione, Lemmatizzazione e Named Entity Recognition}
+Per incrementare il valore semantico del testo, vengono applicate le seguenti operazioni:
+\begin{itemize}
+    \item \textbf{Tokenizzazione:} segmenta il testo in unità minime (token).
+    \item \textbf{Lemmatizzazione:} riduce ogni token alla sua forma base, diminuendo la variabilità morfologica.
+    \item \textbf{Named Entity Recognition (NER):} identifica entità come nomi, organizzazioni e località, etichettandole come ad esempio \texttt{NER\_PERSON}.
+\end{itemize}
+
+La seguente funzione integra questi passaggi:
+
+\begin{lstlisting}[language=Python,caption={Funzione per il processing del testo}]
+def process_text(text):
+    cleaned_text = minimal_preprocess(text)
+    doc = nlp(cleaned_text)
+    tokens = []
+    for token in doc:
+        if token.is_stop or token.is_punct or token.is_space:
+            continue
+        lemma = token.lemma_.strip()
+        if lemma:
+            tokens.append(lemma)
+    for ent in doc.ents:
+        tokens.append("NER_%s" % ent.label_)
+    return ' '.join(tokens)
+\end{lstlisting}
+
+\subsection{Deep Learning in spaCy per il Riconoscimento delle Entità} spaCy sfrutta modelli di deep learning che combinano:
+\begin{itemize}
+\item \textbf{Reti Neurali Convoluzionali (CNN):} per estrarre informazioni locali dal testo.
+\item \textbf{Meccanismi di Attenzione:} per comprendere il contesto attorno a ciascun token.
+\item \textbf{Architetture Trasformative:} per individuare relazioni tra token anche se distanti nel testo.
+\end{itemize} Queste tecnologie consentono di raggiungere un elevato livello di accuratezza nel riconoscimento delle entità, anche in testi complessi.
+
+\section{Parallelizzazione del Pre-processing}
+Per gestire dataset di grandi dimensioni, la parallelizzazione sfrutta la libreria \texttt{joblib} per distribuire il processo su più core. Il backend "threading" viene utilizzato per ottimizzare l'uso delle risorse hardware. Esempio:
+
+\begin{lstlisting}[language=Python,caption={Funzione parallel\_process\_texts}]
+def parallel_process_texts(series, n_jobs=-1):
+    logger.info("Parallel text processing with threading backend...")
+    with parallel_backend('threading', n_jobs=n_jobs):
+        processed = Parallel()(delayed(process_text)(text) for text in series)
+    return pd.Series(processed, index=series.index)
+\end{lstlisting}
