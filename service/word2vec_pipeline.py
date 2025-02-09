@@ -1,11 +1,13 @@
 import os
-from typing import Tuple, Dict, Any, Optional
+from typing import Tuple, Dict, Any, Optional, Union
 
 import joblib
 import numpy as np
+import pandas as pd
 import psutil
 from gensim.models import Word2Vec
-from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.base import BaseEstimator, TransformerMixin, clone
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from sklearn.model_selection import KFold, GridSearchCV
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
@@ -145,3 +147,87 @@ def classify_with_word2vec(text: str, classifier_type: ClassifierType = Classifi
     prediction = model.predict([processed_text])
     logger.info("Prediction for the input text using Word2Vec pipeline: %s", prediction[0])
     return prediction[0]
+
+
+def evaluate_word2vec_model_kfold(
+        classifier_type: ClassifierType,
+        X: Union[pd.Series, np.ndarray],
+        y: Union[pd.Series, np.ndarray],
+        n_splits: int = 5
+) -> Dict[str, Any]:
+    """
+    Evaluate the Word2Vec-based model using 5-fold cross-validation.
+    For each fold, the model is cloned (from get_word2vec_model), trained, and evaluated.
+    The function prints training and testing accuracies, confusion matrix, and classification report for each fold,
+    and then prints the average metrics over all folds.
+
+    Parameters:
+        classifier_type (ClassifierType): The classifier type (e.g., SVM, NAIVE_BAYES).
+        X (Union[pd.Series, np.ndarray]): Input data (preprocessed text).
+        y (Union[pd.Series, np.ndarray]): Associated labels.
+        n_splits (int): Number of folds (default 5).
+
+    Returns:
+        Dict[str, Any]: A dictionary containing aggregated metrics.
+    """
+    skf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+    unique_labels = np.unique(y)
+    train_accs, test_accs, conf_mats, reports = [], [], [], []
+
+    for fold, (train_idx, test_idx) in enumerate(skf.split(X, y), start=1):
+        print(f"=== Fold {fold} ===")
+        X_train = X.iloc[train_idx] if isinstance(X, pd.Series) else X[train_idx]
+        X_test = X.iloc[test_idx] if isinstance(X, pd.Series) else X[test_idx]
+        y_train = y.iloc[train_idx] if isinstance(y, pd.Series) else y[train_idx]
+        y_test = y.iloc[test_idx] if isinstance(y, pd.Series) else y[test_idx]
+
+        # Clone and train model
+        model = clone(get_word2vec_model(classifier_type))
+        model.fit(X_train, y_train)
+
+        # Predictions
+        y_pred_train = model.predict(X_train)
+        y_pred_test = model.predict(X_test)
+
+        # Metrics calculation
+        train_acc = accuracy_score(y_train, y_pred_train)
+        test_acc = accuracy_score(y_test, y_pred_test)
+        conf_mat = confusion_matrix(y_test, y_pred_test, labels=unique_labels)
+        report = classification_report(y_test, y_pred_test, labels=unique_labels, output_dict=True, zero_division=0)
+
+        # Print metrics for current fold
+        print(f"Train Accuracy: {train_acc:.4f}")
+        print(f"Test Accuracy:  {test_acc:.4f}")
+        print("Confusion Matrix:\n", conf_mat)
+        print("Classification Report:")
+        for label, metrics in report.items():
+            print(f"  {label}: {metrics}")
+        print("-" * 40)
+
+        train_accs.append(train_acc)
+        test_accs.append(test_acc)
+        conf_mats.append(conf_mat)
+        reports.append(pd.DataFrame(report).transpose())
+
+    # Aggregate metrics over folds
+    avg_train_acc = np.mean(train_accs)
+    avg_test_acc = np.mean(test_accs)
+    avg_conf_mat = np.mean(conf_mats, axis=0)
+    avg_report = pd.concat(reports).groupby(level=0).mean()
+
+    print("=== Average Results over 5 Folds ===")
+    print(f"Average Train Accuracy: {avg_train_acc:.4f}")
+    print(f"Average Test Accuracy:  {avg_test_acc:.4f}")
+    print("Average Confusion Matrix:\n", avg_conf_mat)
+    print("Average Classification Report:\n", avg_report)
+
+    return {
+        "train": {
+            "accuracy": avg_train_acc,
+            "confusion_matrix": avg_conf_mat,
+            "classification_report": avg_report
+        },
+        "test": {
+            "accuracy": avg_test_acc
+        }
+    }
