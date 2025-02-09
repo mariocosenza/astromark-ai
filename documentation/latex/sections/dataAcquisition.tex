@@ -4,13 +4,13 @@
 \section{Introduzione}
 La fase di Data Acquisition è un passaggio fondamentale in qualsiasi progetto di Natural Language Processing (NLP), poiché la qualità e la quantità dei dati raccolti influiscono direttamente sulle prestazioni dei modelli. Durante questa fase, non solo si raccolgono i dati da fonti eterogenee, come dataset pubblici, API o documenti testuali, ma si verifica anche la loro qualità, eliminando errori, duplicati o valori mancanti. Per garantire coerenza tra i dati acquisiti, si applicano tecniche di normalizzazione, che riducono le discrepanze nelle scale dei valori e uniformano i formati. Infine, i dati filtrati e arricchiti vengono archiviati in strutture adeguate, per facilitarne l’uso nelle fasi successive del progetto.
 
-\section{Raccolta dati per Astromark-AI}
+\section{Raccolta dati per AstroMark-AI}
 Trovare un dataset pubblico in italiano che rispecchiasse le caratteristiche del sistema si è rivelato particolarmente complesso. Per ovviare a questa difficoltà, si è optato per la generazione sintetica del dataset mediante i principali modelli linguistici di grandi dimensioni (LLM) disponibili sul mercato, tra cui ChatGPT, Gemini e Claude. In particolare, tra i modelli di OpenAI sono stati utilizzati i modelli più avanzati, ovvero o3 mini, o3 mini high, o1 e GPT-4o. Nel caso di Claude è stato utilizzato Claude Sonnet 3.5 ed infine Gemini 2.0 Flash. Tuttavia, questo approccio ha introdotto nuove problematiche, come la necessità di definire a priori le caratteristiche desiderate del dataset e di affinare le tecniche di prompt engineering per ottenere risultati adeguati.
 
 \section{Definizione caratteristiche e categorie}
 Per la creazione del prompt, era fondamentale conoscere le variabili dipendenti, ovvero le categorie da classificare con il modello, e le caratteristiche rilevanti. A seguito di un'analisi dei requisiti funzionali dell'applicazione Astromark, sono state individuate le seguenti categorie:
 \begin{itemize}
-    \item \textbf{Accesso:} problemi relativi all'accesso ai sistemi scolastici, come credenziali errate, blocco dell'account o difficoltà nel login al registro elettronico o alla piattaforma di e-learning.
+    \item \textbf{Accesso:} problemi relativi all'accesso ai sistemi scolastici, come credenziali errate, blocco dell'account o difficoltà nel login al registro elettronico.
     \item \textbf{Didattica:} questioni legate ai materiali didattici, compiti assegnati, orari delle lezioni, modalità di valutazione o difficoltà nell'accedere alle risorse fornite dagli insegnanti.
     \item \textbf{Profilo:} modifiche o aggiornamenti dei dati personali dello studente o del docente nel sistema scolastico, come cambio di indirizzo email, aggiornamento delle informazioni anagrafiche o correzione di errori nei dati registrati.
     \item \textbf{Segreteria:}  richieste amministrative riguardanti certificati, iscrizioni, richieste di documentazione ufficiale, modulistica o comunicazioni con la segreteria scolastica.
