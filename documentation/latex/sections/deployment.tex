@@ -63,3 +63,50 @@ logging.basicConfig(
 \end{lstlisting}
 
 Le variabili d'ambiente necessarie includono la chiave API per il servizio Gemini e l'URL del servizio ticket in Spring. Queste configurazioni devono essere gestite in modo appropriato nell'ambiente di deployment per garantire il corretto funzionamento dell'applicazione.
+
+\section{Installazione ed Esecuzione}
+
+Per procedere con l'installazione e l'esecuzione dell'applicazione \textit{AstroMark AI}, si richiede di seguire attentamente i seguenti passaggi:
+
+\begin{enumerate}
+    \item \textbf{Clonazione della Repository:} \\
+    Clonare la repository ufficiale da GitHub eseguendo il comando:
+    \begin{lstlisting}[language=bash, caption=Clonazione della repository]
+git clone https://github.com/mariocosenza/astromark-ai.git
+    \end{lstlisting}
+
+    \item \textbf{Accesso alla Directory del Progetto:} \\
+    Accedere alla cartella del progetto appena clonata:
+    \begin{lstlisting}[language=bash, caption=Accesso alla directory del progetto]
+cd astromark-ai
+    \end{lstlisting}
+
+    \item \textbf{Installazione delle Dipendenze:} \\
+    Il file \texttt{requirements.txt} presente nella root del progetto elenca le librerie necessarie. Per installarle, eseguire:
+    \begin{lstlisting}[language=bash, caption=Installazione delle dipendenze]
+pip install -r requirements.txt
+    \end{lstlisting}
+
+    \item \textbf{Configurazione delle Variabili d'Ambiente:} \\
+    Per abilitare l'integrazione con il servizio Gemini, è necessario impostare la variabile d'ambiente \texttt{GEMINI\_API\_KEY}. Tale operazione può essere effettuata secondo una delle seguenti modalità:
+
+    \begin{enumerate}[label=\alph*)]
+        \item \textbf{Creazione del file \texttt{.env}:} \\
+        Nella directory principale del progetto, creare un file denominato \texttt{.env} contenente, ad esempio, la seguente istruzione:
+        \begin{lstlisting}[language=bash, caption=Esempio di configurazione nel file .env]
+GEMINI_API_KEY=your_gemini_api_key_here
+        \end{lstlisting}
+
+        \item \textbf{Impostazione diretta tramite terminale:} \\
+        In alternativa, è possibile definire la variabile d'ambiente direttamente tramite terminale eseguendo:
+        \begin{lstlisting}[language=bash, caption=Impostazione della variabile d'ambiente tramite terminale]
+export GEMINI_API_KEY=your_gemini_api_key_here
+        \end{lstlisting}
+    \end{enumerate}
+
+    \item \textbf{Avvio dell'Applicazione:} \\
+    Con Python 3.12 installato, avviare il server di sviluppo Flask eseguendo il file principale:
+    \begin{lstlisting}[language=bash, caption=Avvio del server Flask]
+python app.py
+    \end{lstlisting}
+\end{enumerate}
