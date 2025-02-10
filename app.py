@@ -69,4 +69,4 @@ select_default_classifier()
 
 # Entry point of the application. When this module is run directly, start the Flask development server.
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
