@@ -22,7 +22,7 @@ Per valutare le prestazioni dei modelli, sono state utilizzate le seguenti metri
     \item \textbf{Recall} (o \textbf{Sensibilità} o \textbf{True Positive Rate}): misura la percentuale di veri positivi identificati correttamente dal modello.
     \begin{equation} Recall = \frac{TP}{TP+FN}\end{equation}
 
-    \item \textbf{F1-score}: è la media armonica di precisione e recall, che bilancia entrambi i valori. È utile quando c'è uno squilibrio tra le classi.\begin{equation} F1 = \frac{2*Precision*Recall}{Precision+Recall}\end{equation}
+    \item \textbf{F1-score}: è la media armonica di precisione e recall, che bilancia entrambi i valori. È utile quando c'è uno squilibrio tra le classi.\begin{equation} F1 = 2* \frac{Precision*Recall}{Precision+Recall}\end{equation}
 
     \item \textbf{Overfitting}: misura la differenza tra l'accuratezza sui dati di addestramento e l'accuratezza sui dati di test per valutare la capacit\`a di generalizzazione del modello. Un valore elevato di questa differenza indica che il modello si adatta troppo ai dati di training e potrebbe non generalizzare bene su dati non visti.\begin{equation}Overfitting = Accuracy_{train} - Accuracy_{test}\end{equation}
 \end{itemize}
