@@ -8,7 +8,7 @@
 <img src="static/logo.svg" alt="AstroMark Logo" width="200" height="200">
 </div>
 
-**Astromark AI** is an advanced machine learning project specifically designed to classify tickets destined for the school secretary. Leveraging Python 3.12, SpaCy, and sophisticated machine learning classifiers, the application provides intelligent and accurate ticket categorization.
+**AstroMark AI** is an advanced machine learning project specifically designed to classify tickets destined for the school secretary. Leveraging Python 3.12, SpaCy, and sophisticated machine learning classifiers, the application provides intelligent and accurate ticket categorization.
 
 ## Key Features
 - **Specialized Ticket Classification**: Developed to categorize school secretary tickets with high precision
