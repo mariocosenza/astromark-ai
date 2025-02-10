@@ -1,7 +1,7 @@
-\chapter{Text Extraction and Cleanup}
+\chapter{Text Extraction e Cleanup}
 
 \section{Introduzione}
-La fase di \textbf{Text Extraction and Cleanup} si occupa dell'estrazione dei dati testuali dalle fonti e della successiva normalizzazione e pulizia, rendendo il testo più coerente e privo di rumore. Queste operazioni costituiscono il primo passo fondamentale per garantire che il testo sia pronto per l'analisi e per le ulteriori operazioni di pre-processing.
+La fase di \textbf{Text Extraction e Cleanup} si occupa dell'estrazione dei dati testuali dalle fonti e della successiva normalizzazione e pulizia, rendendo il testo più coerente e privo di rumore. Queste operazioni costituiscono il primo passo fondamentale per garantire che il testo sia pronto per l'analisi e per le ulteriori operazioni di pre-processing.
 
 \section{Caricamento e Fusione dei Dataset}
 I dati sono letti da file CSV. Utilizzando la libreria \texttt{pandas}, due dataset, ad esempio $D_1$ e $D_2$, vengono fusi per formare un nuovo dataset $D$. Ogni elemento del dataset risultante è definito come:
@@ -48,18 +48,19 @@ Le formule di saluto (es. "ciao", "buongiorno") vengono identificate e rimosse d
 La tokenizzazione segmenta il testo in parole (token) e, contemporaneamente, una correzione ortografica viene applicata per uniformare termini scritti in maniera incoerente. La funzione seguente realizza l'intero processo di pulizia e normalizzazione:
 
 \begin{lstlisting}[language=Python,caption={Funzione minimal\_preprocess}]
-def minimal_preprocess(text):
+def minimal_preprocess(text: str) -> str:
     text = text.lower().strip()
     text = re.sub(r'https?://\S+|www\.\S+', '', text)
     text = remove_greetings_secretary(text)
     text = re.sub(r'[^\w\s]', ' ', text)
     text = re.sub(r'\d+', '', text)
     text = re.sub(r'\s+', ' ', text)
-    # Tokenizzazione e correzione ortografica
     tokens = text.split()
-    corrected_tokens = [spell.correction(word) if word in spell else word for word in tokens]
-    corrected_text = ' '.join(corrected_tokens)
-    return corrected_text.strip()
+    corrected_tokens = []
+    for word in tokens:
+        corrected_word = spell.correction(word)
+        corrected_tokens.append(corrected_word if corrected_word else word)
+    return ' '.join(corrected_tokens).strip()
 \end{lstlisting}
 
 Quest'ultima operazione insieme alle precedenti sono essenziali per preparare dati testuali grezzi e renderli utili per analisi successive. Attraverso la fusione dei dataset e una rigorosa pulizia del testo, si ottiene una rappresentazione priva di rumore e pronta per le fasi di pre-processing.

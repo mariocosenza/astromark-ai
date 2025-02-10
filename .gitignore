@@ -8,6 +8,7 @@
 
 ## Additional for PyCharm
 out/
-/data/processed/X_processed.csv
 /data/trained/trained_model_svm.pkl
 /data/trained/trained_model_nb.pkl
+/data/trained/trained_model_svm_w2v.pkl
+/data/trained/trained_model_nb_w2v.pkl

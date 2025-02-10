@@ -346,10 +346,10 @@ def plot_hughes_phenomenon_truncated_svd_fixed(
         save_plot (bool): If True, the plot is saved to a file.
         filename (Optional[str]): Filename to save the plot if save_plot is True.
     """
-    logger.info("Creating Hughes Phenomenon graph for fixed TruncatedSVD components: 200, 500, 1000, 2000, 3000...")
+    logger.info("Creating Hughes Phenomenon graph for fixed TruncatedSVD components: 100, 200, 500, 1000, 2000...")
 
     # Define the specific number of components to test.
-    components_list = [200, 500, 1000, 2000, 3000]
+    components_list = [100, 200, 500, 1000, 2000]
     train_accuracies = []
     test_accuracies = []
 

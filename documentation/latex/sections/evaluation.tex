@@ -22,7 +22,7 @@ Per valutare le prestazioni dei modelli, sono state utilizzate le seguenti metri
     \item \textbf{Recall} (o \textbf{Sensibilità} o \textbf{True Positive Rate}): misura la percentuale di veri positivi identificati correttamente dal modello.
     \begin{equation} Recall = \frac{TP}{TP+FN}\end{equation}
 
-    \item \textbf{F1-score}: è la media armonica di precisione e recall, che bilancia entrambi i valori. È utile quando c'è uno squilibrio tra le classi.\begin{equation} F1 = \frac{2*Precision*Recall}{Precision+Recall}\end{equation}
+    \item \textbf{F1-score}: è la media armonica di precisione e recall, che bilancia entrambi i valori. È utile quando c'è uno squilibrio tra le classi.\begin{equation} F1 = 2* \frac{Precision*Recall}{Precision+Recall}\end{equation}
 
     \item \textbf{Overfitting}: misura la differenza tra l'accuratezza sui dati di addestramento e l'accuratezza sui dati di test per valutare la capacit\`a di generalizzazione del modello. Un valore elevato di questa differenza indica che il modello si adatta troppo ai dati di training e potrebbe non generalizzare bene su dati non visti.\begin{equation}Overfitting = Accuracy_{train} - Accuracy_{test}\end{equation}
 \end{itemize}
@@ -41,7 +41,7 @@ Dove:
 
 \subsection{Risultati di Addestramento}
 
-Il modello \textbf{Naive Bayes} ha ottenuto un'accuratezza complessiva del \textbf{92.87\%} sui dati di addestramento. Questa performance suggerisce una buona capacità del modello di generalizzare il comportamento delle classi, mantenendo un buon livello di prestazioni anche su dati non visti. \\ \\
+Il modello \textbf{Naive Bayes} ha ottenuto un'accuratezza complessiva del \textbf{92.43\%} sui dati di addestramento. Questa performance suggerisce una buona capacità del modello di generalizzare il comportamento delle classi, mantenendo un buon livello di prestazioni anche su dati non visti. \\ \\
 La matrice di confusione, che riporta il numero di previsioni corrette e errate per ciascuna classe, mostra i seguenti risultati:
 
 \begin{figure}[H]
@@ -51,7 +51,8 @@ La matrice di confusione, che riporta il numero di previsioni corrette e errate 
     \label{fig:confusion_matrix_train_naive_bayes}
 \end{figure}
 
-Il modello mostra buone prestazioni complessive, con un'alta percentuale di istanze correttamente classificate, come evidenziato dai valori elevati sulla \textbf{diagonale principale}. Tuttavia, ci sono errori significativi tra alcune classi, in particolare tra le classi 1, 3 e 4, dove il modello ha difficoltà a distinguere correttamente. Questo evidenzia alcune aree in cui il modello potrebbe migliorare nel riconoscere meglio le differenze tra queste classi.
+Il modello mostra buone prestazioni complessive, con un'alta percentuale di istanze correttamente classificate, come evidenziato dai valori elevati sulla \textbf{diagonale principale}. Tuttavia, ci sono errori significativi tra alcune classi, in particolare tra le classi 0, 1 e 4, dove il modello ha difficoltà a distinguere correttamente. Per esempio, molte istanze della classe 0 sono state erroneamente classificate come classe 4, e molte istanze della classe 1 sono state scambiate con le classi 3 e 4. Questo evidenzia alcune aree in cui il modello potrebbe migliorare nel riconoscere meglio le differenze tra queste classi.
+
 
 \newpage
 
@@ -63,19 +64,19 @@ Le metriche per ogni categoria sono mostrate nella seguente tabella e visualizza
         \hline
         \textbf{Categoria} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} \\
         \hline
-        Accesso & 94.01\% & 97.45\% & 95.70\% \\
+        Accesso & 93.61\% & 96.13\% & 94.85\% \\
         \hline
-        Didattica & 93.23\% & 90.90\% & 92.05\% \\
+        Didattica & 93.34\% & 90.82\% & 92.06\% \\
         \hline
-        Profilo & 93.90\% & 96.56\% & 95.21\% \\
+        Profilo & 93.55\% & 95.89\% & 94.70\% \\
         \hline
-        Segreteria & 94.40\% & 89.91\% & 92.10\% \\
+        Segreteria & 94.24\% & 89.51\% & 91.82\% \\
         \hline
-        Tecnico & 88.89\% & 90.44\% & 89.65\% \\
+        Tecnico & 87.65\% & 90.67\% & 89.14\% \\
         \hline
-        media & 93.27\% & 93.28\% & 93.27\% \\
+        Media & 92.48\% & 92.61\% & 92.51\% \\
         \hline
-        media pesata & 93.16\% & 93.16\% & 93.16\% \\
+        Media pesata & 92.49\% & 92.44\% & 92.43\% \\
         \hline
     \end{tabular}
     \caption{Confronto tra precision, recall e F1-score per il training di Naive Bayes}
@@ -89,13 +90,14 @@ Le metriche per ogni categoria sono mostrate nella seguente tabella e visualizza
     \label{fig:metrics_train_naive_bayes}
 \end{figure}
 
-Il modello mostra buone performance complessive, ma nelle categorie \textbf{Segreteria} e \textbf{Tecnico} ci sono margini di miglioramento. \textbf{Segreteria} ha alta precisione ma basso recall, mentre \textbf{Tecnico} ha alta capacità di identificare le istanze (buon recall), ma con una precisione più bassa.
+Il modello mostra buone performance complessive, ma nelle categorie \textbf{Segreteria} e \textbf{Tecnico} ci sono margini di miglioramento. \textbf{Segreteria} ha una buona precisione (94.24\%), ma un recall relativamente basso (89.51\%), mentre \textbf{Tecnico} ha un buon recall (90.67\%), ma una precisione più bassa (87.65\%).
+
 
 \newpage
 
 \subsection{Risultati di Test}
 
-Per quanto riguarda i \textbf{dati di test}, il modello ha ottenuto un'accuratezza del \textbf{89.74\%}, una leggera riduzione rispetto ai dati di addestramento, ma comunque una performance robusta. \\ \\
+Per quanto riguarda i \textbf{dati di test}, il modello ha ottenuto un'accuratezza del \textbf{88.92\%}, una leggera riduzione rispetto ai dati di addestramento, ma comunque una performance robusta. \\ \\
 La matrice di confusione sui dati di test è la seguente:
 
 \begin{figure}[H]
@@ -113,19 +115,19 @@ Mentre le metriche per ogni categoria sono mostrate nella seguente tabella e vis
         \hline
         \textbf{Categoria} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} \\
         \hline
-        Accesso & 91.29\% & 96.01\% & 93.56\% \\
+        Accesso & 90.83\% & 93.38\% & 92.07\% \\
         \hline
-        Didattica & 89.92\% & 87.10\% & 88.47\% \\
+        Didattica & 89.35\% & 86.27\% & 87.77\% \\
         \hline
-        Profilo & 91.59\% & 94.20\% & 92.87\% \\
+        Profilo & 91.02\% & 93.70\% & 92.33\% \\
         \hline
-        Segreteria & 91.33\% & 85.78\% & 88.46\% \\
+        Segreteria & 91.67\% & 85.15\% & 88.28\% \\
         \hline
-        Tecnico & 84.76\% & 86.88\% & 85.80\% \\
+        Tecnico & 82.18\% & 87.25\% & 84.63\% \\
         \hline
-        media & 89.78\% & 89.79\% & 89.71\% \\
+        Media & 89.01\% & 89.15\% & 89.02\% \\
         \hline
-        media pesata & 89.79\% & 89.74\% & 89.71\% \\
+        Media pesata & 89.05\% & 88.92\% & 88.92\% \\
         \hline
     \end{tabular}
     \caption{Confronto tra precision, recall e F1-score per il testing di Naive Bayes}
@@ -141,7 +143,7 @@ Mentre le metriche per ogni categoria sono mostrate nella seguente tabella e vis
 
 \subsection{Overfitting}
 
-Per valutare il rischio di \textbf{overfitting}, sono stati analizzati i valori di accuratezza nei diversi fold della validazione incrociata a k-fold. Le differenze tra l'accuratezza dei dati variano tra \textbf{0.02} e \textbf{0.04}, con una media di \textbf{0.0313}. Sebbene vi sia una leggera tendenza all'overfitting, i valori rientrano in un intervallo accettabile, confermando la buona generalizzazione del modello.
+Per valutare il rischio di \textbf{overfitting}, sono stati analizzati i valori di accuratezza nei diversi fold della validazione incrociata a k-fold. Le differenze tra l'accuratezza dei dati variano tra \textbf{0.02} e \textbf{0.05}, con una media di \textbf{0.0351}. Sebbene vi sia una leggera tendenza all'overfitting, i valori rientrano in un intervallo accettabile, confermando la buona generalizzazione del modello.
 
 \begin{figure}[H]
     \centering
@@ -156,7 +158,7 @@ Per valutare il rischio di \textbf{overfitting}, sono stati analizzati i valori 
 
 \subsection{Risultati di Addestramento}
 
-Il modello \textbf{Support Vector Machine (SVM)} ha ottenuto un'accuratezza complessiva del \textbf{93.17\%} sui dati di addestramento. Questo risultato suggerisce una forte capacità del modello nel generalizzare il comportamento delle classi, mantenendo alte prestazioni anche su dati non visti. \\ \\
+Il modello \textbf{Support Vector Machine (SVM)} ha ottenuto un'accuratezza complessiva del \textbf{92.06\%} sui dati di addestramento. Questo risultato suggerisce una forte capacità del modello nel generalizzare il comportamento delle classi, mantenendo alte prestazioni anche su dati non visti. \\ \\
 La matrice di confusione, che riporta il numero di previsioni corrette ed errate per ciascuna classe, è la seguente:
 
 \begin{figure}[H]
@@ -166,7 +168,7 @@ La matrice di confusione, che riporta il numero di previsioni corrette ed errate
     \label{fig:confusion_matrix_train_svm}
 \end{figure}
 
-Il modello mostra buone prestazioni complessive, con un’alta percentuale di istanze correttamente classificate, come evidenziato dai valori elevati sulla \textbf{diagonale principale}. Tuttavia, ci sono errori notabili tra alcune classi, in particolare tra le classi 1 e 4, dove il modello fatica a distinguere correttamente.
+Il modello mostra buone prestazioni complessive, con un'alta percentuale di istanze correttamente classificate, come evidenziato dai valori elevati sulla \textbf{diagonale principale}. Tuttavia, ci sono errori significativi tra alcune classi, in particolare tra le classi 0, 3 e 4, dove il modello ha difficoltà a distinguere correttamente. Per esempio, molte istanze della classe 0 sono state erroneamente classificate come classe 4, mentre la classe 3 ha causato scambi con le classi 1 e 4. Inoltre, la classe 1 ha mostrato confusione con la classe 3, con molte istanze della classe 1 erroneamente classificate come classe 3. Questo evidenzia alcune aree in cui il modello potrebbe migliorare nel riconoscere meglio le differenze tra queste classi .
 
 \newpage
 
@@ -178,19 +180,19 @@ Le metriche per ogni categoria sono mostrate nella seguente tabella e visualizza
         \hline
         \textbf{Categoria} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} \\
         \hline
-        Accesso & 95.08\% & 96.12\% & 95.59\% \\
+        Accesso & 92.97\% & 93.39\% & 93.18\% \\
         \hline
-        Didattica & 91.77\% & 92.02\% & 91.89\% \\
+        Didattica & 91.13\% & 91.80\% & 91.46\% \\
         \hline
-        Profilo & 96.80\% & 96.65\% & 96.73\% \\
+        Profilo & 96.49\% & 95.94\% & 96.21\% \\
         \hline
-        Segreteria & 91.92\% & 92.04\% & 91.98\% \\
+        Segreteria & 91.61\% & 91.21\% & 91.41\% \\
         \hline
-        Tecnico & 90.82\% & 89.60\% & 90.20\% \\
+        Tecnico & 88.66\% & 88.48\% & 88.57\% \\
         \hline
-        media & 93.28\% & 93.29\% & 93.28\% \\
+        Media & 92.17\% & 92.17\% & 92.16\% \\
         \hline
-        media pesata & 93.16\% & 93.17\% & 93.16\% \\
+        Media pesata & 92.07\% & 92.07\% & 92.07\% \\
         \hline
     \end{tabular}
     \caption{Confronto tra precision, recall e F1-score per il training di SVM}
@@ -204,13 +206,13 @@ Le metriche per ogni categoria sono mostrate nella seguente tabella e visualizza
     \label{fig:metrics_train_svm}
 \end{figure}
 
-Il modello ha buone performance complessive, ma nelle categorie \textbf{Tecnico} e \textbf{Didattica} ci sono margini di miglioramento. \textbf{Tecnico} mostra un buon richiamo, ma una precisione relativamente bassa, mentre \textbf{Didattica} ha una buona precisione, ma un richiamo leggermente inferiore.
+Il modello mostra buone performance complessive, ma nelle categorie \textbf{Tecnico} e \textbf{Didattica} ci sono margini di miglioramento. \textbf{Tecnico} ha una buona precisione (88.66\%), ma un recall relativamente basso (88.48\%), mentre \textbf{Didattica} ha un buon recall (91.80\%), ma una precisione più bassa (91.13\%).
 
 \newpage
 
 \subsection{Risultati di Test}
 
-Per quanto riguarda i \textbf{dati di test}, il modello ha ottenuto un'accuratezza del \textbf{90.79\%}, con una leggera riduzione rispetto ai dati di addestramento, ma comunque una performance robusta. \\ \\
+Per quanto riguarda i \textbf{dati di test}, il modello ha ottenuto un'accuratezza del \textbf{89.95\%}, con una leggera riduzione rispetto ai dati di addestramento, ma comunque una performance robusta. \\ \\
 La matrice di confusione sui dati di test è la seguente:
 
 \begin{figure}[H]
@@ -228,19 +230,19 @@ Mentre le metriche per ogni categoria sono mostrate nella seguente tabella e vis
         \hline
         \textbf{Categoria} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} \\
         \hline
-        Accesso & 93.66\% & 95.14\% & 94.37\% \\
+        Accesso & 91.67\% & 92.14\% & 91.89\% \\
         \hline
-        Didattica & 88.72\% & 89.42\% & 89.06\% \\
+        Didattica & 89.19\% & 89.07\% & 89.13\% \\
         \hline
-        Profilo & 95.89\% & 94.45\% & 95.16\% \\
+        Profilo & 95.50\% & 94.02\% & 94.74\% \\
         \hline
-        Segreteria & 88.68\% & 88.82\% & 88.74\% \\
+        Segreteria & 89.14\% & 88.81\% & 88.97\% \\
         \hline
-        Tecnico & 87.94\% & 86.96\% & 87.43\% \\
+        Tecnico & 85.14\% & 86.27\% & 85.69\% \\
         \hline
-        media & 90.98\% & 90.96\% & 90.95\% \\
+        Media & 90.13\% & 90.06\% & 90.08\% \\
         \hline
-        media pesata & 90.81\% & 90.79\% & 90.79\% \\
+        Media pesata & 90.01\% & 89.95\% & 89.97\% \\
         \hline
     \end{tabular}
     \caption{Confronto tra precision, recall e F1-score per il testing di SVM}
@@ -256,7 +258,7 @@ Mentre le metriche per ogni categoria sono mostrate nella seguente tabella e vis
 
 \subsection{Overfitting}
 
-Per valutare il rischio di \textbf{overfitting}, sono stati analizzati i valori di accuratezza nei diversi fold della validazione incrociata a k-fold. Le differenze tra l'accuratezza dei dati variano tra \textbf{0.02} e \textbf{0.04}, con una media di \textbf{0.0237}. Sebbene ci sia una leggera tendenza all'overfitting, i valori rientrano in un intervallo accettabile, confermando la buona generalizzazione del modello.
+Per valutare il rischio di \textbf{overfitting}, sono stati analizzati i valori di accuratezza nei diversi fold della validazione incrociata a k-fold. Le differenze tra l'accuratezza dei dati variano tra \textbf{0.01} e \textbf{0.04}, con una media di \textbf{0.0211}. Sebbene vi sia una leggera tendenza all'overfitting, i valori rientrano in un intervallo accettabile, confermando la buona generalizzazione del modello.
 
 \begin{figure}[H]
     \centering
@@ -271,7 +273,7 @@ Per valutare il rischio di \textbf{overfitting}, sono stati analizzati i valori 
 
 \subsection{Prestazioni Complessive}
 
-Entrambi i modelli, \textbf{Naive Bayes} e \textbf{SVM}, mostrano prestazioni molto simili. Durante il training, \textbf{Naive Bayes} raggiunge un'accuratezza del 92.87\%, mentre \textbf{SVM} è leggermente migliore con un'accuratezza del 93.17\%. Quando testati sui dati di test, entrambi i modelli registrano una piccola diminuzione delle performance, con \textbf{Naive Bayes} che scende al 89.74\% e \textbf{SVM} che ottiene il 90.79\%. Le metriche di precisione, recall e f1-score sono anch'esse molto simili per entrambi i modelli, suggerendo che entrambi sono abbastanza equilibrati nel bilanciare la capacità di classificare correttamente le istanze e nel ridurre al minimo gli errori.
+Entrambi i modelli, \textbf{Naive Bayes} e \textbf{SVM}, mostrano prestazioni molto simili. Durante il training, \textbf{Naive Bayes} raggiunge un'accuratezza del 92.44\%, mentre \textbf{SVM} è leggermente migliore con un'accuratezza del 92.07\%. Quando testati sui dati di test, entrambi i modelli registrano una piccola diminuzione delle performance, con \textbf{Naive Bayes} che scende al 88.92\% e \textbf{SVM} che ottiene il 89.95\%. Le metriche di precisione, recall e f1-score sono anch'esse molto simili per entrambi i modelli, suggerendo che entrambi sono abbastanza equilibrati nel bilanciare la capacità di classificare correttamente le istanze e nel ridurre al minimo gli errori.
 
 \begin{table}[H]
     \centering
@@ -279,13 +281,13 @@ Entrambi i modelli, \textbf{Naive Bayes} e \textbf{SVM}, mostrano prestazioni mo
         \hline
         \textbf{Modello} & \textbf{Set} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} \\
         \hline
-        Naive Bayes & Training & 92.87\% & 93.29\% & 92.91\% & 92.88\% \\
+        Naive Bayes & Training & 92.44\% & 92.49\% & 92.44\% & 92.43\% \\
         \hline
-        Naive Bayes & Test & 89.74\% & 89.91\% & 89.80\% & 89.79\% \\
+        Naive Bayes & Test & 88.92\% & 89.05\% & 88.92\% & 88.92\% \\
         \hline
-        SVM & Training & 93.17\% & 93.16\% & 93.21\% & 93.16\% \\
+        SVM & Training & 92.07\% & 92.17\% & 92.07\% & 92.07\% \\
         \hline
-        SVM & Test & 90.79\% & 90.82\% & 90.85\% & 90.79\% \\
+        SVM & Test & 89.95\% & 90.01\% & 89.95\% & 89.97\% \\
         \hline
     \end{tabular}
     \caption{Confronto tra i modelli in termini di accuracy, precision, recall e F1-score}
@@ -295,8 +297,7 @@ Entrambi i modelli, \textbf{Naive Bayes} e \textbf{SVM}, mostrano prestazioni mo
 
 \subsection{Overfitting}
 
-Sia il modello \textbf{Naive Bayes} che il modello \textbf{SVM} mostrano una lieve presenza di \textbf{overfitting}, con differenze tra le performance sui dati che variano tra \textbf{0.02} e \textbf{0.04}. \\ \\
-Per meglio visualizzare e comprendere l'andamento dell'overfitting, è stato calcolato il valore della differenza per ogni fold del k-fold cross-validation. La seguente immagine mostra queste differenze per ciascun fold, confrontando l'overfitting tra i modelli Naive Bayes e SVM.
+Sia il modello \textbf{Naive Bayes} che il modello \textbf{SVM} mostrano una lieve presenza di \textbf{overfitting}, con differenze tra le performance sui dati che variano tra \textbf{0.01} e \textbf{0.05} per Naive Bayes e tra \textbf{0.01} e \textbf{0.04} per SVM. Le differenze medie sono però significative: Naive Bayes ha una differenza media di \textbf{0.0351}, mentre SVM di \textbf{0.0211}, suggerendo che SVM ha una prestazione più stabile. L'andamento dell'overfitting è stato visualizzato calcolando le differenze per ogni fold del \textbf{k-fold cross-validation}, come mostrato nell'immagine seguente, che confronta i due modelli.
 
 \begin{figure}[H]
     \centering
@@ -307,9 +308,10 @@ Per meglio visualizzare e comprendere l'andamento dell'overfitting, è stato cal
 
 \section{Conclusioni}
 
-Entrambi i modelli, Naive Bayes e Support Vector Machine (SVM), hanno mostrato prestazioni eccellenti nel compito di \textbf{classificazione}, evidenziando differenze minime nelle metriche di valutazione. Sebbene il modello SVM ottenga risultati migliori leggermente in termini di accuratezza sui dati di test, con un'accuratezza del \textbf{90.79\%} rispetto al \textbf{89.74\%} di Naive Bayes, la differenza tra i due modelli risulta essere piuttosto contenuta, con un margine di pochi punti percentuali. Questo indica che entrambi i modelli sono ben calibrati per il compito e sono capaci di generalizzare efficacemente. \newline
-\textbf{Naive Bayes}, grazie alla sua semplicità e velocità di esecuzione, potrebbe essere la scelta preferibile in scenari in cui le risorse computazionali sono limitate o in situazioni che richiedono modelli facilmente interpretabili. Inoltre, la capacità di Naive Bayes di gestire efficacemente grandi volumi di dati con risorse relativamente basse lo rende adatto per applicazioni in tempo reale o su dispositivi con risorse limitate.
+Entrambi i modelli, Naive Bayes e Support Vector Machine (SVM), hanno mostrato prestazioni eccellenti nel compito di \textbf{classificazione}, evidenziando differenze minime nelle metriche di valutazione. Sebbene il modello SVM ottenga risultati leggermente migliori in termini di accuratezza sui dati di test, con un’accuratezza del \textbf{89.95\%} rispetto al \textbf{88.92\%} di Naive Bayes, la differenza tra i due modelli è contenuta. Inoltre, i dati sull'overfitting suggeriscono che SVM presenta una prestazione più stabile, con una minore differenza media tra i fold della \textbf{validazione incrociata}, rispetto a Naive Bayes. Questo indica che entrambi i modelli sono ben calibrati per il compito e sono capaci di generalizzare efficacemente.
 
-D'altra parte, il modello \textbf{SVM} si distingue per una maggiore precisione in alcuni casi, come evidenziato dalle metriche di precisione e recall, ed è generalmente considerato una scelta solida quando è necessaria una maggiore accuratezza, specialmente in contesti dove la performance sui dati di test è cruciale e si dispone di risorse computazionali adeguate. SVM è inoltre più adatto per situazioni che richiedono una maggiore capacità di generalizzazione rispetto a modelli con assunzioni più forti, come Naive Bayes.
+\textbf{Naive Bayes}, grazie alla sua semplicità e velocità di esecuzione, potrebbe essere la scelta preferibile in scenari con risorse computazionali limitate o in situazioni che richiedono modelli facilmente interpretabili. La sua capacità di gestire grandi volumi di dati con risorse relativamente basse lo rende adatto per applicazioni in tempo reale o su dispositivi con risorse limitate.
 
-In definitiva, entrambi i modelli sono validi per il problema in esame e presentano un buon compromesso tra \textbf{accuratezza} e capacità di \textbf{generalizzazione}. La scelta finale tra Naive Bayes e SVM dipenderà da considerazioni specifiche relative all'ambiente applicativo, come la disponibilità di risorse computazionali, la necessità di interpretabilità del modello e la priorità data a una leggera miglioria nelle prestazioni rispetto alla velocità di esecuzione.
+D’altra parte, \textbf{SVM} si distingue per una maggiore precisione in alcuni casi, ed è generalmente considerato una scelta solida quando è necessaria maggiore accuratezza e quando sono disponibili risorse computazionali adeguate. Inoltre, SVM è più adatto per situazioni che richiedono una maggiore capacità di generalizzazione.
+
+In definitiva, entrambi i modelli sono validi per il problema in esame e presentano un buon compromesso tra \textbf{accuratezza} e capacità di \textbf{generalizzazione}. La scelta finale tra Naive Bayes e SVM dipenderà da considerazioni specifiche, come la disponibilità di risorse computazionali, la necessità di interpretabilità del modello e la priorità data a una leggera miglioria nelle prestazioni rispetto alla velocità di esecuzione. 

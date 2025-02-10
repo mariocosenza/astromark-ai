@@ -17,6 +17,7 @@
 \usepackage{caption}
 \usepackage{float}
 \usepackage{placeins}
+\usepackage{fontawesome5}
 
 % Geometry for A4 paper with custom margins
 \geometry{
@@ -30,7 +31,7 @@
 % Hyperref setup
 \hypersetup{
   colorlinks=true,
-  linkcolor=blue,
+  linkcolor=black,
   citecolor=blue,
   urlcolor=blue,
   pdftitle={AstroMark-AI - Analisi e Sviluppo},
@@ -68,7 +69,7 @@
 
 % Document title page
 \title{%
-  \textbf{AstroMark-AI}\\[0.5cm]
+  \textbf{AstroMark AI}\\[0.5cm]
   \large Analisi e Sviluppo\\[0.5cm]
 
   \\
@@ -87,27 +88,41 @@
 % Cover page with logo
 \begin{titlepage}
     \centering
-    \vspace*{2cm}
-    {\Huge \textbf{AstroMark-AI}}\\[1.5cm]
-    {\Large Analisi e Sviluppo}\\[2cm]
-    \includegraphics[width=0.4\textwidth]{images/astromarkLogo.jpg}\\[2cm]
-    {\large \textbf{Autori:}}\\[0.5cm]
-    Mario Cosenza\\
-    Mario Fasolino\\
-    Giulio Sacrestao\\[1cm]
-    {\small \textbf{Repo:} \url{https://github.com/mariocosenza/astromark-ai}}\\[1cm]
-    {\large \textbf{Università degli Studi di Salerno}}\\[0.5cm]
-    {\large \textbf{Corso di Fondamenti di Intelligenza Artificiale}}\\[1cm]
-    {\large Anno Accademico 2024/2025}
+    \vspace*{1.5cm}
+
+    % Title section
+    {\Huge \textbf{AstroMark AI}}\\[1cm]
+    {\Large {Analisi e Sviluppo}}\\[2cm]
+
+    % Logo with frame
+    \includegraphics[width=0.4\textwidth]{images/astromarkLogo.jpg}\\[2.0cm]
+
+    % Authors section with improved visibility
+    {\LARGE \textbf{Autori}}\\[0.5cm]
+    \begin{tabular}{c}
+        {\Large {Mario Cosenza}} \\[0.3cm]
+        {\Large {Mario Fasolino}} \\[0.3cm]
+        {\Large {Giulio Sacrestano}}
+    \end{tabular}\\[1.5cm]
+
+    % Institution and course details
+    {\large \textbf{Università degli Studi di Salerno}}\\[0.3cm]
+    {\large Corso di Fondamenti di Intelligenza Artificiale}\\[0.3cm]
+
+    % Repository link with icon
+    {\Large \href{https://github.com/mariocosenza/astromark-ai}{\faGithub\; github.com/astromark-ai}}\\[2.0cm]
+
+    % Current date
+    {\large 13 febbraio 2025}
+
     \vfill
 \end{titlepage}
-
 \newpage
 
 % Reset header and footer after the title page
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{AstroMark-AI}
+\fancyhead[L]{AstroMark AI}
 \fancyhead[R]{Progetto di NLP}
 \fancyfoot[C]{\thepage}
 
@@ -117,7 +132,7 @@
 
 % Include chapters
 \input{sections/introduction}
-\input{sections/dataAquisition}
+\input{sections/dataAcquisition}
 \input{sections/textExtractionAndCleanup}
 \input{sections/preProcessing}
 \input{sections/featureEngineering}

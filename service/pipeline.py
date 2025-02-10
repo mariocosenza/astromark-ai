@@ -107,7 +107,14 @@ def minimal_preprocess(text: str) -> str:
     text = re.sub(r'\d+', '', text)
     text = re.sub(r'\s+', ' ', text)
     tokens = text.split()
+
     corrected_tokens = [spell.correction(word) if word in spell else word for word in tokens]
+    # to add full spell check use the following lines
+    # corrected_tokens = []
+    # for word in tokens:
+    #    corrected_word = spell.correction(word)
+    #    corrected_tokens.append(corrected_word if corrected_word else word)
+
     return ' '.join(corrected_tokens).strip()
 
 
